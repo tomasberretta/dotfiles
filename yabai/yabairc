@@ -1,0 +1,115 @@
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+
+yabai -m config layout bsp
+
+yabai -m config window_placement second_child
+
+yabai --load-sa
+
+yabai -m config top_padding 2
+yabai -m config bottom_padding 2
+yabai -m config left_padding 2
+yabai -m config right_padding 2
+yabai -m config window_gap 2
+
+
+# Disable specific apps
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Karabiner-Elements$" manage=off
+
+
+# set mouse follows focus mode (default: off)
+yabai -m config mouse_follows_focus on
+
+
+#
+# setup spaces
+#
+
+
+# Helper function to create and apply rules for app-to-space mapping
+function yabai_rule {
+  yabai -m rule --add "$@"
+  yabai -m rule --apply "$@"
+}
+
+# Helper function to create/setup spaces with given parameters
+function setup_space {
+  local idx="$1"
+  local name="$2"
+  local display="$3"
+  local layout="$4"
+
+  echo "Setting up space $idx: $name on display $display with layout $layout"
+
+  # Check if space exists; create it if not
+  if ! yabai -m query --spaces --space "$idx" > /dev/null 2>&1; then
+    yabai -m space --create
+  fi
+
+  # Apply space properties
+  yabai -m space "$idx" --label "$name" --display "$display" --layout "$layout"
+}
+
+# Detect the number of connected displays
+num_monitors=$(yabai -m query --displays | jq '. | length')
+
+# Function to set up spaces for a **single-monitor** configuration
+function setup_single_monitor {
+  echo "Single monitor detected. Adjusting spaces accordingly."
+
+  setup_space 1 warp 1 bsp
+  setup_space 2 arc 1 bsp
+  setup_space 3 pycharm-cursor 1 bsp  # Merged space
+  setup_space 4 discord-spotify 1 bsp
+  setup_space 5 slack-work 1 bsp
+  setup_space 6 obsidian 1 bsp
+  setup_space 7 linear 1 bsp
+  setup_space 8 random-main 1 float
+
+  # App-to-space mapping rules for single monitor
+  yabai_rule app="^PyCharm$" space="pycharm-cursor"
+  yabai_rule app="^Cursor$" space="pycharm-cursor"
+}
+
+# Function to set up spaces for a **dual-monitor** configuration
+function setup_dual_monitor {
+  echo "Two monitors detected. Setting up spaces across both monitors."
+
+  # Main display
+  setup_space 1 warp 1 bsp
+  setup_space 2 arc 1 bsp
+  setup_space 3 pycharm 1 bsp
+  setup_space 4 cursor 1 bsp
+  setup_space 5 linear 1 bsp
+  setup_space 6 random-main 1 float
+
+  # Secondary display
+  setup_space 7 slack-work 2 bsp
+  setup_space 8 discord-spotify 2 bsp
+  setup_space 9 obsidian 2 bsp
+  setup_space 10 random-secondary 2 float
+
+  # App-to-space mapping rules for two monitors
+  yabai_rule app="^PyCharm$" space="pycharm"
+  yabai_rule app="^Cursor$" space="cursor"
+}
+
+# Apply the appropriate setup and rules based on the number of monitors
+if [ "$num_monitors" -eq 1 ]; then
+  setup_single_monitor
+else
+  setup_dual_monitor
+fi
+
+# Common app-to-space mapping rules (applied regardless of monitor setup)
+yabai_rule app="^Warp$" space="warp"
+yabai_rule app="^Arc$" space="arc"
+yabai_rule app="^Linear$" space="linear"
+yabai_rule app="^Slack$" space="slack-work"
+yabai_rule app="^Spotify$" space="discord-spotify"
+yabai_rule app="^Discord$" space="discord-spotify"
+yabai_rule app="^Obsidian$" space="obsidian"

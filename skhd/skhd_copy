@@ -1,0 +1,87 @@
+# Change window focus within space
+cmd - down : yabai -m window --focus south
+cmd - up : yabai -m window --focus north
+cmd - left : yabai -m window --focus west
+cmd - right : yabai -m window --focus east
+
+# Maximize window
+ctrl + cmd - m : yabai -m window --toggle zoom-fullscreen
+
+# Change display focus
+cmd + shift - left : yabai -m display --focus west
+cmd + shift - right : yabai -m display --focus east
+
+
+# Windows
+
+## Swap windows
+ctrl + cmd - down : yabai -m window --swap south
+ctrl + cmd - up : yabai -m window --swap north
+ctrl + cmd - left : yabai -m window --swap west
+ctrl + cmd - right : yabai -m window --swap east
+
+## Send window to other display
+shift + ctrl - left : yabai -m window --display west; yabai -m display --focus west;
+shift + ctrl - right : yabai -m window --display east; yabai -m display --focus east;
+
+## Resize windows
+ctrl + alt - left : yabai -m window --resize left:-20:0 ; yabai -m window --resize right:-20:0
+ctrl + alt - down : yabai -m window --resize bottom:0:20 ; yabai -m window --resize top:0:20
+ctrl + alt - up : yabai -m window --resize top:0:-20 ; yabai -m window --resize bottom:0:-20
+ctrl + alt - right : yabai -m window --resize right:20:0 ; yabai -m window --resize left:20:0
+
+## Rotate windows
+ctrl + cmd - r : yabai -m space --rotate 270
+
+## Balance windows
+ctrl + cmd - b : yabai -m space --balance
+
+## Flip windows
+ctrl + cmd - y : yabai -m space --mirror y-axis
+ctrl + cmd - x : yabai -m space --mirror x-axis
+
+# Stop/Start yabai
+ctrl + cmd - q : yabai --stop-service
+ctrl + cmd - s : yabai --start-service
+
+
+# Focus Spaces 2 monitors
+shift + ctrl - 1 : ~/.config/skhd/yabai_nth_space.sh 1 0
+shift + ctrl - 2 : ~/.config/skhd/yabai_nth_space.sh 1 1
+shift + ctrl - 3 : ~/.config/skhd/yabai_nth_space.sh 1 2
+shift + ctrl - 4 : ~/.config/skhd/yabai_nth_space.sh 1 3
+shift + ctrl - 5 : ~/.config/skhd/yabai_nth_space.sh 1 4
+shift + ctrl - 6 : ~/.config/skhd/yabai_nth_space.sh 1 5
+
+shift + ctrl - q : ~/.config/skhd/yabai_nth_space.sh 2 0
+shift + ctrl - w : ~/.config/skhd/yabai_nth_space.sh 2 1
+shift + ctrl - e : ~/.config/skhd/yabai_nth_space.sh 2 2
+shift + ctrl - r : ~/.config/skhd/yabai_nth_space.sh 2 3
+
+# Focus Spaces 1 monitor
+fn - q : ~/.config/skhd/yabai_nth_space.sh 1 0
+fn - w : ~/.config/skhd/yabai_nth_space.sh 1 1
+fn - e : ~/.config/skhd/yabai_nth_space.sh 1 2
+
+fn - a : ~/.config/skhd/yabai_nth_space.sh 1 3
+fn - s : ~/.config/skhd/yabai_nth_space.sh 1 4
+fn - d : ~/.config/skhd/yabai_nth_space.sh 1 5
+
+fn - z : ~/.config/skhd/yabai_nth_space.sh 1 6
+fn - x : ~/.config/skhd/yabai_nth_space.sh 1 7
+
+# Send Spaces
+# ctrl + cmd - 1 : ~/.config/skhd/yabai_nth_space_move.sh 1 0
+# ctrl + cmd - 2 : ~/.config/skhd/yabai_nth_space_move.sh 1 1
+# ctrl + cmd - 3 : ~/.config/skhd/yabai_nth_space_move.sh 1 2
+# ctrl + cmd - 4 : ~/.config/skhd/yabai_nth_space_move.sh 1 3
+# ctrl + cmd - 5 : ~/.config/skhd/yabai_nth_space_move.sh 1 4
+# ctrl + cmd - 6 : ~/.config/skhd/yabai_nth_space_move.sh 1 5
+
+# ctrl + cmd - q : ~/.config/skhd/yabai_nth_space_move.sh 2 0
+# ctrl + cmd - w : ~/.config/skhd/yabai_nth_space_move.sh 2 1
+# ctrl + cmd - e : ~/.config/skhd/yabai_nth_space_move.sh 2 2
+# ctrl + cmd - r : ~/.config/skhd/yabai_nth_space_move.sh 2 3
+
+# toggle sticky, float and resize to picture-in-picture size
+alt - p : yabai -m window --toggle sticky --grid 5:5:4:0:1:1

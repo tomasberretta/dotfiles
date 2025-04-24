@@ -1,0 +1,73 @@
+#
+# Aerospace
+#
+
+
+cmd - left : aerospace focus --boundaries-action wrap-around-the-workspace left
+cmd - down : aerospace focus --boundaries-action wrap-around-the-workspace down
+cmd - up : aerospace focus --boundaries-action wrap-around-the-workspace up
+cmd - right : aerospace focus --boundaries-action wrap-around-the-workspace right
+
+# Workspace Cycling with Control
+ctrl - left : aerospace workspace --wrap-around prev
+ctrl - right : aerospace workspace --wrap-around next
+
+fn - f : aerospace fullscreen
+hyper - f : aerospace fullscreen
+
+fn - b : aerospace balance-sizes
+hyper - b : aerospace balance-sizes
+
+# Tiling / Accordion
+
+# alt - comma
+alt - 0x2B : aerospace layout h_accordion
+# alt - slash
+alt - 0x2C : aerospace layout tiles horizontal vertical
+
+
+fn - space : aerospace layout floating tiling
+hyper - space : aerospace layout floating tiling
+
+# Workspace
+fn - 1 : aerospace workspace Terminal
+ctrl + shift - 1 : aerospace workspace Terminal
+fn - 2 : aerospace workspace Browser
+ctrl + shift - 2 : aerospace workspace Browser
+fn - 3 : aerospace workspace Dev
+ctrl + shift - 3 : aerospace workspace Dev
+fn - 4 : aerospace workspace Communication
+ctrl + shift - 4 : aerospace workspace Communication
+fn - 5 : aerospace workspace Issues
+ctrl + shift - 5 : aerospace workspace Issues
+# fn - 6 : aerospace workspace temp
+# ctrl + shift - 6 : aerospace workspace temp
+fn - q : aerospace workspace Misc
+ctrl + shift - q : aerospace workspace Misc
+fn - w : aerospace workspace Notes
+ctrl + shift - w : aerospace workspace Notes
+fn - e : aerospace workspace Meetings
+ctrl + shift - e : aerospace workspace Meetings
+fn - r : aerospace workspace Temp
+ctrl + shift - r : aerospace workspace Temp
+# fn - t : aerospace workspace t
+# ctrl + shift - t : aerospace workspace t
+
+
+# Summon Workspace
+# fn - tab : aerospace summon-workspace 1
+# hyper - tab : aerospace summon-workspace 1
+
+# Focus Monitor
+cmd + shift - up : aerospace focus-monitor --wrap-around left
+cmd + shift - down : aerospace focus-monitor --wrap-around right
+# cmd + shift - left : aerospace focus-monitor --wrap-around left
+# cmd + shift - right : aerospace focus-monitor --wrap-around right
+
+# Move node to monitor
+# alt + shift - up : aerospace move-node-to-monitor --wrap-around --focus-follows-window up
+# alt + shift - down : aerospace move-node-to-monitor --wrap-around --focus-follows-window down
+
+# Move workspace to monitor
+alt + shift - right : aerospace move-workspace-to-monitor --wrap-around next
+alt + shift - left  : aerospace move-workspace-to-monitor --wrap-around prev

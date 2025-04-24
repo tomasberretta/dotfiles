@@ -1,0 +1,148 @@
+# Reference: https://github.com/i3/i3/blob/next/etc/config
+
+start-at-login = false
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = false
+
+after-startup-command = [
+    # JankyBorders has a built-in detection of already running process,
+    # so it won't be run twice on AeroSpace restart
+    'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
+]
+
+# Mouse follows focus when focused monitor changes
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+[mode.main.binding]
+# See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
+# cmd-enter = '''exec-and-forget osascript -e 'do shell script "open -a Warp &"' '''
+
+# i3 wraps focus by default # -> moved to skhd
+# cmd-left =         'focus --boundaries-action wrap-around-the-workspace left'
+# cmd-down =         'focus --boundaries-action wrap-around-the-workspace down'
+# cmd-up =         'focus --boundaries-action wrap-around-the-workspace up'
+# cmd-right = 'focus --boundaries-action wrap-around-the-workspace right'
+
+# alt-shift-j = 'move left'
+# alt-shift-k = 'move down'
+# alt-shift-l = 'move up'
+# alt-shift-semicolon = 'move right'
+
+
+# alt-f = 'fullscreen' # -> moved to skhd
+
+# alt-s = 'layout v_accordion' # 'layout stacking' in i3 -> moved to skhd
+# alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3 -> moved to skhd
+# alt-b = 'balance-sizes' # -> moved to skhd
+
+# alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
+
+# Not supported, because this command is redundant in AeroSpace mental model.
+# See: https://nikitabobko.github.io/AeroSpace/guide#floating-windows
+#alt-space = 'focus toggle_tiling_floating'
+
+# `focus parent`/`focus child` are not yet supported, and it's not clear whether they
+# should be supported at all https://github.com/nikitabobko/AeroSpace/issues/5
+# alt-a = 'focus parent'
+
+# alt-1 = 'workspace 1'
+# alt-2 = 'workspace 2'
+# alt-3 = 'workspace 3'
+# alt-4 = 'workspace 4'
+# alt-5 = 'workspace 5'
+# alt-6 = 'workspace 6'
+# alt-7 = 'workspace 7'
+# alt-8 = 'workspace 8'
+# alt-9 = 'workspace 9'
+# alt-0 = 'workspace 10'
+
+alt-shift-1 = 'move-node-to-workspace Terminal'
+alt-shift-2 = 'move-node-to-workspace Browser'
+alt-shift-3 = 'move-node-to-workspace Dev'
+alt-shift-4 = 'move-node-to-workspace Communication'
+alt-shift-5 = 'move-node-to-workspace Issues'
+# alt-shift-6 = 'move-node-to-workspace temp'
+alt-shift-q = 'move-node-to-workspace Misc'
+alt-shift-w = 'move-node-to-workspace Notes'
+alt-shift-e = 'move-node-to-workspace Meetings'
+alt-shift-r = 'move-node-to-workspace Temp'
+# alt-shift-t = 'move-node-to-workspace t'
+
+alt-shift-c = 'reload-config'
+
+alt-r = 'mode resize'
+
+[gaps]
+inner.horizontal = 0
+inner.vertical =   0
+outer.left =       0
+outer.bottom =     0
+outer.top =        [{ monitor."built-in" = 0 }, 25] # 0 for built-in, 25 for others
+outer.right =      0
+
+[mode.resize.binding]
+left = 'resize width -50'
+up = 'resize height +50'
+down = 'resize height -50'
+right = 'resize width +50'
+enter = 'mode main'
+esc = 'mode main'
+
+
+# Callbacks
+[[on-window-detected]]
+if.app-id = 'dev.warp.Warp-Stable'
+run = ['move-node-to-workspace Terminal']
+
+[[on-window-detected]]
+if.app-id = 'company.thebrowser.Browser' # Arc
+run = ['move-node-to-workspace Browser']
+
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92' # Cursor
+run = ['move-node-to-workspace Dev']
+
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.pycharm'
+run = ['move-node-to-workspace Dev']
+
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.rustrover'
+run = ['move-node-to-workspace Dev']
+
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.fleet'
+run = ['move-node-to-workspace Dev']
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = ['move-node-to-workspace Communication']
+
+[[on-window-detected]]
+if.app-id = 'com.linear'
+run = ['move-node-to-workspace Issues']
+
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = ['move-node-to-workspace Misc']
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = ['move-node-to-workspace Misc']
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = ['move-node-to-workspace Notes']
+
+[[on-window-detected]]
+if.app-id = 'notion.id'
+run = ['move-node-to-workspace Notes']
+
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+run = ['move-node-to-workspace Meetings']
+
+# Add a catch-all rule for any other apps
+[[on-window-detected]]
+run = ['move-node-to-workspace Temp']
