@@ -10,14 +10,14 @@ SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
 sketchybar --add event aerospace_workspace_change
 
 sketchybar --bar \
-    height=25 \
+    height=24 \
     color=0x66494d64 \
     margin=0 \
     sticky=on \
     padding_left=0 \
     padding_right=0 \
     notch_width=188 \
-    display=main
+    notch_display_height=32
 
 sketchybar --default \
     background.height=28 \
@@ -29,7 +29,11 @@ sketchybar --default \
     label.font="$FONT_FACE:Bold:14.0" \
     label.y_offset=1 \
     label.padding_left=0 \
-    label.padding_right=5
+    label.padding_right=5 \
+    popup.blur_radius=30 \
+    popup.background.color=0xAA494d64 \
+    popup.background.corner_radius=8 \
+    popup.background.shadow.drawing=on
 
 sketchybar --add item current_space left \
     --set current_space \
@@ -40,6 +44,9 @@ sketchybar --add item current_space left \
     icon.padding_right=2 \
     label.drawing=off \
     script="$PLUGIN_SHARED_DIR/current_space.sh" \
+    click_script="$PLUGIN_SHARED_DIR/toggle_workspaces_popup.sh" \
+    popup.drawing=off \
+    popup.horizontal=off \
     --add item current_space.separator left \
     --set current_space.separator \
     background.color=0x00000000 \

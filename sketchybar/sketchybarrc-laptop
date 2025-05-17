@@ -11,20 +11,20 @@ SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
 sketchybar --add event aerospace_workspace_change
 
 sketchybar --bar \
-    height=32 \
+    height=22 \
     color=0x00000000 \
     margin=0 \
     sticky=on \
-    padding_left=23 \
-    padding_right=23 \
+    padding_left=14 \
+    padding_right=14 \
     notch_width=188 \
-    display=main
+    notch_display_height=32
 
 # Alternatiive background colors
 # label.color=0xffffffff
 # background.color=0x9924273a
 sketchybar --default \
-    background.color=0x66494d64 \
+    background.color=0xAA494d64 \
     background.corner_radius=5 \
     background.padding_right=5 \
     background.height=26 \
@@ -35,7 +35,11 @@ sketchybar --default \
     label.color=0xffcad3f5 \
     label.y_offset=0 \
     label.padding_left=0 \
-    label.padding_right=5
+    label.padding_right=5 \
+    popup.blur_radius=30 \
+    popup.background.color=0xAA494d64 \
+    popup.background.corner_radius=8 \
+    popup.background.shadow.drawing=on
 
 sketchybar --add event spotify_change $SPOTIFY_EVENT \
     --add item spotify e \
@@ -57,6 +61,9 @@ sketchybar --add item current_space left \
     icon.padding_right=2 \
     label.drawing=off \
     script="$PLUGIN_SHARED_DIR/current_space.sh" \
+    click_script="$PLUGIN_SHARED_DIR/toggle_workspaces_popup.sh" \
+    popup.drawing=off \
+    popup.horizontal=off \
     --add item current_space.separator left \
     --set current_space.separator \
     background.color=0x00000000 \
@@ -107,7 +114,7 @@ sketchybar --add item front_app left \
 
 sketchybar --add item weather.moon q \
     --set weather.moon \
-    background.color=0x667dc4e4 \
+    background.color=0xAA7dc4e4 \
     background.padding_right=-1 \
     icon.color=0xff181926 \
     icon.font="$FONT_FACE:Bold:22.0" \
@@ -148,6 +155,13 @@ sketchybar --add item battery right \
     --set battery \
     update_freq=20 \
     script="$PLUGIN_DIR/battery.sh"
+
+sketchybar --add item wifi right \
+    --set wifi \
+    icon.color=0xff91D7E3 \
+    label.drawing=true \
+    update_freq=20 \
+    script="$PLUGIN_DIR/wifi.sh"
 
 sketchybar --add item volume right \
     --set volume \

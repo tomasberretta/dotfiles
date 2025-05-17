@@ -122,7 +122,6 @@ run = ['move-node-to-workspace Communication']
 if.app-id = 'com.linear'
 run = ['move-node-to-workspace Issues']
 
-
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
 run = ['move-node-to-workspace Misc']
@@ -130,6 +129,10 @@ run = ['move-node-to-workspace Misc']
 [[on-window-detected]]
 if.app-id = 'com.hnc.Discord'
 run = ['move-node-to-workspace Misc']
+
+[[on-window-detected]]
+if.app-id = 'com.tidal.desktop'
+run = ['move-node-to-workspace Misc'] 
 
 [[on-window-detected]]
 if.app-id = 'md.obsidian'
