@@ -36,4 +36,4 @@ shell-integration-features = true
 
 # macos
 macos-option-as-alt = true
-macos-titlebar-style = transparent
+macos-titlebar-style = hidden
