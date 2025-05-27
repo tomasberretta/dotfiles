@@ -3,10 +3,10 @@
 #
 
 
-cmd - left : aerospace focus --boundaries-action wrap-around-the-workspace left
-cmd - down : aerospace focus --boundaries-action wrap-around-the-workspace down
-cmd - up : aerospace focus --boundaries-action wrap-around-the-workspace up
-cmd - right : aerospace focus --boundaries-action wrap-around-the-workspace right
+cmd - h : aerospace focus --boundaries-action wrap-around-the-workspace left
+cmd - j : aerospace focus --boundaries-action wrap-around-the-workspace down
+cmd - k : aerospace focus --boundaries-action wrap-around-the-workspace up
+cmd - l : aerospace focus --boundaries-action wrap-around-the-workspace right
 
 # Workspace Cycling with Control
 ctrl - left : aerospace workspace --wrap-around prev
@@ -31,25 +31,25 @@ hyper - space : aerospace layout floating tiling
 
 # Workspace
 fn - 1 : aerospace workspace Terminal
-ctrl + shift - 1 : aerospace workspace Terminal
+hyper - 1 : aerospace workspace Terminal
 fn - 2 : aerospace workspace Browser
-ctrl + shift - 2 : aerospace workspace Browser
+hyper - 2 : aerospace workspace Browser
 fn - 3 : aerospace workspace Dev
-ctrl + shift - 3 : aerospace workspace Dev
+hyper - 3 : aerospace workspace Dev
 fn - 4 : aerospace workspace Communication
-ctrl + shift - 4 : aerospace workspace Communication
+hyper - 4 : aerospace workspace Communication
 fn - 5 : aerospace workspace Issues
-ctrl + shift - 5 : aerospace workspace Issues
+hyper - 5 : aerospace workspace Issues
 # fn - 6 : aerospace workspace temp
 # ctrl + shift - 6 : aerospace workspace temp
 fn - q : aerospace workspace Misc
-ctrl + shift - q : aerospace workspace Misc
+hyper - q : aerospace workspace Misc
 fn - w : aerospace workspace Notes
-ctrl + shift - w : aerospace workspace Notes
+hyper - w : aerospace workspace Notes
 fn - e : aerospace workspace Meetings
-ctrl + shift - e : aerospace workspace Meetings
+hyper - e : aerospace workspace Meetings
 fn - r : aerospace workspace Temp
-ctrl + shift - r : aerospace workspace Temp
+hyper - r : aerospace workspace Temp
 # fn - t : aerospace workspace t
 # ctrl + shift - t : aerospace workspace t
 
@@ -59,8 +59,8 @@ ctrl + shift - r : aerospace workspace Temp
 # hyper - tab : aerospace summon-workspace 1
 
 # Focus Monitor
-cmd + shift - up : aerospace focus-monitor --wrap-around left
-cmd + shift - down : aerospace focus-monitor --wrap-around right
+hyper - h : aerospace focus-monitor left
+hyper - l : aerospace focus-monitor right
 # cmd + shift - left : aerospace focus-monitor --wrap-around left
 # cmd + shift - right : aerospace focus-monitor --wrap-around right
 
@@ -69,5 +69,5 @@ cmd + shift - down : aerospace focus-monitor --wrap-around right
 # alt + shift - down : aerospace move-node-to-monitor --wrap-around --focus-follows-window down
 
 # Move workspace to monitor
-alt + shift - right : aerospace move-workspace-to-monitor --wrap-around next
-alt + shift - left  : aerospace move-workspace-to-monitor --wrap-around prev
+meh - h  : aerospace move-workspace-to-monitor prev
+meh - l : aerospace move-workspace-to-monitor next

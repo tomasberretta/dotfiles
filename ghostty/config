@@ -1,4 +1,4 @@
-font-size = 16
+font-size = 14
 font-style = medium
 bold-is-bright = true
 theme = catppuccin-mocha
@@ -21,10 +21,10 @@ mouse-hide-while-typing = true
 # window
 initial-window = true
 resize-overlay = never
-background-opacity = 0.85
+background-opacity = 0.90
 window-save-state = always
 window-step-resize = false
-background-blur-radius = 15
+background-blur-radius = 35
 window-padding-balance = true
 confirm-close-surface = false
 

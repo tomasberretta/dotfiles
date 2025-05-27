@@ -1,63 +1,81 @@
 return {
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    opts = {
-      filesystem = {
-        filtered_items = {
-          hide_dotfiles = false,
-          hide_gitignored = false,
-        },
-      },
-      window = {
-        position = "right",
-        mappings = {
-          ["J"] = function(state)
-            local tree = state.tree
-            local node = tree:get_node()
-            local siblings = tree:get_nodes(node:get_parent_id())
-            local renderer = require("neo-tree.ui.renderer")
-            renderer.focus_node(state, siblings[#siblings]:get_id())
-          end,
-          ["K"] = function(state)
-            local tree = state.tree
-            local node = tree:get_node()
-            local siblings = tree:get_nodes(node:get_parent_id())
-            local renderer = require("neo-tree.ui.renderer")
-            renderer.focus_node(state, siblings[1]:get_id())
-          end,
-        },
-      },
-      sort_function = function(a, b)
-        -- Simplified check if a path is in the 'notes' directory
-        local function is_in_notes_directory(path)
-          return string.match(path, "/notes/") or string.match(path, "^notes/")
-        end
-
-        -- Get the modification time of a file
-        local function get_mod_time(path)
-          local attributes = vim.loop.fs_stat(path)
-          return attributes and attributes.mtime.sec or 0
-        end
-
-        -- Prioritize directories over files
-        if a.type ~= b.type then
-          return a.type == "directory"
-        end
-
-        local a_in_notes = is_in_notes_directory(a.path)
-        local b_in_notes = is_in_notes_directory(b.path)
-
-        -- If both nodes are files in 'notes' directories, sort by modification time
-        if a_in_notes and b_in_notes and a.type ~= "directory" and b.type ~= "directory" then
-          return get_mod_time(a.path) > get_mod_time(b.path)
-        end
-
-        -- Default sort by name, assuming `name` property or similar is available
-        -- You might need to extract the name from `a.path` and `b.path` if direct comparison is needed
-        local a_name = a.path:match("^.+/(.+)$") or a.path
-        local b_name = b.path:match("^.+/(.+)$") or b.path
-        return a_name < b_name
-      end,
-    },
+  "nvim-neo-tree/neo-tree.nvim",
+  branch = "v3.x",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+    "MunifTanjim/nui.nvim",
+    -- Specify other dependencies if neo-tree needs them for your setup
   },
-}
+  opts = {
+    -- Close Neotree if it's the last window
+    close_if_last_window = true,
+    filesystem = {
+      filtered_items = {
+        visible = true, -- Ensure the filter is active
+        hide_dotfiles = false, -- Show dotfiles
+        hide_gitignored = true, -- You can set this to false if you want to see gitignored files
+        hide_hidden = false, -- Explicitly show files that Neo-tree might consider hidden by other means
+        hide_by_name = {
+          -- ".git",
+          -- "node_modules" 
+          -- Add any other files/folders you always want to hide by name
+        },
+        never_show = { -- remains hidden even if visible is toggled to true
+          -- ".DS_Store",
+          -- "thumbs.db"
+        },
+      },
+      follow_current_file = {
+        enabled = true, -- Neo-tree will highlight the currently open file
+      },
+      group_empty_dirs = true, -- Groups empty directories visually
+      hijack_netrw_behavior = "disabled", -- Or "disabled" or "open_default"
+    },
+    window = {
+      mappings = {
+        ["H"] = "toggle_hidden", -- Toggle hidden files with H
+        ["gv"] = "previous_git_modified_item",
+        ["gc"] = "show_git_status",
+        -- Add other custom mappings here
+      },
+    },
+    default_component_configs = {
+      indent = {
+        indent_size = 2,
+        padding = 1, -- Padding AFTER the indent icons, not before
+        -- indent_marker = "│",
+        -- last_indent_marker = "└",
+        highlight = "NeoTreeIndentMarker",
+      },
+      icon = {
+        folder_closed = "",
+        folder_open = "",
+        folder_empty = "",
+      },
+      git_status = {
+        symbols = {
+          -- Change type
+          added     = "✚", -- or "✚", ""
+          modified  = "", -- or "", ""
+          deleted   = "✖",-- or "✖", ""
+          renamed   = "", -- or "", ""
+          -- Status type
+          untracked = "",
+          ignored   = "",
+          unstaged  = "•",
+          staged    = "✓",
+          conflict  = "",
+        }
+      },
+    },
+    -- Add other Neo-tree options here if you have them from your previous config or want to customize further
+  },
+  -- If you are using LazyVim, you might not need a config function if opts is handled correctly.
+  -- However, if LazyVim requires it or if you need to run commands:
+  config = function(_, opts)
+    require("neo-tree").setup(opts)
+    -- If you want to open neo-tree on startup, you can add it here, but you mentioned not wanting it to open automatically.
+    -- vim.cmd([[Neotree show]])
+  end,
+} 

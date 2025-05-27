@@ -8,6 +8,7 @@ return {
     "hrsh7th/cmp-path",
     "L3MON4D3/LuaSnip", -- Snippet engine
     "saadparwaiz1/cmp_luasnip", -- LuaSnip integration for nvim-cmp
+    "hrsh7th/cmp-emoji", -- ADDED from example.lua
 
     { "roobert/tailwindcss-colorizer-cmp.nvim", config = true }, -- User's existing dependency
     "zbirenbaum/copilot-cmp", -- ADDED: copilot-cmp is now a dependency of nvim-cmp
@@ -18,20 +19,59 @@ return {
       opts.sources = {}
     end
 
-    -- Ensure standard sources are present and add luasnip and copilot
-    local sources = {
-      { name = "nvim_lsp" },
-      { name = "luasnip" }, -- Added LuaSnip as a source
-      { name = "buffer" },
-      { name = "path" },
-      { name = "copilot" }, -- Keep copilot from previous steps
-    }
+    -- Add "emoji" to the sources list
+    -- We need to be careful not to duplicate if it's already there for some reason
+    local emoji_source_exists = false
+    for _, source in ipairs(opts.sources) do
+      if source.name == "emoji" then
+        emoji_source_exists = true
+        break
+      end
+    end
+    if not emoji_source_exists then
+      table.insert(opts.sources, { name = "emoji" }) -- ADDED from example.lua
+    end
     
-    -- Simple way to merge: replace opts.sources if you want full control over order
-    -- Or, more carefully merge if LazyVim provides many other sources you want to keep.
-    -- For now, let's define a standard set including luasnip.
-    opts.sources = sources
+    -- Ensure standard sources are present and add luasnip and copilot
+    -- The original list from user's nvim-cmp.lua:
+    -- local sources = {
+    --   { name = "nvim_lsp" },
+    --   { name = "luasnip" }, 
+    --   { name = "buffer" },
+    --   { name = "path" },
+    --   { name = "copilot" }, 
+    -- }
+    -- This was replacing opts.sources. Instead, let's ensure these specific sources are present
+    -- and preserve any other existing sources from LazyVim default opts.
 
+    local desired_sources_map = {
+      nvim_lsp = true,
+      luasnip = true,
+      buffer = true,
+      path = true,
+      copilot = true,
+      emoji = true, -- ensure emoji is also in the desired map
+    }
+
+    local final_sources = {}
+    -- Add sources from existing opts if they are in our desired_sources_map or not explicitly managed
+    for _, source in ipairs(opts.sources) do
+      if desired_sources_map[source.name] then
+        table.insert(final_sources, source)
+        desired_sources_map[source.name] = false -- mark as added
+      elseif source.name ~= "emoji" then -- if it's not emoji and not in desired_sources, keep it
+        table.insert(final_sources, source)
+      end
+    end
+
+    -- Add any desired sources that weren't already in opts.sources
+    for name, should_add in pairs(desired_sources_map) do
+      if should_add then -- if true, it means it wasn't in the original opts.sources
+        table.insert(final_sources, { name = name })
+      end
+    end
+    opts.sources = final_sources
+    
     -- Setup snippet capabilities (important for LuaSnip)
     if type(opts.snippet) ~= "table" then
       opts.snippet = {}

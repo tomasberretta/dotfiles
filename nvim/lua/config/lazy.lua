@@ -87,7 +87,11 @@ require("lazy").setup({
       "catppuccin/nvim",
       name = "catppuccin",
       priority = 1000, -- make sure it loads first
-      config = function()
+      opts = {
+        flavour = "mocha", -- latte, frappe, macchiato, mocha
+      },
+      config = function(_, opts)
+        require("catppuccin").setup(opts)
         vim.cmd.colorscheme("catppuccin")
       end,
     },
@@ -124,7 +128,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
+  install = { colorscheme = { "catppuccin", "habamax" } },
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = false, -- notify on update
@@ -136,7 +140,8 @@ require("lazy").setup({
         "gzip",
         -- "matchit",
         -- "matchparen",
-        -- "netrwPlugin",
+        "netrw", -- Explicitly disable netrw
+        "netrwPlugin", -- Ensure netrwPlugin is disabled
         "tarPlugin",
         "tohtml",
         "tutor",
