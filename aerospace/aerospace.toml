@@ -103,6 +103,10 @@ if.app-id = 'company.thebrowser.Browser' # Arc
 run = ['move-node-to-workspace Browser']
 
 [[on-window-detected]]
+if.app-id = 'app.zen-browser.zen'
+run = ['move-node-to-workspace Browser']
+
+[[on-window-detected]]
 if.app-id = 'com.todesktop.230313mzl4w4u92' # Cursor
 run = ['move-node-to-workspace Dev']
 

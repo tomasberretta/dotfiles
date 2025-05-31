@@ -24,7 +24,7 @@ return {
     workspaces = {
       {
           name = "tomas-vault", -- You can name your vault as you like
-          path = vim.fn.expand "~/Obsidian/tomas",
+          path = "/Users/tomiberretta/Library/Mobile Documents/iCloud~md~obsidian/Documents/tomas - mobile",
         },
         -- You can add more vaults here if needed
         -- {

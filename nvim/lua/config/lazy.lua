@@ -82,6 +82,67 @@ require("lazy").setup({
     -- import/override with your plugins first
     { import = "plugins" },
 
+    -- Explicit nvim-dap-ui configuration to prevent auto-closing
+    {
+      "rcarriga/nvim-dap-ui",
+      dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+      config = function(_, opts)
+        local dap_avail, dap = pcall(require, "dap")
+        if not dap_avail then
+          vim.notify("nvim-dap not available for nvim-dap-ui config", vim.log.levels.ERROR)
+          return
+        end
+
+        local dapui_avail, dapui = pcall(require, "dapui")
+        if not dapui_avail then
+          vim.notify("nvim-dap-ui not available for nvim-dap-ui config", vim.log.levels.ERROR)
+          return
+        end
+
+        dapui.setup(opts) -- Apply any passed options
+
+        -- Remove potentially conflicting default listeners from LazyVim's dap.core extra
+        -- These are the names LazyVim uses in its dap.core extra for nvim-dap-ui
+        if dap.listeners.after.event_initialized["dapui_config"] then
+          dap.listeners.after.event_initialized["dapui_config"] = nil
+          vim.notify("Removed default dapui_config listener for event_initialized", vim.log.levels.INFO)
+        end
+        if dap.listeners.before.event_terminated["dapui_config"] then
+          dap.listeners.before.event_terminated["dapui_config"] = nil
+          vim.notify("Removed default dapui_config listener for event_terminated", vim.log.levels.INFO)
+        end
+        if dap.listeners.before.event_exited["dapui_config"] then
+          dap.listeners.before.event_exited["dapui_config"] = nil
+          vim.notify("Removed default dapui_config listener for event_exited", vim.log.levels.INFO)
+        end
+
+        -- Add our custom listeners that don't close the UI
+        dap.listeners.after.event_initialized["dapui_custom_ui_manager"] = function()
+          vim.notify("DAP Initialized (custom ui manager), opening DAP UI", vim.log.levels.INFO)
+          dapui.open({})
+        end
+        dap.listeners.before.event_terminated["dapui_custom_ui_manager"] = function()
+          vim.notify("DAP Terminated (custom ui manager), DAP UI will remain open.", vim.log.levels.INFO)
+          -- dapui.close({}) -- Ensure UI is not closed
+        end
+        dap.listeners.before.event_exited["dapui_custom_ui_manager"] = function()
+          vim.notify("DAP Exited (custom ui manager), DAP UI will remain open.", vim.log.levels.INFO)
+          -- dapui.close({}) -- Ensure UI is not closed
+        end
+
+        -- Setup DAP logging (as in your original zzz_dap_log_config.lua)
+        local log_path = vim.fn.stdpath("cache") .. "/dap.log"
+        local dap_dir = vim.fn.fnamemodify(log_path, ":h")
+        if vim.fn.isdirectory(dap_dir) == 0 then
+          pcall(vim.fn.mkdir, dap_dir, "p")
+        end
+        if dap.set_log_level then
+          dap.set_log_level("TRACE")
+          vim.notify("DAP log level set to TRACE. Log file: " .. log_path, vim.log.levels.INFO)
+        end
+      end,
+    },
+
     -- Catppuccin theme
     {
       "catppuccin/nvim",
