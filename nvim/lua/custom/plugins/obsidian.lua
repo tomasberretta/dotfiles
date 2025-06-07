@@ -1,8 +1,10 @@
+-- Plugin for working with Obsidian vaults in Neovim.
+-- This configuration sets up a specific vault, note ID generation, daily notes, and completion.
 return {
   "epwalsh/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
   -- Let's try a slightly later event for loading
-  event = { "BufReadPost *.md", "BufNewFile *.md" }, 
+  event = { "BufReadPost *.md", "BufNewFile *.md" },
   -- ft = "markdown", -- Using event instead of ft for this test
   -- If you only want to load obsidian.nvim for markdown files in your vault, you can use:
   -- event = {
@@ -12,32 +14,57 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     -- Optional, for completion support.
-    "hrsh7th/nvim-cmp", 
+    "hrsh7th/nvim-cmp",
     -- Optional, for search functionality (requires search command like 'rg').
-    "nvim-telescope/telescope.nvim", 
+    "nvim-telescope/telescope.nvim",
   },
   opts = function()
     -- Defer requiring cmp until opts is actually called, which lazy.nvim might handle better
     local cmp_ok, cmp = pcall(require, "cmp")
-    
+
     local obsidian_opts = {
-    workspaces = {
-      {
+      workspaces = {
+        {
           name = "tomas-vault", -- You can name your vault as you like
           path = "/Users/tomiberretta/Library/Mobile Documents/iCloud~md~obsidian/Documents/tomas - mobile",
         },
-        -- You can add more vaults here if needed
+        -- You can add more vaults here if you needed
         -- {
         --   name = "work",
         --   path = "~/work-vault",
         -- },
+        {
+          name = "Personal",
+          path = "~/Documents/Obsidian/Personal",
+        },
       },
 
       -- Optional: Defines a nicer path for new notes created from non-markdown files.
       new_notes_location = "notes", -- relative to vault root, so new notes will be in "~/Obsidian/tomas/notes"
 
       -- Optional: Configure keybindings. obsidian.nvim will merge these with default tables.
-      --mappings = {},
+      keys = {
+        -- Overrides the 'gf' mapping to work on markdown/wiki links.
+        ["gf"] = {
+          action = function()
+            return require("obsidian").util.gf_passthrough()
+          end,
+          opts = { noremap = false, expr = true, buffer = true, desc = "[O]bsidian: [G]oto [F]ile" },
+        },
+        -- Toggle check-boxes.
+        ["<leader>ch"] = {
+          action = function()
+            return require("obsidian").util.toggle_checkbox()
+          end,
+          opts = { buffer = true, desc = "[O]bsidian: Toggle [C]heckbox [H]ere" },
+        },
+        ["<leader>o"] = {
+          action = function()
+            return require("obsidian").util.open_in_os()
+          end,
+          opts = { buffer = true, desc = "[O]bsidian: [O]pen in OS" },
+        },
+      },
 
       -- Optional: Where to put new notes created from undefined links. Valid options are
       --   * "current_dir" - put new notes in the same directory as the current buffer.
@@ -49,20 +76,20 @@ return {
       -- wiki_link_func = "prepend_note_id",
 
       -- Optional: Configure how note IDs are generated. This is your existing function.
-    note_id_func = function(title)
-      local suffix = ""
-      if title ~= nil then
-        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-      else
-        for _ = 1, 4 do
-          suffix = tostring(os.time()) .. "-" .. string.char(math.random(65, 90))
+      note_id_func = function(title)
+        local suffix = ""
+        if title ~= nil then
+          suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+        else
+          for _ = 1, 4 do
+            suffix = tostring(os.time()) .. "-" .. string.char(math.random(65, 90))
+          end
         end
-      end
-      return suffix
-    end,
+        return suffix
+      end,
 
       -- Optional: Disable frontmatter, this is your existing setting.
-    disable_frontmatter = true,
+      disable_frontmatter = true,
 
       -- Optional: Configure daily notes.
       daily_notes = {
@@ -75,8 +102,8 @@ return {
       -- Optional: Configure completion.
       completion = {
         -- Only enable nvim_cmp integration if cmp was successfully required
-        nvim_cmp = cmp_ok, 
-        min_chars = 2,   -- Minimum characters to trigger completion.
+        nvim_cmp = cmp_ok,
+        min_chars = 2, -- Minimum characters to trigger completion.
       },
 
       -- Optional: Configure commands for finding notes (requires telescope.nvim).
@@ -111,4 +138,4 @@ return {
     }
     return obsidian_opts
   end,
-}
+} 
