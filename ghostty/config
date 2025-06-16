@@ -3,12 +3,10 @@ font-style = medium
 bold-is-bright = true
 theme = catppuccin-mocha
 font-family = "JetBrainsMono Nerd Font Mono"
-font-feature = -liga
 
 # cursor
 cursor-style = block
 cursor-style-blink = false
-
 
 # clipboard
 copy-on-select = clipboard
@@ -37,3 +35,4 @@ shell-integration-features = true
 # macos
 macos-option-as-alt = true
 macos-titlebar-style = hidden
+

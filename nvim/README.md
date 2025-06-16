@@ -140,3 +140,11 @@ Custom keybindings are organized for discoverability. The leader key is `space`.
 | `<leader>tp` | Toggle **P**encil Mode |
 | `<leader>ts` | Toggle **S**pell Check |
 
+### Augment Code
+
+| Keybinding | Description |
+| :--- | :--- |
+| `<leader>ac` | **A**ugment **C**hat |
+| `<leader>an` | **A**ugment **N**ew Chat |
+| `<leader>at` | **A**ugment **T**oggle Chat |
+
