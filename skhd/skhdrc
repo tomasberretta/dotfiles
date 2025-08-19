@@ -30,14 +30,14 @@ fn - space : aerospace layout floating tiling
 hyper - space : aerospace layout floating tiling
 
 # Workspace
-fn - 1 : aerospace workspace Terminal
-hyper - 1 : aerospace workspace Terminal
-fn - 2 : aerospace workspace Browser
-hyper - 2 : aerospace workspace Browser
-fn - 3 : aerospace workspace Dev
-hyper - 3 : aerospace workspace Dev
-fn - 4 : aerospace workspace Communication
-hyper - 4 : aerospace workspace Communication
+fn - r : aerospace workspace Browser
+hyper - 1 : aerospace workspace Browser
+fn - 2 : aerospace workspace Terminal
+hyper - 2 : aerospace workspace Terminal
+fn - 3 : aerospace workspace Communication
+hyper - 3 : aerospace workspace Communication
+fn - 4 : aerospace workspace Dev
+hyper - 4 : aerospace workspace Dev
 fn - 5 : aerospace workspace Issues
 hyper - 5 : aerospace workspace Issues
 # fn - 6 : aerospace workspace temp

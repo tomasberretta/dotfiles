@@ -1,20 +1,34 @@
 #!/usr/bin/env zsh
 
-IP=$(curl -s https://ipinfo.io/ip)
-LOCATION_JSON=$(curl -s https://ipinfo.io/$IP/json)
+# Set a manual location here if automatic detection is not working
+# Example: LOCATION="London"
+MANUAL_LOCATION=""
 
-LOCATION="$(echo $LOCATION_JSON | jq '.city' | tr -d '"')"
-REGION="$(echo $LOCATION_JSON | jq '.region' | tr -d '"')"
-COUNTRY="$(echo $LOCATION_JSON | jq '.country' | tr -d '"')"
+if [ -n "$MANUAL_LOCATION" ]; then
+    LOCATION_ESCAPED="${MANUAL_LOCATION// /+}"
+    WEATHER_JSON=$(curl -s "https://wttr.in/$LOCATION_ESCAPED?format=j1")
+    LOCATION=$MANUAL_LOCATION
+else
+    LOCATION_JSON=$(curl -s http://ip-api.com/json)
+    LOCATION=$(echo $LOCATION_JSON | jq -r '.city')
 
-# Line below replaces spaces with +
-LOCATION_ESCAPED="${LOCATION// /+}+${REGION// /+}"
-WEATHER_JSON=$(curl -s "https://wttr.in/$LOCATION_ESCAPED?format=j1")
+    # Fallback to geolocating by IP if a city is not found
+    if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
+        WEATHER_JSON=$(curl -s "https://wttr.in/?format=j1")
+        LOCATION=$(echo $WEATHER_JSON | jq -r '.nearest_area[0].areaName[0].value')
+    else
+        REGION="$(echo $LOCATION_JSON | jq -r '.regionName')"
+        # Line below replaces spaces with +
+        LOCATION_ESCAPED="${LOCATION// /+}+${REGION// /+}"
+        WEATHER_JSON=$(curl -s "https://wttr.in/$LOCATION_ESCAPED?format=j1")
+    fi
+fi
+
 
 # Fallback if empty
-if [ -z $WEATHER_JSON ]; then
+if [ -z "$WEATHER_JSON" ]; then
 
-    sketchybar --set $NAME label=$LOCATION
+    sketchybar --set $NAME label="?"
     sketchybar --set $NAME.moon icon=
 
     return

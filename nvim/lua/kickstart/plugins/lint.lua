@@ -4,6 +4,8 @@ return {
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
+      vim.g.lint_enabled = true
+
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
@@ -47,6 +49,9 @@ return {
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
+          if not vim.g.lint_enabled then
+            return
+          end
           -- Only run the linter in buffers that you can modify in order to
           -- avoid superfluous noise, notably within the handy LSP pop-ups that
           -- describe the hovered symbol using Markdown.
@@ -55,6 +60,23 @@ return {
           end
         end,
       })
+
+      vim.keymap.set('n', '<leader>tl', function()
+        vim.g.lint_enabled = not vim.g.lint_enabled
+        if vim.g.lint_enabled then
+          vim.notify 'Linting enabled'
+          lint.try_lint()
+        else
+          vim.notify 'Linting disabled'
+          local ft = vim.bo.filetype
+          local linters_for_ft = lint.linters_by_ft[ft]
+          if linters_for_ft then
+            for _, linter_name in ipairs(linters_for_ft) do
+              vim.diagnostic.reset(require('lint').get_namespace(linter_name))
+            end
+          end
+        end
+      end, { desc = 'Toggle [L]inting' })
     end,
   },
 }

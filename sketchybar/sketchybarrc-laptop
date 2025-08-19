@@ -11,14 +11,14 @@ SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
 sketchybar --add event aerospace_workspace_change
 
 sketchybar --bar \
-    height=22 \
+    height=24 \
     color=0x00000000 \
     margin=0 \
     sticky=on \
     padding_left=14 \
     padding_right=14 \
-    notch_width=188 \
-    notch_display_height=32
+    notch_width=232 \
+    notch_display_height=28
 
 # Alternatiive background colors
 # label.color=0xffffffff

@@ -102,7 +102,7 @@ vim.g.have_nerd_font = true
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -160,6 +160,9 @@ vim.o.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
+
+-- a value of 1 or 2 is required for some obsidian features
+vim.o.conceallevel = 2
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
@@ -294,14 +297,22 @@ require('lazy').setup({
         vim.keymap.set('n', '<leader>gr', gs.reset_hunk, { buffer = bufnr, desc = 'Reset Hunk' })
         vim.keymap.set('n', '<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = 'Preview Hunk' })
         vim.keymap.set('n', ']h', function()
-          if vim.wo.diff then return ']c' end
-          vim.schedule(function() gs.next_hunk() end)
+          if vim.wo.diff then
+            return ']c'
+          end
+          vim.schedule(function()
+            gs.next_hunk()
+          end)
           return '<Ignore>'
         end, { expr = true, buffer = bufnr, desc = 'Next Hunk' })
 
         vim.keymap.set('n', '[h', function()
-          if vim.wo.diff then return '[c' end
-          vim.schedule(function() gs.prev_hunk() end)
+          if vim.wo.diff then
+            return '[c'
+          end
+          vim.schedule(function()
+            gs.prev_hunk()
+          end)
           return '<Ignore>'
         end, { expr = true, buffer = bufnr, desc = 'Prev Hunk' })
       end,
@@ -434,12 +445,23 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
-        -- pickers = {}
+        defaults = {
+          -- Configure to show hidden files
+          file_ignore_patterns = { '%.git/', 'node_modules/', '%.DS_Store' },
+          -- mappings = {
+          --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          -- },
+        },
+        pickers = {
+          find_files = {
+            -- Show hidden files (dotfiles)
+            hidden = true,
+            -- Optionally also show files in .git directories (usually not wanted)
+            -- no_ignore = true,
+            -- Optionally ignore .gitignore files
+            -- no_ignore_parent = true,
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -473,28 +495,30 @@ require('lazy').setup({
 
         local temp_file = vim.fn.tempname()
         vim.cmd('redir! > ' .. temp_file)
-        vim.cmd('silent messages')
-        vim.cmd('redir END')
+        vim.cmd 'silent messages'
+        vim.cmd 'redir END'
         local messages = vim.fn.readfile(temp_file)
         vim.fn.delete(temp_file)
 
-        pickers.new({}, {
-          prompt_title = 'Neovim Messages',
-          finder = finders.new_table { results = messages },
-          sorter = conf.generic_sorter {},
-          attach_mappings = function(prompt_bufnr, map)
-            -- Overwrite default action to yank message and close
-            actions.select_default:replace(function()
-              local entry = require('telescope.actions.state').get_selected_entry()
-              if entry and entry.value then
-                vim.fn.setreg('+', entry.value)
-                vim.notify('Yanked message to system clipboard', vim.log.levels.INFO)
-              end
-              actions.close(prompt_bufnr)
-            end)
-            return true
-          end,
-        }):find()
+        pickers
+          .new({}, {
+            prompt_title = 'Neovim Messages',
+            finder = finders.new_table { results = messages },
+            sorter = conf.generic_sorter {},
+            attach_mappings = function(prompt_bufnr, map)
+              -- Overwrite default action to yank message and close
+              actions.select_default:replace(function()
+                local entry = require('telescope.actions.state').get_selected_entry()
+                if entry and entry.value then
+                  vim.fn.setreg('+', entry.value)
+                  vim.notify('Yanked message to system clipboard', vim.log.levels.INFO)
+                end
+                actions.close(prompt_bufnr)
+              end)
+              return true
+            end,
+          })
+          :find()
       end, { desc = '[S]earch [M]essages' })
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -517,7 +541,7 @@ require('lazy').setup({
 
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
+        builtin.find_files { cwd = vim.fn.stdpath 'config', hidden = true }
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
@@ -780,6 +804,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'markdownlint', -- Used to lint markdown files
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -833,7 +858,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -949,9 +974,9 @@ require('lazy').setup({
     name = 'catppuccin',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      require('catppuccin').setup({
-        flavour = "mocha", -- latte, frappe, macchiato, mocha
-      })
+      require('catppuccin').setup {
+        flavour = 'mocha', -- latte, frappe, macchiato, mocha
+      }
       -- Load the colorscheme here.
       vim.cmd.colorscheme 'catppuccin'
     end,
