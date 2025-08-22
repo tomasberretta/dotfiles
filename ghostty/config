@@ -1,7 +1,39 @@
 font-size = 13
 font-style = medium
 bold-is-bright = true
-theme = catppuccin-mocha
+# theme = catppuccin-mocha
+
+# Custom very dark purple-black background color scheme
+background = 0d0b14
+foreground = cdd6f4
+
+# Cursor colors
+cursor-color = f5e0dc
+cursor-text = 1e1e2e
+
+# Selection colors  
+selection-background = 161320
+selection-foreground = cdd6f4
+
+# Normal colors
+palette = 0=#45475a
+palette = 1=#f38ba8
+palette = 2=#a6e3a1
+palette = 3=#f9e2af
+palette = 4=#89b4fa
+palette = 5=#f5c2e7
+palette = 6=#94e2d5
+palette = 7=#bac2de
+
+# Bright colors
+palette = 8=#585b70
+palette = 9=#f38ba8
+palette = 10=#a6e3a1
+palette = 11=#f9e2af
+palette = 12=#89b4fa
+palette = 13=#f5c2e7
+palette = 14=#94e2d5
+palette = 15=#a6adc8
 font-family = "JetBrainsMono Nerd Font Mono"
 
 # cursor
@@ -13,13 +45,27 @@ copy-on-select = clipboard
 clipboard-trim-trailing-spaces = true
 
 # mouse
-mouse-scroll-multiplier = 2
+mouse-scroll-multiplier = 0.2
 mouse-hide-while-typing = true
+
+# scrolling improvements
+scrollback-limit = 100000
+adjust-cell-width = 0
+adjust-cell-height = 0
+
+# performance and smoothness optimizations
+unfocused-split-opacity = 0.7
+resize-overlay-position = center
+
+# experimental smoothness settings
+working-directory = inherit
+shell-integration = true
+osc-color-report-format = 8-bit
 
 # window
 initial-window = true
 resize-overlay = never
-background-opacity = 0.95
+background-opacity = 1.00
 window-save-state = always
 window-step-resize = false
 background-blur-radius = 35
@@ -35,4 +81,7 @@ shell-integration-features = true
 # macos
 macos-option-as-alt = true
 macos-titlebar-style = hidden
+
+# macos performance optimizations for smoothness
+macos-non-native-fullscreen = false
 

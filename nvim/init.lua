@@ -924,7 +924,7 @@ require('lazy').setup({
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        preset = 'default',
+        preset = 'super-tab',
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -976,6 +976,70 @@ require('lazy').setup({
     config = function()
       require('catppuccin').setup {
         flavour = 'mocha', -- latte, frappe, macchiato, mocha
+        custom_highlights = function(colors)
+          return {
+            -- Change background to very dark with subtle purpleish hints
+            Normal = { bg = "#0d0b14" },
+            NormalFloat = { bg = "#0d0b14" },
+            NormalNC = { bg = "#0d0b14" },
+            CursorLine = { bg = "#161320" },
+            -- Keep syntax highlighting but with dark purple-black background
+            SignColumn = { bg = "#0d0b14" },
+            LineNr = { bg = "#0d0b14" },
+            LineNrAbove = { bg = "#0d0b14" },
+            LineNrBelow = { bg = "#0d0b14" },
+            CursorLineNr = { bg = "#161320" },
+            -- Terminal colors
+            Terminal = { bg = "#0d0b14" },
+            -- Status and tab elements
+            StatusLine = { bg = "#161320" },
+            StatusLineNC = { bg = "#0d0b14" },
+            TabLine = { bg = "#0d0b14" },
+            TabLineFill = { bg = "#0d0b14" },
+            TabLineSel = { bg = "#161320" },
+            -- Neo-tree and file explorer
+            NeoTreeNormal = { bg = "#0d0b14" },
+            NeoTreeNormalNC = { bg = "#0d0b14" },
+            NeoTreeEndOfBuffer = { bg = "#0d0b14" },
+            NeoTreeWinSeparator = { bg = "#0d0b14", fg = "#161320" },
+            -- Telescope
+            TelescopeNormal = { bg = "#0d0b14" },
+            TelescopeBorder = { bg = "#0d0b14", fg = "#161320" },
+            TelescopePromptNormal = { bg = "#161320" },
+            TelescopePromptBorder = { bg = "#161320", fg = "#161320" },
+            TelescopePromptTitle = { bg = "#161320" },
+            TelescopePreviewTitle = { bg = "#0d0b14" },
+            TelescopeResultsTitle = { bg = "#0d0b14" },
+            -- Floating windows
+            FloatBorder = { bg = "#0d0b14", fg = "#161320" },
+            FloatTitle = { bg = "#0d0b14" },
+            -- Popups and menus
+            Pmenu = { bg = "#0d0b14" },
+            PmenuSel = { bg = "#161320" },
+            PmenuSbar = { bg = "#0d0b14" },
+            PmenuThumb = { bg = "#161320" },
+            -- Window separators
+            WinSeparator = { bg = "#0d0b14", fg = "#161320" },
+            VertSplit = { bg = "#0d0b14", fg = "#161320" },
+            -- Folding
+            Folded = { bg = "#161320" },
+            FoldColumn = { bg = "#0d0b14" },
+            -- End of buffer
+            EndOfBuffer = { bg = "#0d0b14" },
+            -- Which-key
+            WhichKey = { bg = "#0d0b14" },
+            WhichKeyFloat = { bg = "#0d0b14" },
+            -- Diagnostics
+            DiagnosticSignError = { bg = "#0d0b14" },
+            DiagnosticSignWarn = { bg = "#0d0b14" },
+            DiagnosticSignInfo = { bg = "#0d0b14" },
+            DiagnosticSignHint = { bg = "#0d0b14" },
+            -- Git signs
+            GitSignsAdd = { bg = "#0d0b14" },
+            GitSignsChange = { bg = "#0d0b14" },
+            GitSignsDelete = { bg = "#0d0b14" },
+          }
+        end,
       }
       -- Load the colorscheme here.
       vim.cmd.colorscheme 'catppuccin'

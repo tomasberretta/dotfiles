@@ -16,15 +16,10 @@ return {
 
           dapui.setup()
 
-          -- Automatically open and close the UI when a debug session starts/stops
+          -- Automatically open the UI when a debug session starts
+          -- Note: UI will stay open after session ends so you can see test results/errors
           dap.listeners.after.event_initialized["dapui_config"] = function()
             dapui.open()
-          end
-          dap.listeners.before.event_terminated["dapui_config"] = function()
-            dapui.close()
-          end
-          dap.listeners.before.event_exited["dapui_config"] = function()
-            dapui.close()
           end
         end,
       },
@@ -66,6 +61,7 @@ return {
       vim.keymap.set("n", "<leader>d-e", function() require("dap.ui.widgets").close() end, { desc = "[E]xit Widget" })
       vim.keymap.set("n", "<leader>d-r", function() dap.repl.toggle() end, { desc = "[R]EPL Toggle" })
       vim.keymap.set("n", "<leader>dk", function() require("dap").terminate() end, { desc = "[K]ill Session" })
+      vim.keymap.set("n", "<leader>dx", function() require("dapui").close() end, { desc = "Close Debug UI" })
 
       vim.keymap.set("n", "<leader>dpm", function() require("dap-python").test_method() end, { desc = "[P]ython Test [M]ethod" })
       vim.keymap.set("n", "<leader>dpc", function() require("dap-python").test_class() end, { desc = "[P]ython Test [C]lass" })

@@ -1,16 +1,12 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# format: Changed the directory segment from 'mauve' to 'blue'
+# Bracketed Segments format with dark purple theme
 format = """
-[](mauve)\
 $os\
 $username\
-[](bg:red fg:mauve)\
 $directory\
-[](bg:peach fg:red)\
 $git_branch\
 $git_status\
-[](bg:green fg:peach)\
 $c\
 $rust\
 $golang\
@@ -20,68 +16,260 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:green bg:surface1)\
+$ruby\
+$swift\
+$dart\
+$elixir\
+$erlang\
+$scala\
+$julia\
+$lua\
+$perl\
+$crystal\
+$zig\
+$nim\
+$red\
+$fennel\
+$vlang\
+$ocaml\
+$purescript\
+$raku\
+$solidity\
+$dotnet\
+$cmake\
+$cobol\
+$conda\
+$docker_context\
+$kubernetes\
+$terraform\
+$gcloud\
 $cmd_duration\
-[ ](fg:surface1)\
 $character"""
 
-palette = 'catppuccin_mocha'
+palette = 'dark_purple'
 
 # --- MODULES ---
 
 [os]
 disabled = false
-style = "bg:mauve fg:crust"
+style = "bold fg:purple"
+format = '\[[$symbol]($style)\]'
 [os.symbols]
 Macos = "󰀵"
 Linux = "󰌽"
-Windows = ""
+Windows = ""
 
 [username]
 show_always = true
-style_user = "bg:mauve fg:crust"
-style_root = "bg:mauve fg:crust"
-format = '[ $user]($style)'
+style_user = "bold fg:blue"
+style_root = "bold fg:red"
+format = '\[[$user]($style)\]'
 
 [directory]
-style = "bg:red fg:crust"
-format = "[ $path ]($style)"
+style = "bold fg:green"
+format = '\[[$path]($style)\]'
 truncation_length = 3
 truncation_symbol = "…/"
 [directory.substitutions]
 "Documents" = "󰈙 "
-"Downloads" = " "
+"Downloads" = " "
 "Music" = "󰝚 "
-"Pictures" = " "
+"Pictures" = " "
 "Developer" = "󰲋 "
 
 [git_branch]
-symbol = ""
-style = "bg:peach"
-format = '[[ $symbol $branch ](fg:crust bg:peach)]($style)'
+symbol = ""
+style = "bold fg:yellow"
+format = '\[[$symbol$branch]($style)\]'
 
 [git_status]
-style = "bg:peach"
-format = '[[($all_status$ahead_behind )](fg:crust bg:peach)]($style)'
+style = "bold fg:yellow"
+format = '([\[$all_status$ahead_behind\]]($style))'
 
 [python]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
-[nodejs]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-[c]
-symbol = " "
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+symbol = "🐍 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)(\($virtualenv\))]($style)\]'
 
+[nodejs]
+symbol = "⚡ "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[c]
+symbol = "⚙️ "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[rust]
+symbol = "🦀 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[golang]
+symbol = "🐹 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[php]
+symbol = "🐘 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[java]
+symbol = "☕ "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[kotlin]
+symbol = "🎯 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[haskell]
+symbol = "🎭 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[ruby]
+symbol = "💎 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[swift]
+symbol = "🏎️ "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[dart]
+symbol = "🔷 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[elixir]
+symbol = "💧 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[erlang]
+symbol = "📞 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[scala]
+symbol = "⚖️ "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[julia]
+symbol = "🔴 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[lua]
+symbol = "🌙 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[perl]
+symbol = "🐪 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[crystal]
+symbol = "❄️ "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[zig]
+symbol = "⚡ "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[nim]
+symbol = "👑 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[red]
+symbol = "🌹 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[fennel]
+symbol = "🌿 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[vlang]
+symbol = "🚀 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[ocaml]
+symbol = "🐫 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[purescript]
+symbol = "🔮 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[raku]
+symbol = "🦋 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[solidity]
+symbol = "💰 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[terraform]
+symbol = "🏗️ "
+style = "bold fg:cyan"
+format = '\[[$symbol$workspace]($style)\]'
+
+[docker_context]
+symbol = "🐳 "
+style = "bold fg:cyan"
+format = '\[[$symbol$context]($style)\]'
+
+[kubernetes]
+symbol = "☸️ "
+style = "bold fg:cyan"
+format = '\[[$symbol$context( \($namespace\))]($style)\]'
+
+[gcloud]
+symbol = "🌥️ "
+style = "bold fg:cyan"
+format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
+
+[conda]
+symbol = "🐍 "
+style = "bold fg:cyan"
+format = '\[[$symbol$environment]($style)\]'
+
+[dotnet]
+symbol = "🔷 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)(🎯 $tfm)]($style)\]'
+
+[cmake]
+symbol = "🔧 "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
+
+[cobol]
+symbol = "🏛️ "
+style = "bold fg:cyan"
+format = '\[[$symbol($version)]($style)\]'
 
 [cmd_duration]
 min_time = 500
-format = "[  $duration ]($style)"
-style = "bg:surface1 fg:text"
+format = '\[[⏱ $duration]($style)\]'
+style = "bold fg:surface"
 disabled = false
 
 [character]
@@ -91,31 +279,20 @@ error_symbol = '[❯](bold fg:red)'
 [line_break]
 disabled = true
 
-# --- PALETTE DEFINITIONS ---
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
+# --- DARK PURPLE PALETTE ---
+[palettes.dark_purple]
+# Dark purple theme matching nvim, ghostty, and tmux
+background = "#0d0b14" # Main dark purple background
+highlight = "#161320"  # Darker purple for highlights
+text = "#cdd6f4"       # Light text color
+purple = "#cba6f7"     # Purple accent
+green = "#a6e3a1"      # Green accent
+blue = "#89b4fa"       # Blue accent
+yellow = "#f9e2af"     # Yellow accent
+red = "#f38ba8"        # Red accent
+cyan = "#89dceb"       # Cyan accent
+pink = "#f5c2e7"       # Pink accent
+orange = "#fab387"     # Orange accent
+surface = "#585b70"    # Surface color for subtle elements
+gray = "#45475a"       # Gray for secondary text
+
