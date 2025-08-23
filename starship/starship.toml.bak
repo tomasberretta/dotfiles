@@ -46,7 +46,7 @@ $gcloud\
 $cmd_duration\
 $character"""
 
-palette = 'dark_purple'
+palette = 'light_latte'
 
 # --- MODULES ---
 
