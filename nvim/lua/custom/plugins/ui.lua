@@ -52,68 +52,151 @@ return {
         { '<leader>h', group = '[H]arpoon' },
         { '<leader>v', group = '[V]env' },
         { '<leader>l', group = '[L]SP' },
+        { '<leader>r', group = '[R]efactor' },
+        { '<leader>w', group = '[W]indow' },
+        { '<leader>p', group = '[P]roject' },
+        { '<leader>b', group = '[B]uffer' },
+        { '<leader>n', group = '[N]avigation' },
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>f', group = '[F]ile' },
       },
     },
   },
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+  
+  {
+    -- Minimal theme for dark mode
+    "Yazeed1s/minimal.nvim",
+    priority = 1000,
     config = function()
-      -- This will run when the plugin is loaded
-      pcall(require, 'custom.theme') -- Load the theme settings
-
-      require('catppuccin').setup {
-        flavour = vim.g.catppuccin_flavour or "mocha",
-        custom_highlights = function(colors)
-          return vim.g.catppuccin_custom_highlights or {}
-        end,
-        integrations = vim.g.catppuccin_integrations or {},
-      }
-      vim.cmd.colorscheme 'catppuccin'
+      -- Initialize unified theme system
+      require('custom.theme').setup()
     end,
   },
+  
+  { 
+    -- Oxocarbon theme for light mode
+    'nyoom-engineering/oxocarbon.nvim',
+    lazy = false,
+    priority = 999,
+  },
+  
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = {
-      options = {
-        icons_enabled = true,
-        theme = 'catppuccin',
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-        disabled_filetypes = {
-          statusline = {},
-          winbar = {},
+    config = function()
+      -- Custom theme that matches our unified palette
+      local custom_theme = {
+        normal = {
+          a = { bg = '#7EB7E6', fg = '#191B20', gui = 'bold' },
+          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
+          c = { bg = '#272932', fg = '#DFE0EA' },
         },
-        ignore_focus = {},
-        always_divide_middle = true,
-        globalstatus = false,
-      },
-      sections = {
-        lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename' },
-        lualine_x = { 'encoding', 'fileformat', 'filetype' },
-        lualine_y = { 'progress' },
-        lualine_z = { 'location' },
-      },
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { 'filename' },
-        lualine_x = { 'location' },
-        lualine_y = {},
-        lualine_z = {},
-      },
-      tabline = {},
-      winbar = {},
-      inactive_winbar = {},
-      extensions = {},
-    },
+        insert = {
+          a = { bg = '#94DD8E', fg = '#191B20', gui = 'bold' },
+          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
+          c = { bg = '#272932', fg = '#DFE0EA' },
+        },
+        visual = {
+          a = { bg = '#D895C7', fg = '#191B20', gui = 'bold' },
+          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
+          c = { bg = '#272932', fg = '#DFE0EA' },
+        },
+        replace = {
+          a = { bg = '#E85A84', fg = '#191B20', gui = 'bold' },
+          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
+          c = { bg = '#272932', fg = '#DFE0EA' },
+        },
+        command = {
+          a = { bg = '#F9E154', fg = '#191B20', gui = 'bold' },
+          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
+          c = { bg = '#272932', fg = '#DFE0EA' },
+        },
+        inactive = {
+          a = { bg = '#272932', fg = '#515669', gui = 'bold' },
+          b = { bg = '#272932', fg = '#515669' },
+          c = { bg = '#191B20', fg = '#515669' },
+        },
+      }
+      
+      local custom_theme_light = {
+        normal = {
+          a = { bg = '#4d7bd6', fg = '#f4f4f4', gui = 'bold' },
+          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
+          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+        },
+        insert = {
+          a = { bg = '#52a065', fg = '#f4f4f4', gui = 'bold' },
+          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
+          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+        },
+        visual = {
+          a = { bg = '#9575cd', fg = '#f4f4f4', gui = 'bold' },
+          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
+          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+        },
+        replace = {
+          a = { bg = '#e57373', fg = '#f4f4f4', gui = 'bold' },
+          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
+          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+        },
+        command = {
+          a = { bg = '#ffb74d', fg = '#2c2c2c', gui = 'bold' },
+          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
+          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+        },
+        inactive = {
+          a = { bg = '#f0f0f0', fg = '#7a7a7a', gui = 'bold' },
+          b = { bg = '#f0f0f0', fg = '#7a7a7a' },
+          c = { bg = '#f4f4f4', fg = '#7a7a7a' },
+        },
+      }
+      
+      require('lualine').setup {
+        options = {
+          icons_enabled = true,
+          theme = vim.o.background == 'light' and custom_theme_light or custom_theme,
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
+          disabled_filetypes = {
+            statusline = {},
+            winbar = {},
+          },
+          ignore_focus = {},
+          always_divide_middle = true,
+          globalstatus = false,
+        },
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_c = { 'filename' },
+          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { 'filename' },
+          lualine_x = { 'location' },
+          lualine_y = {},
+          lualine_z = {},
+        },
+        tabline = {},
+        winbar = {},
+        inactive_winbar = {},
+        extensions = {},
+      }
+      
+      -- Update lualine theme when colorscheme changes
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "*",
+        callback = function()
+          vim.defer_fn(function()
+            local theme = vim.o.background == 'light' and custom_theme_light or custom_theme
+            require('lualine').setup({ options = { theme = theme } })
+          end, 1)
+        end,
+      })
+    end,
   },
 }

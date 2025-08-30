@@ -1,68 +1,67 @@
 font-size = 13
 font-style = medium
 bold-is-bright = true
-# theme = catppuccin-mocha
-
-# Custom very dark purple-black background color scheme
-background = 0d0b14
-foreground = cdd6f4
-
-# Cursor colors
-cursor-color = a6adc8
-cursor-text = eff1f5
-
-# Selection colors  
-selection-background = 313244
-selection-foreground = cdd6f4
-
-# Normal colors
-palette = 0=#45475a
-palette = 1=#f38ba8
-palette = 2=#a6e3a1
-palette = 3=#f9e2af
-palette = 4=#89b4fa
-palette = 5=#f5c2e7
-palette = 6=#94e2d5
-palette = 7=#bac2de
-
-# Bright colors
-palette = 8=#585b70
-palette = 9=#f38ba8
-palette = 10=#a6e3a1
-palette = 11=#f9e2af
-palette = 12=#89b4fa
-palette = 13=#f5c2e7
-palette = 14=#94e2d5
-palette = 15=#a6adc8
 font-family = "JetBrainsMono Nerd Font Mono"
 
-# cursor
+# {THEME_NAME} theme - Generated from centralized palette
+background = {BG}
+foreground = {FG}
+
+# Cursor colors
+cursor-color = {BLUE}
+cursor-text = {BG}
+
+# Selection colors  
+selection-background = {HIGHLIGHT}
+selection-foreground = {FG}
+
+# Normal colors (ANSI 0-7)
+palette = 0={BLACK}
+palette = 1={RED}
+palette = 2={GREEN}
+palette = 3={YELLOW}
+palette = 4={BLUE}
+palette = 5={PURPLE}
+palette = 6={CYAN}
+palette = 7={FG}
+
+# Bright colors (ANSI 8-15)
+palette = 8={GRAY}
+palette = 9={RED}
+palette = 10={GREEN}
+palette = 11={YELLOW}
+palette = 12={BLUE}
+palette = 13={PURPLE}
+palette = 14={CYAN}
+palette = 15={HIGHLIGHT}
+
+# Cursor settings
 cursor-style = block
 cursor-style-blink = false
 
-# clipboard
+# Clipboard
 copy-on-select = clipboard
 clipboard-trim-trailing-spaces = true
 
-# mouse
+# Mouse
 mouse-scroll-multiplier = 0.2
 mouse-hide-while-typing = true
 
-# scrolling improvements
+# Scrolling improvements
 scrollback-limit = 100000
 adjust-cell-width = 0
 adjust-cell-height = 0
 
-# performance and smoothness optimizations
+# Performance and smoothness optimizations
 unfocused-split-opacity = 0.7
 resize-overlay-position = center
 
-# experimental smoothness settings
+# Experimental smoothness settings
 working-directory = inherit
 shell-integration = zsh
 osc-color-report-format = 8-bit
 
-# window
+# Window
 initial-window = true
 resize-overlay = never
 background-opacity = 1.00
@@ -72,16 +71,15 @@ background-blur-radius = 35
 window-padding-balance = true
 confirm-close-surface = false
 
-# behavior
+# Behavior
 auto-update = check
 auto-update-channel = stable
 quit-after-last-window-closed = true
 shell-integration-features = true
 
-# macos
+# macOS
 macos-option-as-alt = true
 macos-titlebar-style = hidden
 
-# macos performance optimizations for smoothness
+# macOS performance optimizations for smoothness
 macos-non-native-fullscreen = false
-

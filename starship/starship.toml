@@ -1,6 +1,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# Bracketed Segments format with dark purple theme
+# Bracketed Segments format with centralized theming
 format = """
 $os\
 $username\
@@ -46,7 +46,7 @@ $gcloud\
 $cmd_duration\
 $character"""
 
-palette = 'dark_purple'
+palette = 'unified_dark'
 
 # --- MODULES ---
 
@@ -279,35 +279,18 @@ error_symbol = '[❯](bold fg:red)'
 [line_break]
 disabled = true
 
-# --- DARK PURPLE PALETTE ---
-[palettes.dark_purple]
-# Dark purple theme matching nvim, ghostty, and tmux
-background = "#0d0b14" # Main dark purple background
-highlight = "#161320"  # Darker purple for highlights
-text = "#cdd6f4"       # Light text color
-purple = "#cba6f7"     # Purple accent
-green = "#a6e3a1"      # Green accent
-blue = "#89b4fa"       # Blue accent
-yellow = "#f9e2af"     # Yellow accent
-red = "#f38ba8"        # Red accent
-cyan = "#89dceb"       # Cyan accent
-pink = "#f5c2e7"       # Pink accent
-orange = "#fab387"     # Orange accent
-surface = "#585b70"    # Surface color for subtle elements
-gray = "#45475a"       # Gray for secondary text
-
-
-[palettes.light_latte]
-background = "#eff1f5"
-highlight = "#e6e9ef"
-text = "#4c4f69"
-purple = "#8839ef"
-green = "#40a02b"
-blue = "#1e66f5"
-yellow = "#df8e1d"
-red = "#d20f39"
-cyan = "#04a5e5"
-pink = "#ea76cb"
-orange = "#fe640b"
-surface = "#bcc0cc"
-gray = "#9ca0b0"
+# --- CENTRALIZED PALETTE ---
+[palettes.unified_dark]
+background = "#191B20"
+highlight = "#3A3D4A"
+text = "#DFE0EA"
+purple = "#B589D6"
+green = "#94DD8E"
+blue = "#7EB7E6"
+yellow = "#F9E154"
+red = "#E85A84"
+cyan = "#89DDFF"
+pink = "#D895C7"
+orange = "#FF9574"
+surface = "#515669"
+gray = "#21252D"

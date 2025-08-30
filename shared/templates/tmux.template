@@ -1,21 +1,21 @@
-# Dark theme - Generated from centralized palette
-# Background matches Ghostty/Neovim exactly: #191B20
+# {THEME_NAME} theme - Generated from centralized palette
+# Background matches Ghostty/Neovim exactly: {BG}
 
 # Theme colors from centralized palette
-thm_bg="#191B20"
-thm_fg="#DFE0EA"
-thm_gray="#515669"
-thm_blue="#7EB7E6"
-thm_green="#94DD8E"
-thm_pink="#D895C7"
-thm_purple="#B589D6"
-thm_red="#E85A84"
-thm_yellow="#F9E154"
-thm_orange="#FF9574"
-thm_cyan="#89DDFF"
-thm_black="#21252D"
-thm_surface="#272932"
-thm_highlight="#3A3D4A"
+thm_bg="{BG}"
+thm_fg="{FG}"
+thm_gray="{GRAY}"
+thm_blue="{BLUE}"
+thm_green="{GREEN}"
+thm_pink="{PINK}"
+thm_purple="{PURPLE}"
+thm_red="{RED}"
+thm_yellow="{YELLOW}"
+thm_orange="{ORANGE}"
+thm_cyan="{CYAN}"
+thm_black="{BLACK}"
+thm_surface="{SURFACE}"
+thm_highlight="{HIGHLIGHT}"
 
 # Rounded separators for modern look
 l_round=""
@@ -38,14 +38,14 @@ setw -g window-status-style "fg=$thm_gray,bg=$thm_bg,none"
 setw -g window-status-format "#[fg=$thm_gray,bg=$thm_bg] #I:#W  "
 
 # Active window format - themed accent with rounded corners
-setw -g window-status-current-format "#[fg=$thm_pink,bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_pink,bold] #I:#W #[fg=$thm_pink,bg=$thm_bg]${r_round} "
+setw -g window-status-current-format "#[fg=$thm_{ACTIVE_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{ACTIVE_COLOR_VAR},bold] #I:#W #[fg=$thm_{ACTIVE_COLOR_VAR},bg=$thm_bg]${r_round} "
 
 # Left status: prefix indicator, zoom indicator, and session name
 # Shows yellow indicator when prefix is pressed, red indicator when zoomed
 set -g status-left "#{?client_prefix,#[fg=$thm_yellow]#[bg=$thm_bg]${l_round}#[fg=$thm_bg]#[bg=$thm_yellow]#[bold] ⌘ #[fg=$thm_yellow]#[bg=$thm_bg]${r_round} ,}#{?window_zoomed_flag,#[fg=$thm_red]#[bg=$thm_bg]${l_round}#[fg=$thm_bg]#[bg=$thm_red]#[bold] ⊙ #[fg=$thm_red]#[bg=$thm_bg]${r_round} ,}#[fg=$thm_green,bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_green,bold] #S #[fg=$thm_green,bg=$thm_bg]${r_round} "
 
 # Right status: current path and current command with themed colors
-set -g status-right "#[fg=$thm_blue,bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_blue] #{b:pane_current_path} #[fg=$thm_blue,bg=$thm_bg]${r_round} #[fg=$thm_red,bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_red] #{pane_current_command} #[fg=$thm_red,bg=$thm_bg]${r_round} "
+set -g status-right "#[fg=$thm_{PATH_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{PATH_COLOR_VAR}] #{b:pane_current_path} #[fg=$thm_{PATH_COLOR_VAR},bg=$thm_bg]${r_round} #[fg=$thm_{CMD_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{CMD_COLOR_VAR}] #{pane_current_command} #[fg=$thm_{CMD_COLOR_VAR},bg=$thm_bg]${r_round} "
 
 # Message styling - blue text on surface background
 set -g message-style "fg=$thm_blue,bg=$thm_surface,align=centre"
@@ -53,7 +53,7 @@ set -g message-command-style "fg=$thm_blue,bg=$thm_surface,align=centre"
 
 # Pane borders - themed active color for active, gray for inactive
 set -g pane-border-style "fg=$thm_gray"
-set -g pane-active-border-style "fg=$thm_pink"
+set -g pane-active-border-style "fg=$thm_{ACTIVE_COLOR_VAR}"
 
 # Copy mode styling
 set -g mode-style "fg=$thm_fg,bg=$thm_surface"
