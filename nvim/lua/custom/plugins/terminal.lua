@@ -1,8 +1,6 @@
 -- =============================================================================
--- TERMINAL INTEGRATION
+-- TERMINAL - Simple <C-\> toggle
 -- =============================================================================
--- Integrated terminal functionality
--- Keybinding prefix: <leader>T for [T]erminal (uppercase to avoid conflicts)
 
 return {
   {
@@ -40,24 +38,6 @@ return {
     },
     keys = {
       { '<C-\\>', desc = 'Toggle terminal' },
-      { '<leader>Tf', '<cmd>ToggleTerm direction=float<cr>', desc = '[T]erminal [F]loat' },
-      { '<leader>Th', '<cmd>ToggleTerm direction=horizontal<cr>', desc = '[T]erminal [H]orizontal' },
-      { '<leader>Tv', '<cmd>ToggleTerm direction=vertical<cr>', desc = '[T]erminal [V]ertical' },
-      { '<leader>Tt', '<cmd>ToggleTerm direction=tab<cr>', desc = '[T]erminal [T]ab' },
-      -- Terminal specific mappings
-      {
-        '<leader>Tg',
-        function()
-          local Terminal = require('toggleterm.terminal').Terminal
-          local lazygit = Terminal:new {
-            cmd = 'lazygit',
-            direction = 'float',
-            hidden = true,
-          }
-          lazygit:toggle()
-        end,
-        desc = '[T]erminal Lazy[G]it',
-      },
     },
   },
 }

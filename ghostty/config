@@ -1,4 +1,4 @@
-font-size = 13
+font-size = 16
 font-style = medium
 bold-is-bright = true
 font-family = "JetBrainsMono Nerd Font Mono"
@@ -80,6 +80,8 @@ shell-integration-features = true
 # macOS
 macos-option-as-alt = true
 macos-titlebar-style = hidden
+
+keybind = cmd+t=new_tab
 
 # macOS performance optimizations for smoothness
 macos-non-native-fullscreen = false

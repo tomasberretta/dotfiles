@@ -1,39 +1,27 @@
 -- =============================================================================
--- DEBUGGING (DAP)
+-- DEBUGGING (DAP) - Under <leader>r (Run)
 -- =============================================================================
--- Debug Adapter Protocol for multiple languages
--- Keybinding prefix: <leader>d for [D]ebug
+-- Debug keymaps merged with Run/Test for unified execution workflow
 
 return {
-  -- Core DAP
   {
     'mfussenegger/nvim-dap',
     dependencies = {
-      -- UI for DAP
       'rcarriga/nvim-dap-ui',
       'nvim-neotest/nvim-nio',
-      
-      -- Virtual text for debugging
       'theHamsta/nvim-dap-virtual-text',
-      
-      -- Mason integration for DAP
       'jay-babu/mason-nvim-dap.nvim',
     },
     config = function()
       local dap = require 'dap'
       local dapui = require 'dapui'
 
-      -- Mason DAP setup
       require('mason-nvim-dap').setup {
         automatic_installation = true,
-        ensure_installed = {
-          'python',
-          'js',
-        },
+        ensure_installed = { 'python', 'js' },
         handlers = {},
       }
 
-      -- DAP UI setup
       dapui.setup {
         icons = { expanded = '▾', collapsed = '▸', current_frame = '▸' },
         mappings = {
@@ -57,10 +45,7 @@ return {
             position = 'left',
           },
           {
-            elements = {
-              'repl',
-              'console',
-            },
+            elements = { 'repl', 'console' },
             size = 0.25,
             position = 'bottom',
           },
@@ -83,26 +68,19 @@ return {
           max_height = nil,
           max_width = nil,
           border = 'single',
-          mappings = {
-            close = { 'q', '<Esc>' },
-          },
+          mappings = { close = { 'q', '<Esc>' } },
         },
         windows = { indent = 1 },
-        render = {
-          max_type_length = nil,
-          max_value_lines = 100,
-        },
+        render = { max_type_length = nil, max_value_lines = 100 },
       }
 
-      -- Virtual text setup
       require('nvim-dap-virtual-text').setup {
         commented = true,
-        display_callback = function(variable, _buf, _stackframe, _node)
+        display_callback = function(variable, _, _, _)
           return ' ' .. variable.name .. ' = ' .. variable.value
         end,
       }
 
-      -- Auto open/close DAP UI
       dap.listeners.after.event_initialized['dapui_config'] = function()
         dapui.open()
       end
@@ -113,37 +91,35 @@ return {
         dapui.close()
       end
 
-      -- DAP keymaps
-      vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = '[D]ebug [B]reakpoint toggle' })
-      vim.keymap.set('n', '<leader>dB', function()
-        dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-      end, { desc = '[D]ebug [B]reakpoint conditional' })
-      vim.keymap.set('n', '<leader>dc', dap.continue, { desc = '[D]ebug [C]ontinue' })
-      vim.keymap.set('n', '<leader>di', dap.step_into, { desc = '[D]ebug step [I]nto' })
-      vim.keymap.set('n', '<leader>do', dap.step_over, { desc = '[D]ebug step [O]ver' })
-      vim.keymap.set('n', '<leader>dO', dap.step_out, { desc = '[D]ebug step [O]ut' })
-      vim.keymap.set('n', '<leader>dr', dap.repl.toggle, { desc = '[D]ebug [R]EPL' })
-      vim.keymap.set('n', '<leader>dl', dap.run_last, { desc = '[D]ebug run [L]ast' })
-      vim.keymap.set('n', '<leader>dh', function()
-        require('dap.ui.widgets').hover()
-      end, { desc = '[D]ebug [H]over' })
-      vim.keymap.set('n', '<leader>dp', function()
-        require('dap.ui.widgets').preview()
-      end, { desc = '[D]ebug [P]review' })
-      vim.keymap.set('n', '<leader>df', function()
-        local widgets = require 'dap.ui.widgets'
-        widgets.centered_float(widgets.frames)
-      end, { desc = '[D]ebug [F]rames' })
-      vim.keymap.set('n', '<leader>ds', function()
-        local widgets = require 'dap.ui.widgets'
-        widgets.centered_float(widgets.scopes)
-      end, { desc = '[D]ebug [S]copes' })
-      vim.keymap.set('n', '<leader>dk', dap.terminate, { desc = '[D]ebug [K]ill' })
-      
-      -- DAP UI keymaps
-      vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = '[D]ebug [U]I toggle' })
-      vim.keymap.set('n', '<leader>de', dapui.eval, { desc = '[D]ebug [E]val' })
-      vim.keymap.set('v', '<leader>de', dapui.eval, { desc = '[D]ebug [E]val' })
+      -- Debug keymaps under <leader>r (Run)
+      vim.keymap.set('n', '<leader>rb', dap.toggle_breakpoint, { desc = '[R]un: [B]reakpoint toggle' })
+      vim.keymap.set('n', '<leader>rB', function()
+        dap.set_breakpoint(vim.fn.input 'Condition: ')
+      end, { desc = '[R]un: [B]reakpoint conditional' })
+      vim.keymap.set('n', '<leader>rL', function()
+        dap.set_breakpoint(nil, nil, vim.fn.input 'Log: ')
+      end, { desc = '[R]un: [L]og point' })
+
+      vim.keymap.set('n', '<leader>rc', dap.continue, { desc = '[R]un: [C]ontinue debug' })
+      vim.keymap.set('n', '<leader>rx', dap.terminate, { desc = '[R]un: e[X]it debug' })
+      vim.keymap.set('n', '<leader>rR', dap.restart, { desc = '[R]un: [R]estart debug' })
+      vim.keymap.set('n', '<leader>rl', dap.run_last, { desc = '[R]un: [L]ast debug' })
+      vim.keymap.set('n', '<leader>rC', dap.run_to_cursor, { desc = '[R]un: to [C]ursor' })
+
+      vim.keymap.set('n', '<leader>ri', dap.step_into, { desc = '[R]un: step [I]nto' })
+      vim.keymap.set('n', '<leader>ro', dap.step_over, { desc = '[R]un: step [O]ver' })
+      vim.keymap.set('n', '<leader>rO', dap.step_out, { desc = '[R]un: step [O]ut' })
+
+      vim.keymap.set('n', '<leader>ru', dapui.toggle, { desc = '[R]un: debug [U]I' })
+      vim.keymap.set('n', '<leader>re', dapui.eval, { desc = '[R]un: [E]valuate' })
+      vim.keymap.set('v', '<leader>re', dapui.eval, { desc = '[R]un: [E]valuate selection' })
+      vim.keymap.set('n', '<leader>rp', dap.repl.toggle, { desc = '[R]un: RE[P]L' })
+
+      -- F-keys for fast stepping
+      vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Continue' })
+      vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'Debug: Step Over' })
+      vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Debug: Step Into' })
+      vim.keymap.set('n', '<F12>', dap.step_out, { desc = 'Debug: Step Out' })
     end,
   },
 }

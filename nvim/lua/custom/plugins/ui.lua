@@ -1,16 +1,11 @@
 return {
-  { -- Useful plugin to show you pending keybinds.
+  {
     'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    event = 'VimEnter',
     opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
-      -- this setting is independent of vim.o.timeoutlen
       delay = 0,
       icons = {
-        -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
         keys = vim.g.have_nerd_font and {} or {
           Up = '<Up> ',
           Down = '<Down> ',
@@ -42,49 +37,38 @@ return {
           F12 = '<F12>',
         },
       },
-
-      -- Document existing key chains
       spec = {
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>d', group = '[D]ebug' },
-        { '<leader>g', group = '[G]it' },
-        { '<leader>h', group = '[H]arpoon' },
-        { '<leader>v', group = '[V]env' },
-        { '<leader>l', group = '[L]SP' },
-        { '<leader>r', group = '[R]efactor' },
-        { '<leader>w', group = '[W]indow' },
-        { '<leader>p', group = '[P]roject' },
-        { '<leader>b', group = '[B]uffer' },
-        { '<leader>n', group = '[N]avigation' },
+        { '<leader>f', group = '[F]ind' },
         { '<leader>c', group = '[C]ode' },
-        { '<leader>f', group = '[F]ile' },
+        { '<leader>g', group = '[G]it' },
+        { '<leader>j', group = '[J]ujutsu' },
+        { '<leader>r', group = '[R]un' },
+        { '<leader>h', group = '[H]arpoon' },
+        { '<leader>x', group = 'Toggle [X]' },
+        { '<leader>u', group = '[U]tils' },
+        { '<leader>a', group = '[A]I' },
       },
     },
   },
-  
+
   {
-    -- Minimal theme for dark mode
-    "Yazeed1s/minimal.nvim",
+    'Yazeed1s/minimal.nvim',
     priority = 1000,
     config = function()
-      -- Initialize unified theme system
       require('custom.theme').setup()
     end,
   },
-  
-  { 
-    -- Oxocarbon theme for light mode
+
+  {
     'nyoom-engineering/oxocarbon.nvim',
     lazy = false,
     priority = 999,
   },
-  
+
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      -- Custom theme that matches our unified palette
       local custom_theme = {
         normal = {
           a = { bg = '#7EB7E6', fg = '#191B20', gui = 'bold' },
@@ -117,7 +101,7 @@ return {
           c = { bg = '#191B20', fg = '#515669' },
         },
       }
-      
+
       local custom_theme_light = {
         normal = {
           a = { bg = '#4d7bd6', fg = '#f4f4f4', gui = 'bold' },
@@ -150,18 +134,14 @@ return {
           c = { bg = '#f4f4f4', fg = '#7a7a7a' },
         },
       }
-      
+
       require('lualine').setup {
         options = {
           icons_enabled = true,
           theme = vim.o.background == 'light' and custom_theme_light or custom_theme,
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
-          disabled_filetypes = {
-            statusline = {},
-            winbar = {},
-          },
-          ignore_focus = {},
+          disabled_filetypes = { statusline = {}, winbar = {} },
           always_divide_middle = true,
           globalstatus = false,
         },
@@ -181,19 +161,14 @@ return {
           lualine_y = {},
           lualine_z = {},
         },
-        tabline = {},
-        winbar = {},
-        inactive_winbar = {},
-        extensions = {},
       }
-      
-      -- Update lualine theme when colorscheme changes
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        pattern = "*",
+
+      vim.api.nvim_create_autocmd('ColorScheme', {
+        pattern = '*',
         callback = function()
           vim.defer_fn(function()
             local theme = vim.o.background == 'light' and custom_theme_light or custom_theme
-            require('lualine').setup({ options = { theme = theme } })
+            require('lualine').setup { options = { theme = theme } }
           end, 1)
         end,
       })

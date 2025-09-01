@@ -1,8 +1,7 @@
 -- =============================================================================
 -- TELESCOPE - FUZZY FINDING
 -- =============================================================================
--- Fuzzy finding for files, text, symbols, and more
--- Keybinding prefix: <leader>s for [S]earch
+-- All search/find operations under <leader>f
 
 return {
   {
@@ -34,9 +33,7 @@ return {
           },
         },
         pickers = {
-          find_files = {
-            hidden = true,
-          },
+          find_files = { hidden = true },
         },
         extensions = {
           ['ui-select'] = {
@@ -45,51 +42,46 @@ return {
         },
       }
 
-      -- Enable extensions
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
 
-      -- Keymaps
       local builtin = require 'telescope.builtin'
-      
-      -- Files
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch recent files ([.])' })
-      vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch [B]uffers' })
-      
-      -- Text
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+
+      -- Find files
+      vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind recent [.]' })
+      vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [B]uffers' })
+      vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = 'Find files' })
+
+      -- Find text
+      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
       vim.keymap.set('n', '<leader>/', function()
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,
           previewer = false,
         })
-      end, { desc = '[/] Search in current buffer' })
-      
-      -- Vim
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sR', builtin.resume, { desc = '[S]earch [R]esume' })
-      
-      -- Special
-      vim.keymap.set('n', '<leader>s/', function()
+      end, { desc = 'Search in buffer' })
+
+      -- Find help/meta
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
+      vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
+      vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
+      vim.keymap.set('n', '<leader>fR', builtin.resume, { desc = '[F]ind [R]esume' })
+
+      -- Find in open files
+      vim.keymap.set('n', '<leader>fo', function()
         builtin.live_grep {
           grep_open_files = true,
-          prompt_title = 'Live Grep in Open Files',
+          prompt_title = 'Grep in Open Files',
         }
-      end, { desc = '[S]earch [/] in open files' })
-      
-      vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config', hidden = true }
-      end, { desc = '[S]earch [N]eovim config' })
-      
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      end, { desc = '[F]ind in [O]pen files' })
 
-      -- Custom messages search
-      vim.keymap.set('n', '<leader>sm', function()
+      -- Find neovim config
+      vim.keymap.set('n', '<leader>fn', function()
+        builtin.find_files { cwd = vim.fn.stdpath 'config', hidden = true }
+      end, { desc = '[F]ind [N]eovim config' })
+
+      -- Find messages
+      vim.keymap.set('n', '<leader>fm', function()
         local pickers = require 'telescope.pickers'
         local finders = require 'telescope.finders'
         local actions = require 'telescope.actions'
@@ -107,12 +99,12 @@ return {
             prompt_title = 'Neovim Messages',
             finder = finders.new_table { results = messages },
             sorter = conf.generic_sorter {},
-            attach_mappings = function(prompt_bufnr, map)
+            attach_mappings = function(prompt_bufnr, _)
               actions.select_default:replace(function()
                 local entry = require('telescope.actions.state').get_selected_entry()
                 if entry and entry.value then
                   vim.fn.setreg('+', entry.value)
-                  vim.notify('Yanked message to clipboard', vim.log.levels.INFO)
+                  vim.notify('Copied to clipboard')
                 end
                 actions.close(prompt_bufnr)
               end)
@@ -120,7 +112,12 @@ return {
             end,
           })
           :find()
-      end, { desc = '[S]earch [M]essages' })
+      end, { desc = '[F]ind [M]essages' })
+
+      -- Find & Replace (Spectre)
+      vim.keymap.set('n', '<leader>fr', function()
+        require('spectre').toggle()
+      end, { desc = '[F]ind & [R]eplace' })
     end,
   },
 }

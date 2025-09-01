@@ -1,22 +1,18 @@
 -- =============================================================================
 -- CODE EDITING & REFACTORING
 -- =============================================================================
--- Advanced editing features, refactoring, and code manipulation
--- Keybinding prefix: <leader>r for [R]efactor, <leader>c for [C]ode
+-- Refactoring under <leader>c (Code), Notes/HTTP under <leader>u (Utils)
 
 return {
-  -- Mini.move: Move lines and selections
   {
     'echasnovski/mini.move',
     event = 'VeryLazy',
     opts = {
       mappings = {
-        -- Move visual selection in Visual mode with Alt+hjkl
         left = '<A-h>',
         right = '<A-l>',
         down = '<A-j>',
         up = '<A-k>',
-        -- Move current line in Normal mode with Alt+jk
         line_left = '',
         line_right = '',
         line_down = '<A-j>',
@@ -25,7 +21,6 @@ return {
     },
   },
 
-  -- Multi-cursor support
   {
     'mg979/vim-visual-multi',
     event = 'VeryLazy',
@@ -39,7 +34,6 @@ return {
     end,
   },
 
-  -- Refactoring
   {
     'ThePrimeagen/refactoring.nvim',
     dependencies = {
@@ -48,134 +42,101 @@ return {
     },
     config = function()
       require('refactoring').setup {}
-      -- Load telescope extension if available
       pcall(function()
         require('telescope').load_extension 'refactoring'
       end)
     end,
     keys = {
       {
-        '<leader>rf',
+        '<leader>ce',
         function()
           require('refactoring').refactor 'Extract Function'
         end,
-        desc = '[R]efactor: Extract [F]unction',
+        desc = '[C]ode: [E]xtract function',
         mode = 'x',
       },
       {
-        '<leader>rF',
+        '<leader>cE',
         function()
           require('refactoring').refactor 'Extract Function To File'
         end,
-        desc = '[R]efactor: Extract [F]unction to file',
+        desc = '[C]ode: [E]xtract to file',
         mode = 'x',
       },
       {
-        '<leader>rv',
+        '<leader>cv',
         function()
           require('refactoring').refactor 'Extract Variable'
         end,
-        desc = '[R]efactor: Extract [V]ariable',
+        desc = '[C]ode: extract [V]ariable',
         mode = 'x',
       },
       {
-        '<leader>ri',
+        '<leader>cI',
         function()
           require('refactoring').refactor 'Inline Variable'
         end,
-        desc = '[R]efactor: [I]nline variable',
+        desc = '[C]ode: [I]nline variable',
         mode = { 'n', 'x' },
       },
       {
-        '<leader>rb',
+        '<leader>cb',
         function()
           require('refactoring').refactor 'Extract Block'
         end,
-        desc = '[R]efactor: Extract [B]lock',
+        desc = '[C]ode: extract [B]lock',
         mode = 'n',
       },
       {
-        '<leader>rB',
+        '<leader>cB',
         function()
           require('refactoring').refactor 'Extract Block To File'
         end,
-        desc = '[R]efactor: Extract [B]lock to file',
+        desc = '[C]ode: [B]lock to file',
         mode = 'n',
       },
       {
-        '<leader>rr',
+        '<leader>cq',
         function()
           require('telescope').extensions.refactoring.refactors()
         end,
-        desc = '[R]efactor: Show [R]efactorings',
+        desc = '[C]ode: refactor [Q]uick menu',
         mode = { 'n', 'x' },
       },
     },
   },
 
-  -- Search and replace across project
   {
     'nvim-pack/nvim-spectre',
     dependencies = { 'nvim-lua/plenary.nvim' },
-    keys = {
-      {
-        '<leader>sr',
-        function()
-          require('spectre').toggle()
-        end,
-        desc = '[S]earch & [R]eplace (project)',
-      },
-      {
-        '<leader>sR',
-        function()
-          require('spectre').open_visual { select_word = true }
-        end,
-        desc = '[S]earch & [R]eplace word',
-        mode = 'v',
-      },
-      {
-        '<leader>sp',
-        function()
-          require('spectre').open_file_search { select_word = true }
-        end,
-        desc = '[S]earch & replace in file',
-      },
-    },
   },
 
-  -- Surround operations
   {
     'echasnovski/mini.surround',
     event = 'VeryLazy',
     opts = {
       mappings = {
-        add = 'gsa', -- Add surrounding in Normal and Visual modes
-        delete = 'gsd', -- Delete surrounding
-        find = 'gsf', -- Find surrounding (to the right)
-        find_left = 'gsF', -- Find surrounding (to the left)
-        highlight = 'gsh', -- Highlight surrounding
-        replace = 'gsr', -- Replace surrounding
-        update_n_lines = 'gsn', -- Update `n_lines`
+        add = 'gsa',
+        delete = 'gsd',
+        find = 'gsf',
+        find_left = 'gsF',
+        highlight = 'gsh',
+        replace = 'gsr',
+        update_n_lines = 'gsn',
       },
     },
   },
 
-  -- Better text objects
   {
     'echasnovski/mini.ai',
     event = 'VeryLazy',
-    opts = {
-      n_lines = 500,
-    },
+    opts = { n_lines = 500 },
   },
 
-  -- Comments
   {
     'numToStr/Comment.nvim',
     event = 'VeryLazy',
-    dependencies = {
-      'JoosepAlviste/nvim-ts-context-commentstring',
-    },
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
     opts = function()
       return {
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
@@ -183,29 +144,133 @@ return {
     end,
     keys = {
       { 'gc', mode = { 'n', 'v' }, desc = 'Comment toggle' },
-      { 'gb', mode = { 'n', 'v' }, desc = 'Comment toggle blockwise' },
+      { 'gb', mode = { 'n', 'v' }, desc = 'Comment block' },
     },
   },
 
-  -- Auto-pairs
   {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
-    dependencies = { 'saghen/blink.cmp' },
-    config = function()
-      require('nvim-autopairs').setup {}
-      -- Integration with cmp
-      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-      local cmp = require 'cmp'
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-    end,
+    opts = {
+      check_ts = true,
+      ts_config = {
+        lua = { 'string', 'source' },
+        javascript = { 'string', 'template_string' },
+        java = false,
+      },
+      disable_filetype = { 'TelescopePrompt', 'spectre_panel' },
+      fast_wrap = {
+        map = '<M-e>',
+        chars = { '{', '[', '(', '"', "'" },
+        pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], '%s+', ''),
+        offset = 0,
+        end_key = '$',
+        keys = 'qwertyuiopzxcvbnmasdfghjkl',
+        check_comma = true,
+        highlight = 'PmenuSel',
+        highlight_grey = 'LineNr',
+      },
+    },
   },
 
-  -- Todo comments highlighting
   {
     'folke/todo-comments.nvim',
     event = 'VimEnter',
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = { signs = false },
+  },
+
+  -- Notes under <leader>u (Utils)
+  {
+    'JellyApple102/flote.nvim',
+    config = function()
+      require('flote').setup {
+        q_to_quit = true,
+        window_style = 'minimal',
+        window_border = 'rounded',
+        window_title = true,
+        notes_dir = vim.fn.stdpath 'data' .. '/flote',
+        files = {
+          global = 'flote-global.md',
+          cwd = function()
+            return vim.fn.getcwd():gsub('/', '_') .. '.md'
+          end,
+        },
+      }
+    end,
+    keys = {
+      { '<leader>un', '<cmd>Flote<cr>', desc = '[U]tils: [N]otes' },
+      { '<leader>uN', '<cmd>Flote global<cr>', desc = '[U]tils: [N]otes global' },
+    },
+  },
+
+  -- HTTP Client under <leader>u (Utils)
+  {
+    'mistweaverco/kulala.nvim',
+    ft = { 'http', 'rest' },
+    config = function()
+      require('kulala').setup {
+        split_direction = 'vertical',
+        default_view = 'headers_body',
+        debug = false,
+        contenttypes = {
+          ['application/json'] = {
+            formatter = { 'jq', '.' },
+            pathresolver = require('kulala.parser.jsonpath').parse,
+          },
+          ['application/xml'] = {
+            formatter = { 'xmllint', '--format', '-' },
+            pathresolver = { 'xmllint', '--xpath', '{{path}}', '-' },
+          },
+          ['text/html'] = {
+            formatter = { 'xmllint', '--format', '--html', '-' },
+            pathresolver = {},
+          },
+        },
+        show_icons = 'on_request',
+        icons = {
+          inlay = { loading = '⏳', done = '✅', error = '❌' },
+          lualine = '🐼',
+        },
+        additional_curl_options = {},
+        scratchpad_default_contents = {
+          '@host = http://localhost:8080',
+          '',
+          '# @name my_request',
+          'GET {{host}}/api/users HTTP/1.1',
+          'Content-Type: application/json',
+          'Authorization: Bearer {{token}}',
+          '',
+        },
+      }
+    end,
+    keys = {
+      {
+        '<leader>uh',
+        function()
+          require('kulala').run()
+        end,
+        desc = '[U]tils: [H]TTP run',
+      },
+      {
+        '<leader>uH',
+        function()
+          require('kulala').run_all()
+        end,
+        desc = '[U]tils: [H]TTP run all',
+      },
+      {
+        '<leader>us',
+        function()
+          local buf_name = vim.fn.expand '%:t'
+          if buf_name == 'kulala-scratchpad.http' then
+            vim.cmd 'bd'
+          else
+            require('kulala').scratchpad()
+          end
+        end,
+        desc = '[U]tils: HTTP [S]cratchpad',
+      },
+    },
   },
 }

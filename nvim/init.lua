@@ -176,16 +176,36 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Configure diagnostics
+vim.diagnostic.config({
+  virtual_text = {
+    source = 'if_many',
+    prefix = '●',
+  },
+  float = {
+    source = 'if_many',
+    border = 'rounded',
+  },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
+
+-- Diagnostic signs
+local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [d]iagnostic' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [d]iagnostic' })
+vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, { desc = 'Go to previous [e]rror' })
+vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, { desc = 'Go to next [e]rror' })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show line diagnostics' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -220,6 +240,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   callback = function()
     vim.highlight.on_yank()
+  end,
+})
+
+-- Remove trailing whitespace and collapse multiple blank lines on save
+local whitespace_group = vim.api.nvim_create_augroup('TrimWhitespace', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePre', {
+  desc = 'Trim trailing whitespace and collapse blank lines',
+  group = whitespace_group,
+  callback = function()
+    local save_cursor = vim.fn.getpos('.')
+    vim.cmd([[%s/\s\+$//e]])
+    vim.cmd([[%s/\n\{3,}/\r\r/e]])
+    vim.fn.setpos('.', save_cursor)
   end,
 })
 
