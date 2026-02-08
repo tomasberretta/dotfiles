@@ -37,6 +37,17 @@ local function apply_theme_overrides()
     vim.api.nvim_set_hl(0, 'TelescopeSelection', { bg = '#e8f2ff', fg = '#2c2c2c', bold = true })
     vim.api.nvim_set_hl(0, 'TelescopeMatching', { fg = '#4d7bd6', bold = true })
   else
+    -- Dark mode CursorLine - subtle highlight that doesn't wash out text
+    vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#2a2d36' })
+    vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#7EB7E6', bg = '#2a2d36', bold = true })
+
+    -- DAP debugger highlights - stopped line with subtle yellow tint
+    vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#3d3a2e' })
+    vim.api.nvim_set_hl(0, 'DapStopped', { fg = '#F9E154', bg = '#3d3a2e' })
+    vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = '#e57373' })
+    vim.api.nvim_set_hl(0, 'DapBreakpointCondition', { fg = '#F9E154' })
+    vim.api.nvim_set_hl(0, 'DapLogPoint', { fg = '#7EB7E6' })
+
     vim.api.nvim_set_hl(0, 'FlashLabel', { fg = '#191B20', bg = '#F9E154', bold = true })
     vim.api.nvim_set_hl(0, 'FlashMatch', { fg = '#191B20', bg = '#94DD8E' })
     vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = '#191B20', bg = '#7EB7E6', bold = true })

@@ -14,7 +14,7 @@ SPOTIFY_JSON="$INFO"
 update_track() {
 
     if [[ -z $SPOTIFY_JSON ]]; then
-        sketchybar --set $NAME icon.color=0xffeed49f label.drawing=no
+        sketchybar --set $NAME icon.color=0xffa6da95 label.drawing=no background.color=0xAA494d64 background.border_width=0
         return
     fi
 
@@ -44,14 +44,30 @@ update_track() {
                 ARTIST="${ARTIST:0:$((MAX_LENGTH - TRACK_LENGTH - 1))}…"
             fi
         fi
-        sketchybar --set $NAME label="${TRACK}  ${ARTIST}" label.drawing=yes icon.color=0xffa6da95
+        sketchybar --set $NAME label="${TRACK}  ${ARTIST}" label.drawing=yes icon.color=0xffa6da95 background.color=0xAA494d64 background.border_width=0
 
     elif [ $PLAYER_STATE = "Paused" ]; then
-        sketchybar --set $NAME icon.color=0xffeed49f
+        TRACK="$(echo "$SPOTIFY_JSON" | jq -r .Name)"
+        ARTIST="$(echo "$SPOTIFY_JSON" | jq -r .Artist)"
+
+        # Truncate if needed
+        TRACK_LENGTH=${#TRACK}
+        ARTIST_LENGTH=${#ARTIST}
+        if [ $((TRACK_LENGTH + ARTIST_LENGTH)) -gt $MAX_LENGTH ]; then
+            if [ $TRACK_LENGTH -gt $HALF_LENGTH ] && [ $ARTIST_LENGTH -gt $HALF_LENGTH ]; then
+                TRACK="${TRACK:0:$((MAX_LENGTH % 2 == 0 ? HALF_LENGTH - 2 : HALF_LENGTH - 1))}…"
+                ARTIST="${ARTIST:0:$((HALF_LENGTH - 2))}…"
+            elif [ $TRACK_LENGTH -gt $HALF_LENGTH ]; then
+                TRACK="${TRACK:0:$((MAX_LENGTH - ARTIST_LENGTH - 1))}…"
+            elif [ $ARTIST_LENGTH -gt $HALF_LENGTH ]; then
+                ARTIST="${ARTIST:0:$((MAX_LENGTH - TRACK_LENGTH - 1))}…"
+            fi
+        fi
+        sketchybar --set $NAME label="${TRACK}  ${ARTIST}" label.drawing=yes icon.color=0xfff5a97f background.color=0xAA494d64 background.border_width=0
     elif [ $PLAYER_STATE = "Stopped" ]; then
-        sketchybar --set $NAME icon.color=0xffeed49f label.drawing=no
+        sketchybar --set $NAME icon.color=0xffa6da95 label.drawing=no background.color=0xAA494d64 background.border_width=0
     else
-        sketchybar --set $NAME icon.color=0xffeed49f
+        sketchybar --set $NAME icon.color=0xffa6da95 background.color=0xAA494d64 background.border_width=0
     fi
 }
 

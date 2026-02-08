@@ -3,7 +3,7 @@
 # Bracketed Segments format with centralized theming
 format = """
 $os\
-$username\
+$hostname\
 $directory\
 $git_branch\
 $git_status\
@@ -59,11 +59,10 @@ Macos = "󰀵"
 Linux = "󰌽"
 Windows = ""
 
-[username]
-show_always = true
-style_user = "bold fg:blue"
-style_root = "bold fg:red"
-format = '\[[$user]($style)\]'
+[hostname]
+ssh_only = false
+style = "bold fg:blue"
+format = '\[[$hostname]($style)\]'
 
 [directory]
 style = "bold fg:green"
@@ -237,7 +236,7 @@ style = "bold fg:cyan"
 format = '\[[$symbol$context]($style)\]'
 
 [kubernetes]
-symbol = "☸️ "
+disabled = false
 style = "bold fg:cyan"
 format = '\[[$symbol$context( \($namespace\))]($style)\]'
 

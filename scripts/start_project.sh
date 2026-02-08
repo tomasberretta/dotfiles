@@ -21,15 +21,15 @@ if ! tmux has-session -t "=$SESSION_NAME" 2>/dev/null; then
 	# --- Window 1: ide ---
 	tmux split-window -v -p 15 -t "$SESSION_NAME:ide" -c "$PWD"
 	tmux select-pane -t "$SESSION_NAME:ide.1"
-	tmux split-window -h -p 25 -t "$SESSION_NAME:ide" -c "$PWD"
+	# tmux split-window -h -p 25 -t "$SESSION_NAME:ide" -c "$PWD"
 	tmux send-keys -t "$SESSION_NAME:ide.1" "nvim ." C-m
 	tmux select-pane -t "$SESSION_NAME:ide.1"
 
 	# --- Window 2: terminal ---
-	tmux new-window -t "$SESSION_NAME" -n "terminal" -c "$PWD"
+	# tmux new-window -t "$SESSION_NAME" -n "terminal" -c "$PWD"
 
 	# Select the "ide" window to be the active one.
-	tmux select-window -t "$SESSION_NAME:ide"
+	# tmux select-window -t "$SESSION_NAME:ide"
 fi
 
 # Now, connect to the session (which is guaranteed to exist).

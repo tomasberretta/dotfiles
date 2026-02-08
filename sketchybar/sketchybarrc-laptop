@@ -11,13 +11,13 @@ SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
 sketchybar --add event aerospace_workspace_change
 
 sketchybar --bar \
-    height=32 \
+    height=26 \
     color=0x00000000 \
     margin=0 \
     sticky=on \
-    padding_left=14 \
-    padding_right=14 \
-    notch_width=232 \
+    padding_left=4 \
+    padding_right=4 \
+    notch_width=196 \
     notch_display_height=36
 
 # Alternatiive background colors
@@ -27,7 +27,7 @@ sketchybar --default \
     background.color=0xAA494d64 \
     background.corner_radius=5 \
     background.padding_right=5 \
-    background.height=30 \
+    background.height=26 \
     icon.font="$FONT_FACE:Medium:15.0" \
     icon.padding_left=5 \
     icon.padding_right=5 \
@@ -52,98 +52,119 @@ sketchybar --add event spotify_change $SPOTIFY_EVENT \
     script="$PLUGIN_DIR/spotify.sh" \
     --subscribe spotify spotify_change mouse.clicked
 
-sketchybar --add item current_space left \
-    --set current_space \
-    background.color=0xfff5a97f \
-    icon.font="$FONT_FACE:Medium:15.0" \
-    icon.color=0xff24273a \
-    icon.padding_left=5 \
-    icon.padding_right=2 \
-    label.drawing=off \
-    script="$PLUGIN_SHARED_DIR/current_space.sh" \
-    click_script="$PLUGIN_SHARED_DIR/toggle_workspaces_popup.sh" \
-    popup.drawing=off \
-    popup.horizontal=off \
-    --add item current_space.separator left \
-    --set current_space.separator \
-    background.color=0x00000000 \
-    background.padding_left=-8 \
-    icon= \
-    icon.color=0xfff5a97f \
-    icon.font="$FONT_FACE:Bold:20.0" \
-    icon.padding_left=0 \
-    icon.padding_right=0 \
-    icon.y_offset=1 \
-    label.drawing=no \
-    --add item current_space.name left \
-    --set current_space.name \
-    background.color=0x00000000 \
-    background.padding_right=5 \
-    icon.drawing=off \
-    label.font="$FONT_FACE:Bold:12.0" \
-    label.padding_left=2 \
-    label.drawing=yes
+# Get number of monitors from aerospace
+MONITOR_COUNT=$(aerospace list-monitors 2>/dev/null | wc -l | tr -d ' ')
+if [[ -z "$MONITOR_COUNT" || "$MONITOR_COUNT" -eq 0 ]]; then
+    MONITOR_COUNT=1
+fi
 
-sketchybar --add item front_app left \
-    --set front_app \
-    background.color=0xffa6da95 \
-    background.padding_left=0 \
-    background.padding_right=0 \
-    icon.y_offset=1 \
-    icon.color=0xff24273a \
-    label.drawing=no \
-    script="$PLUGIN_SHARED_DIR/front_app.sh" \
-    --add item front_app.separator left \
-    --set front_app.separator \
-    background.color=0x00000000 \
-    background.padding_left=-3 \
+# Create workspace and front_app items for each display
+for ((i=1; i<=MONITOR_COUNT; i++)); do
+    # Current workspace item for display $i
+    sketchybar --add item "current_space.$i" left \
+        --set "current_space.$i" \
+        associated_display=$i \
+        background.color=0xfff5a97f \
+        icon.font="$FONT_FACE:Medium:15.0" \
+        icon.color=0xff24273a \
+        icon.padding_left=5 \
+        icon.padding_right=2 \
+        label.drawing=off \
+        script="$PLUGIN_SHARED_DIR/current_space_per_display.sh" \
+        click_script="$PLUGIN_SHARED_DIR/toggle_workspaces_popup.sh" \
+        popup.drawing=off \
+        popup.horizontal=off \
+        --add item "current_space.$i.separator" left \
+        --set "current_space.$i.separator" \
+        associated_display=$i \
+        background.color=0x00000000 \
+        background.padding_left=-8 \
     icon= \
-    icon.color=0xffa6da95 \
-    icon.font="$FONT_FACE:Bold:20.0" \
-    icon.padding_left=0 \
-    icon.padding_right=0 \
-    icon.y_offset=1 \
-    label.drawing=no \
-    --add item front_app.name left \
-    --set front_app.name \
-    background.color=0x00000000 \
-    background.padding_right=0 \
-    icon.drawing=off \
-    label.font="$FONT_FACE:Bold:12.0" \
-    label.drawing=yes
+        icon.color=0xfff5a97f \
+        icon.font="$FONT_FACE:Bold:17" \
+        icon.padding_left=0 \
+        icon.padding_right=0 \
+        icon.y_offset=0 \
+        label.drawing=no \
+        --add item "current_space.$i.name" left \
+        --set "current_space.$i.name" \
+        associated_display=$i \
+        background.color=0x00000000 \
+        background.padding_right=5 \
+        icon.drawing=off \
+        label.font="$FONT_FACE:Bold:12.0" \
+        label.padding_left=2 \
+        label.drawing=yes
+
+    # Front app item for display $i
+    sketchybar --add item "front_app.$i" left \
+        --set "front_app.$i" \
+        associated_display=$i \
+        background.color=0xffa6da95 \
+        background.padding_left=0 \
+        background.padding_right=0 \
+        icon.y_offset=1 \
+        icon.color=0xff24273a \
+        label.drawing=no \
+        script="$PLUGIN_SHARED_DIR/front_app_per_display.sh" \
+        --add item "front_app.$i.separator" left \
+        --set "front_app.$i.separator" \
+        associated_display=$i \
+        background.color=0x00000000 \
+        background.padding_left=-3 \
+    icon= \
+        icon.color=0xffa6da95 \
+        icon.font="$FONT_FACE:Bold:17.85" \
+        icon.padding_left=0 \
+        icon.padding_right=0 \
+        icon.y_offset=0 \
+        label.drawing=no \
+        --add item "front_app.$i.name" left \
+        --set "front_app.$i.name" \
+        associated_display=$i \
+        background.color=0x00000000 \
+        background.padding_right=0 \
+        icon.drawing=off \
+        label.font="$FONT_FACE:Bold:12.0" \
+        label.drawing=yes
+
+    # Subscribe items to events
+    sketchybar --add bracket "front_app_bracket_$i" \
+        "front_app.$i" \
+        "front_app.$i.separator" \
+        "front_app.$i.name" \
+        --subscribe "front_app.$i" front_app_switched aerospace_workspace_change
+
+    sketchybar --add bracket "current_space_bracket_$i" \
+        "current_space.$i" \
+        "current_space.$i.separator" \
+        "current_space.$i.name" \
+        --subscribe "current_space.$i" front_app_switched aerospace_workspace_change
+done
 
 sketchybar --add item weather.moon q \
     --set weather.moon \
-    background.color=0xAA7dc4e4 \
-    background.padding_right=-1 \
-    icon.color=0xff181926 \
-    icon.font="$FONT_FACE:Bold:22.0" \
-    icon.padding_left=4 \
-    icon.padding_right=3 \
-    label.drawing=off \
-    --subscribe weather.moon mouse.clicked2
+    background.color=0xAA494d64 \
+    background.padding_left=10 \
+    background.padding_right=0 \
+    icon.drawing=off \
+    label.drawing=on \
+    label.color=0xffcad3f5 \
+    label.font="$FONT_FACE:Medium:11.0" \
+    label.padding_left=8 \
+    label.padding_right=8 \
+    click_script="$PLUGIN_SHARED_DIR/toggle_weather_stats.sh" \
+    --subscribe weather.moon mouse.clicked
 
 sketchybar --add item weather q \
     --set weather \
+    background.padding_left=5 \
     icon= \
     icon.color=0xfff5bde6 \
     icon.font="$FONT_FACE:Bold:15.0" \
     update_freq=1800 \
     script="$PLUGIN_SHARED_DIR/weather.sh" \
     --subscribe weather system_woke
-
-sketchybar --add bracket front_app_bracket \
-    front_app \
-    front_app.separator \
-    front_app.name \
-    --subscribe front_app front_app_switched
-
-sketchybar --add bracket current_space_bracket \
-    current_space \
-    current_space.separator \
-    current_space.name \
-     --subscribe current_space front_app_switched
-
 sketchybar --add item clock right \
     --set clock \
     icon=󰃰 \
@@ -170,10 +191,6 @@ sketchybar --add item volume right \
     script="$PLUGIN_SHARED_DIR/volume.sh" \
     --subscribe volume volume_change
 
-
-# osascript -e 'quit app "Rectangle"'
-# open -a Rectangle
-
 ##### Finalizing Setup #####
 sketchybar --update
-sketchybar --trigger space_change
+sketchybar --trigger aerospace_workspace_change

@@ -1,74 +1,52 @@
 #
-# Aerospace
+# Aerospace - rcmd bindings (aerospace doesn't support left/right cmd distinction)
 #
 
-hyper - h : aerospace focus --boundaries-action wrap-around-the-workspace left
-hyper - j : aerospace focus --boundaries-action wrap-around-the-workspace down
-hyper - k : aerospace focus --boundaries-action wrap-around-the-workspace up
-hyper - l : aerospace focus --boundaries-action wrap-around-the-workspace right
-
-# Workspace Cycling with Control
-ctrl - left : aerospace workspace --wrap-around prev
-ctrl - right : aerospace workspace --wrap-around next
-
 rcmd - f : aerospace fullscreen
-hyper - f : aerospace fullscreen
-
 rcmd - b : aerospace balance-sizes
-hyper - b : aerospace balance-sizes
-
-# Tiling / Accordion
-
-# alt - comma
-alt - 0x2B : aerospace layout h_accordion
-# alt - slash
-alt - 0x2C : aerospace layout tiles horizontal vertical
-
 rcmd - space : aerospace layout floating tiling
-hyper - space : aerospace layout floating tiling
 
-# Workspace
+# Workspaces
 rcmd - 1 : aerospace workspace Browser
-hyper - 1 : aerospace workspace Browser
 rcmd - 2 : aerospace workspace Terminal
-hyper - 2 : aerospace workspace Terminal
 rcmd - 3 : aerospace workspace Communication
-hyper - 3 : aerospace workspace Communication
 rcmd - 4 : aerospace workspace Dev
-hyper - 4 : aerospace workspace Dev
 rcmd - 5 : aerospace workspace Issues
-hyper - 5 : aerospace workspace Issues
-# rcmd - 6 : aerospace workspace temp
-# ctrl + shift - 6 : aerospace workspace temp
 rcmd - q : aerospace workspace Misc
-hyper - q : aerospace workspace Misc
 rcmd - w : aerospace workspace Notes
-hyper - w : aerospace workspace Notes
 rcmd - e : aerospace workspace Meetings
-hyper - e : aerospace workspace Meetings
 rcmd - r : aerospace workspace Temp
-hyper - r : aerospace workspace Temp
-# rcmd - t : aerospace workspace t
-# ctrl + shift - t : aerospace workspace t
-
-# Summon Workspace
-# rcmd - tab : aerospace summon-workspace 1
-# hyper - tab : aerospace summon-workspace 1
-
-# Focus Monitor
-# hyper - h : aerospace focus-monitor left
-# hyper - l : aerospace focus-monitor right
-# cmd + shift - left : aerospace focus-monitor --wrap-around left
-# cmd + shift - right : aerospace focus-monitor --wrap-around right
-
-# Move node to monitor
-
 rcmd - t : aerospace move-node-to-workspace Temp
-# alt + shift - up : aerospace move-node-to-monitor --wrap-around --focus-follows-window up
-# alt + shift - down : aerospace move-node-to-monitor --wrap-around --focus-follows-window down
 
-# Move workspace to monitor
-meh - h  : aerospace move-workspace-to-monitor prev
-meh - l : aerospace move-workspace-to-monitor next
+#
+# Migrated to aerospace.toml (kept for reference)
+#
 
+# hyper - h : aerospace focus --boundaries-action wrap-around-the-workspace left
+# hyper - j : aerospace focus --boundaries-action wrap-around-the-workspace down
+# hyper - k : aerospace focus --boundaries-action wrap-around-the-workspace up
+# hyper - l : aerospace focus --boundaries-action wrap-around-the-workspace right
 
+# ctrl - left : aerospace workspace --wrap-around prev
+# ctrl - right : aerospace workspace --wrap-around next
+
+# hyper - f : aerospace fullscreen
+# hyper - b : aerospace balance-sizes
+
+# alt - 0x2B : aerospace layout h_accordion
+# alt - 0x2C : aerospace layout tiles horizontal vertical
+
+# hyper - space : aerospace layout floating tiling
+
+# hyper - 1 : aerospace workspace Browser
+# hyper - 2 : aerospace workspace Terminal
+# hyper - 3 : aerospace workspace Communication
+# hyper - 4 : aerospace workspace Dev
+# hyper - 5 : aerospace workspace Issues
+# hyper - q : aerospace workspace Misc
+# hyper - w : aerospace workspace Notes
+# hyper - e : aerospace workspace Meetings
+# hyper - r : aerospace workspace Temp
+
+# meh - h : aerospace move-workspace-to-monitor prev
+# meh - l : aerospace move-workspace-to-monitor next

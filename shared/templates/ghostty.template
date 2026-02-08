@@ -58,7 +58,7 @@ resize-overlay-position = center
 
 # Experimental smoothness settings
 working-directory = inherit
-shell-integration = zsh
+shell-integration = fish
 osc-color-report-format = 8-bit
 
 # Window

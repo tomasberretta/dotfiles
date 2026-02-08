@@ -81,6 +81,12 @@ return {
         end,
       }
 
+      -- DAP signs with highlight groups (colors defined in theme.lua)
+      vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'DapStopped', linehl = 'DapStoppedLine', numhl = '' })
+      vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
+      vim.fn.sign_define('DapBreakpointCondition', { text = '●', texthl = 'DapBreakpointCondition', linehl = '', numhl = '' })
+      vim.fn.sign_define('DapLogPoint', { text = '◆', texthl = 'DapLogPoint', linehl = '', numhl = '' })
+
       dap.listeners.after.event_initialized['dapui_config'] = function()
         dapui.open()
       end
