@@ -1,11 +1,14 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+add_newline = true
+
 # Bracketed Segments format with centralized theming
 format = """
 $os\
 $hostname\
 $directory\
 $git_branch\
+$git_commit\
 $git_status\
 $c\
 $rust\
@@ -44,6 +47,7 @@ $kubernetes\
 $terraform\
 $gcloud\
 $cmd_duration\
+$line_break\
 $character"""
 
 palette = 'unified_dark'
@@ -51,7 +55,7 @@ palette = 'unified_dark'
 # --- MODULES ---
 
 [os]
-disabled = false
+disabled = true
 style = "bold fg:purple"
 format = '\[[$symbol]($style)\]'
 [os.symbols]
@@ -81,157 +85,162 @@ symbol = ""
 style = "bold fg:yellow"
 format = '\[[$symbol$branch]($style)\]'
 
+[git_commit]
+commit_hash_length = 7
+style = "bold fg:yellow"
+format = '\[[$hash]($style)\]'
+
 [git_status]
 style = "bold fg:yellow"
 format = '([\[$all_status$ahead_behind\]]($style))'
 
 [python]
-symbol = "🐍 "
+symbol = "󰌠 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)(\($virtualenv\))]($style)\]'
 
 [nodejs]
-symbol = "⚡ "
+symbol = "󰎙 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [c]
-symbol = "⚙️ "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [rust]
-symbol = "🦀 "
+symbol = "󱘗 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [golang]
-symbol = "🐹 "
+symbol = "󰟓 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [php]
-symbol = "🐘 "
+symbol = "󰌟 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [java]
-symbol = "☕ "
+symbol = "󰬷 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [kotlin]
-symbol = "🎯 "
+symbol = "󱈙 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [haskell]
-symbol = "🎭 "
+symbol = "󰲒 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [ruby]
-symbol = "💎 "
+symbol = "󰴭 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [swift]
-symbol = "🏎️ "
+symbol = "󰛥 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [dart]
-symbol = "🔷 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [elixir]
-symbol = "💧 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [erlang]
-symbol = "📞 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [scala]
-symbol = "⚖️ "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [julia]
-symbol = "🔴 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [lua]
-symbol = "🌙 "
+symbol = "󰢱 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [perl]
-symbol = "🐪 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [crystal]
-symbol = "❄️ "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [zig]
-symbol = "⚡ "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [nim]
-symbol = "👑 "
+symbol = "󰆥 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [red]
-symbol = "🌹 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [fennel]
-symbol = "🌿 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [vlang]
-symbol = "🚀 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [ocaml]
-symbol = "🐫 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [purescript]
-symbol = "🔮 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [raku]
-symbol = "🦋 "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [solidity]
-symbol = "💰 "
+symbol = "󰡪 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [terraform]
-symbol = "🏗️ "
+symbol = "󱁢 "
 style = "bold fg:cyan"
 format = '\[[$symbol$workspace]($style)\]'
 
 [docker_context]
-symbol = "🐳 "
+symbol = "󰡨 "
 style = "bold fg:cyan"
 format = '\[[$symbol$context]($style)\]'
 
@@ -241,27 +250,27 @@ style = "bold fg:cyan"
 format = '\[[$symbol$context( \($namespace\))]($style)\]'
 
 [gcloud]
-symbol = "🌥️ "
+symbol = "󱇶 "
 style = "bold fg:cyan"
 format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
 
 [conda]
-symbol = "🐍 "
+symbol = "󰢩 "
 style = "bold fg:cyan"
 format = '\[[$symbol$environment]($style)\]'
 
 [dotnet]
-symbol = "🔷 "
+symbol = "󰪮 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)(🎯 $tfm)]($style)\]'
 
 [cmake]
-symbol = "🔧 "
+symbol = "󰔷 "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
 [cobol]
-symbol = "🏛️ "
+symbol = " "
 style = "bold fg:cyan"
 format = '\[[$symbol($version)]($style)\]'
 
@@ -276,7 +285,7 @@ success_symbol = '[❯](bold fg:green)'
 error_symbol = '[❯](bold fg:red)'
 
 [line_break]
-disabled = true
+disabled = false
 
 # --- CENTRALIZED PALETTE ---
 [palettes.unified_dark]

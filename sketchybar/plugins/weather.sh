@@ -2,10 +2,11 @@
 
 # Set a manual location here if automatic detection is not working
 # MANUAL_LOCATION="London, England"
-MANUAL_LOCATION="San Jose, California"
+# MANUAL_LOCATION="San Jose, California"
 # MANUAL_LOCATION="Mumbai, India"
 # MANUAL_LOCATION="Tigre, Buenos Aires"
 # MANUAL_LOCATION="Rosario, Santa Fe"
+MANUAL_LOCATION="Pilar, Buenos Aires"
 
 if [ -n "$MANUAL_LOCATION" ]; then
     LOCATION_ESCAPED="${MANUAL_LOCATION// /+}"

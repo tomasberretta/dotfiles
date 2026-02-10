@@ -14,7 +14,11 @@ after-startup-command = [
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # Notify sketchybar when workspace changes (for per-monitor workspace display)
-exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_workspace_change']
+exec-on-workspace-change = [
+	'/bin/bash',
+	'-c',
+	'sketchybar --trigger aerospace_workspace_change',
+]
 
 [mode.main.binding]
 # Focus navigation (hyper - h/j/k/l)
@@ -77,7 +81,7 @@ inner.vertical = [{ monitor."built-in" = 20 }, 25]
 outer.left = [{ monitor."built-in" = 20 }, 25]
 outer.bottom = [{ monitor."built-in" = 20 }, 25]
 # outer.top = [{ monitor."built-in" = 0 }, 25] # 0 for built-in, 25 for others
-outer.top = [{ monitor."built-in" = 5 }, 40]    # 0 for built-in, 25 for others
+outer.top = [{ monitor."built-in" = 5 }, 15]    # 0 for built-in, 25 for others
 outer.right = [{ monitor."built-in" = 20 }, 25]
 
 [mode.resize.binding]
