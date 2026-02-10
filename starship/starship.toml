@@ -2,14 +2,18 @@
 
 add_newline = true
 
-# Bracketed Segments format with centralized theming
+# Tokyo Night style powerline segments using unified_dark palette
 format = """
+[](purple)\
 $os\
 $hostname\
+[](fg:purple bg:blue)\
 $directory\
+[](fg:blue bg:surface)\
 $git_branch\
 $git_commit\
 $git_status\
+[](fg:surface bg:highlight)\
 $c\
 $rust\
 $golang\
@@ -41,12 +45,14 @@ $solidity\
 $dotnet\
 $cmake\
 $cobol\
+[](fg:highlight bg:gray)\
 $conda\
 $docker_context\
 $kubernetes\
 $terraform\
 $gcloud\
 $cmd_duration\
+[](fg:gray)\
 $line_break\
 $character"""
 
@@ -56,8 +62,8 @@ palette = 'unified_dark'
 
 [os]
 disabled = true
-style = "bold fg:purple"
-format = '\[[$symbol]($style)\]'
+style = "bg:purple"
+format = '[[ $symbol ](fg:background bg:purple)]($style)'
 [os.symbols]
 Macos = "󰀵"
 Linux = "󰌽"
@@ -65,12 +71,12 @@ Windows = ""
 
 [hostname]
 ssh_only = false
-style = "bold fg:blue"
-format = '\[[$hostname]($style)\]'
+style = "bg:purple"
+format = '[[ $hostname ](fg:background bg:purple)]($style)'
 
 [directory]
-style = "bold fg:green"
-format = '\[[$path]($style)\]'
+style = "fg:background bg:blue"
+format = '[ $path ]($style)'
 truncation_length = 3
 truncation_symbol = "…/"
 [directory.substitutions]
@@ -82,202 +88,202 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bold fg:yellow"
-format = '\[[$symbol$branch]($style)\]'
+style = "bg:surface"
+format = '[[ $symbol $branch ](fg:yellow bg:surface)]($style)'
 
 [git_commit]
 commit_hash_length = 7
-style = "bold fg:yellow"
-format = '\[[$hash]($style)\]'
+style = "bg:surface"
+format = '[[ $hash ](fg:yellow bg:surface)]($style)'
 
 [git_status]
-style = "bold fg:yellow"
-format = '([\[$all_status$ahead_behind\]]($style))'
+style = "bg:surface"
+format = '[[($all_status$ahead_behind )](fg:yellow bg:surface)]($style)'
 
 [python]
 symbol = "󰌠 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)(\($virtualenv\))]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version)(\($virtualenv\)) ](fg:cyan bg:highlight)]($style)'
 
 [nodejs]
 symbol = "󰎙 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [c]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [rust]
 symbol = "󱘗 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [golang]
 symbol = "󰟓 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [php]
 symbol = "󰌟 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [java]
 symbol = "󰬷 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [kotlin]
 symbol = "󱈙 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [haskell]
 symbol = "󰲒 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [ruby]
 symbol = "󰴭 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [swift]
 symbol = "󰛥 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [dart]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [elixir]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [erlang]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [scala]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [julia]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [lua]
 symbol = "󰢱 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [perl]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [crystal]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [zig]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [nim]
 symbol = "󰆥 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [red]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [fennel]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [vlang]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [ocaml]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [purescript]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [raku]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [solidity]
 symbol = "󰡪 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
-
-[terraform]
-symbol = "󱁢 "
-style = "bold fg:cyan"
-format = '\[[$symbol$workspace]($style)\]'
-
-[docker_context]
-symbol = "󰡨 "
-style = "bold fg:cyan"
-format = '\[[$symbol$context]($style)\]'
-
-[kubernetes]
-disabled = false
-style = "bold fg:cyan"
-format = '\[[$symbol$context( \($namespace\))]($style)\]'
-
-[gcloud]
-symbol = "󱇶 "
-style = "bold fg:cyan"
-format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
-
-[conda]
-symbol = "󰢩 "
-style = "bold fg:cyan"
-format = '\[[$symbol$environment]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [dotnet]
 symbol = "󰪮 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)(🎯 $tfm)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version)(🎯 $tfm) ](fg:cyan bg:highlight)]($style)'
 
 [cmake]
 symbol = "󰔷 "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [cobol]
 symbol = " "
-style = "bold fg:cyan"
-format = '\[[$symbol($version)]($style)\]'
+style = "bg:highlight"
+format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
+
+[conda]
+symbol = "󰢩 "
+style = "bg:gray"
+format = '[[ $symbol $environment ](fg:cyan bg:gray)]($style)'
+
+[docker_context]
+symbol = "󰡨 "
+style = "bg:gray"
+format = '[[ $symbol $context ](fg:cyan bg:gray)]($style)'
+
+[kubernetes]
+disabled = false
+style = "bg:gray"
+format = '[[ $symbol$context( \($namespace\)) ](fg:cyan bg:gray)]($style)'
+
+[terraform]
+symbol = "󱁢 "
+style = "bg:gray"
+format = '[[ $symbol $workspace ](fg:cyan bg:gray)]($style)'
+
+[gcloud]
+symbol = "󱇶 "
+style = "bg:gray"
+format = '[[ $symbol $account(@$domain)(\($region\)) ](fg:cyan bg:gray)]($style)'
 
 [cmd_duration]
 min_time = 500
-format = '\[[⏱ $duration]($style)\]'
-style = "bold fg:surface"
+style = "bg:gray"
+format = '[[ ⏱ $duration ](fg:text bg:gray)]($style)'
 disabled = false
 
 [character]
@@ -291,14 +297,14 @@ disabled = false
 [palettes.unified_dark]
 background = "#191B20"
 highlight = "#3A3D4A"
-text = "#DFE0EA"
-purple = "#B589D6"
-green = "#94DD8E"
-blue = "#7EB7E6"
-yellow = "#F9E154"
-red = "#E85A84"
-cyan = "#89DDFF"
-pink = "#D895C7"
-orange = "#FF9574"
+text = "#C0CAF5"
+purple = "#9D7CD8"
+green = "#9ECE6A"
+blue = "#7AA2F7"
+yellow = "#E0AF68"
+red = "#BF616A"
+cyan = "#7DCFFF"
+pink = "#D08770"
+orange = "#FF9E64"
 surface = "#515669"
 gray = "#21252D"
