@@ -3,37 +3,37 @@ font-style = medium
 bold-is-bright = true
 font-family = "JetBrainsMono Nerd Font Mono"
 
-# Dark theme - Generated from centralized palette
-background = 191B20
-foreground = DFE0EA
+# IntelliJ New UI Dark theme
+background = 1e1f22
+foreground = bcbec4
 
 # Cursor colors
-cursor-color = 7EB7E6
-cursor-text = 191B20
+cursor-color = 56a8f5
+cursor-text = 1e1f22
 
-# Selection colors  
-selection-background = 3A3D4A
-selection-foreground = DFE0EA
+# Selection colors
+selection-background = 214283
+selection-foreground = bcbec4
 
 # Normal colors (ANSI 0-7)
-palette = 0=21252D
-palette = 1=E85A84
-palette = 2=94DD8E
-palette = 3=F9E154
-palette = 4=7EB7E6
-palette = 5=B589D6
-palette = 6=89DDFF
-palette = 7=DFE0EA
+palette = 0=1e1f22
+palette = 1=f75464
+palette = 2=6aab73
+palette = 3=f2c55c
+palette = 4=56a8f5
+palette = 5=c77dbb
+palette = 6=2aacb8
+palette = 7=bcbec4
 
 # Bright colors (ANSI 8-15)
-palette = 8=515669
-palette = 9=E85A84
-palette = 10=94DD8E
-palette = 11=F9E154
-palette = 12=7EB7E6
-palette = 13=B589D6
-palette = 14=89DDFF
-palette = 15=3A3D4A
+palette = 8=6f737a
+palette = 9=f75464
+palette = 10=6aab73
+palette = 11=f2c55c
+palette = 12=56a8f5
+palette = 13=c77dbb
+palette = 14=2aacb8
+palette = 15=dfe1e5
 
 # Cursor settings
 cursor-style = block

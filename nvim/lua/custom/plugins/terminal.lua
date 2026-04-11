@@ -37,7 +37,8 @@ return {
       },
     },
     keys = {
-      { '<C-\\>', desc = 'Toggle terminal' },
+      { '<C-\\>', desc = 'Toggle terminal (float)' },
+      { '<leader>t', '<cmd>2ToggleTerm direction=horizontal<cr>', mode = { 'n', 't' }, desc = 'Toggle [T]erminal (bottom)' },
     },
   },
 }

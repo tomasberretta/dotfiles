@@ -209,7 +209,8 @@
 | `]c` / `[c` | Next/prev git hunk |
 | `]d` / `[d` | Next/prev diagnostic |
 | `]e` / `[e` | Next/prev error |
-| `\\` | File explorer |
+| `\\` | Neo-tree toggle |
+| `<leader>y` | Yazi |
 | `jk` / `kj` | Exit insert mode |
 
 ## Function Keys

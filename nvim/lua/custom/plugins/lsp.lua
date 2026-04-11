@@ -28,7 +28,7 @@ return {
 
           -- Code actions (<leader>c)
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'v' })
-          map('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename')
+          map('<leader>cR', vim.lsp.buf.rename, '[C]ode [R]ename')
           map('<leader>cf', function()
             require('conform').format { async = true, lsp_format = 'fallback' }
           end, '[C]ode [F]ormat')
@@ -38,7 +38,7 @@ return {
           map('<leader>cD', vim.lsp.buf.declaration, '[C]ode [D]eclaration')
           map('<leader>ci', require('telescope.builtin').lsp_implementations, '[C]ode [I]mplementation')
           map('<leader>ct', require('telescope.builtin').lsp_type_definitions, '[C]ode [T]ype')
-          map('<leader>cR', require('telescope.builtin').lsp_references, '[C]ode [R]eferences')
+          map('<leader>cr', require('telescope.builtin').lsp_references, '[C]ode [R]eferences')
           map('<leader>cs', require('telescope.builtin').lsp_document_symbols, '[C]ode [S]ymbols')
           map('<leader>cw', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[C]ode [W]orkspace symbols')
 
@@ -109,6 +109,7 @@ return {
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local servers = {
+        -- Lua
         lua_ls = {
           settings = {
             Lua = {
@@ -116,14 +117,115 @@ return {
             },
           },
         },
+        -- Python
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = 'basic',
+                autoImportCompletions = true,
+              },
+            },
+          },
+        },
+        ruff = {},
+        -- TypeScript / JavaScript
+        ts_ls = {
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = 'all',
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+              },
+            },
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = 'all',
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+              },
+            },
+          },
+        },
+        eslint = {},
+        -- Go
+        gopls = {
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+                shadow = true,
+              },
+              staticcheck = true,
+              gofumpt = true,
+            },
+          },
+        },
+        -- Rust
+        rust_analyzer = {
+          settings = {
+            ['rust-analyzer'] = {
+              checkOnSave = { command = 'clippy' },
+              cargo = { allFeatures = true },
+            },
+          },
+        },
+        -- C / C++
+        clangd = {
+          cmd = { 'clangd', '--background-index', '--clang-tidy' },
+        },
+        -- Web (HTML, CSS, Tailwind)
+        html = {},
+        cssls = {},
+        tailwindcss = {},
+        emmet_ls = {
+          filetypes = { 'html', 'css', 'scss', 'javascriptreact', 'typescriptreact', 'vue', 'svelte' },
+        },
+        -- Data / Config formats
+        jsonls = {
+          settings = {
+            json = {
+              validate = { enable = true },
+            },
+          },
+        },
+        yamlls = {
+          settings = {
+            yaml = {
+              keyOrdering = false,
+            },
+          },
+        },
+        taplo = {},
+        -- Shell
+        bashls = {},
+        -- Docker
+        dockerls = {},
+        docker_compose_language_service = {},
+        -- Terraform
+        terraformls = {},
+        -- Markdown
+        marksman = {},
+        -- Protobuf
+        buf_ls = {},
       }
 
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
+        -- Formatters
         'stylua',
-        'markdownlint',
         'black',
         'isort',
+        'prettier',
+        'gofumpt',
+        'goimports',
+        'shfmt',
+        -- Linters
+        'markdownlint',
+        'shellcheck',
+        'golangci-lint',
+        'hadolint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

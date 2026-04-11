@@ -2,12 +2,12 @@
 
 add_newline = true
 
-# Tokyo Night style powerline segments using unified_dark palette
+# IntelliJ New UI Dark style powerline segments
 format = """
-[](purple)\
+[](teal)\
 $os\
 $hostname\
-[](fg:purple bg:blue)\
+[](fg:teal bg:blue)\
 $directory\
 [](fg:blue bg:surface)\
 $git_branch\
@@ -62,8 +62,8 @@ palette = 'unified_dark'
 
 [os]
 disabled = true
-style = "bg:purple"
-format = '[[ $symbol ](fg:background bg:purple)]($style)'
+style = "bg:teal"
+format = '[[ $symbol ](fg:background bg:teal)]($style)'
 [os.symbols]
 Macos = "󰀵"
 Linux = "󰌽"
@@ -71,8 +71,8 @@ Windows = ""
 
 [hostname]
 ssh_only = false
-style = "bg:purple"
-format = '[[ $hostname ](fg:background bg:purple)]($style)'
+style = "bg:teal"
+format = '[[ $hostname ](fg:background bg:teal)]($style)'
 
 [directory]
 style = "fg:background bg:blue"
@@ -293,18 +293,18 @@ error_symbol = '[❯](bold fg:red)'
 [line_break]
 disabled = false
 
-# --- CENTRALIZED PALETTE ---
+# --- CENTRALIZED PALETTE (IntelliJ New UI Dark) ---
 [palettes.unified_dark]
-background = "#191B20"
-highlight = "#3A3D4A"
-text = "#C0CAF5"
-purple = "#9D7CD8"
-green = "#9ECE6A"
-blue = "#7AA2F7"
-yellow = "#E0AF68"
-red = "#BF616A"
-cyan = "#7DCFFF"
-pink = "#D08770"
-orange = "#FF9E64"
-surface = "#515669"
-gray = "#21252D"
+background = "#1e1f22"
+highlight = "#2d2f34"
+text = "#bcbec4"
+purple = "#c77dbb"
+green = "#6aab73"
+blue = "#56a8f5"
+yellow = "#f2c55c"
+red = "#f75464"
+cyan = "#2aacb8"
+teal = "#2aacb8"
+orange = "#cf8e6d"
+surface = "#393b40"
+gray = "#2b2d30"

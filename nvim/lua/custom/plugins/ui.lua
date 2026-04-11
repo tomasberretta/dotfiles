@@ -69,94 +69,165 @@ return {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      local custom_theme = {
+      -- IntelliJ New UI Dark: flat, minimal status bar
+      -- Entire bar is surface bg with subtle text, no powerline separators
+      local ij_dark = {
         normal = {
-          a = { bg = '#7EB7E6', fg = '#191B20', gui = 'bold' },
-          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
-          c = { bg = '#272932', fg = '#DFE0EA' },
+          a = { bg = '#2b2d30', fg = '#56a8f5', gui = 'bold' },
+          b = { bg = '#2b2d30', fg = '#bcbec4' },
+          c = { bg = '#2b2d30', fg = '#6f737a' },
         },
         insert = {
-          a = { bg = '#94DD8E', fg = '#191B20', gui = 'bold' },
-          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
-          c = { bg = '#272932', fg = '#DFE0EA' },
+          a = { bg = '#2b2d30', fg = '#6aab73', gui = 'bold' },
+          b = { bg = '#2b2d30', fg = '#bcbec4' },
+          c = { bg = '#2b2d30', fg = '#6f737a' },
         },
         visual = {
-          a = { bg = '#D895C7', fg = '#191B20', gui = 'bold' },
-          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
-          c = { bg = '#272932', fg = '#DFE0EA' },
+          a = { bg = '#2b2d30', fg = '#c77dbb', gui = 'bold' },
+          b = { bg = '#2b2d30', fg = '#bcbec4' },
+          c = { bg = '#2b2d30', fg = '#6f737a' },
         },
         replace = {
-          a = { bg = '#E85A84', fg = '#191B20', gui = 'bold' },
-          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
-          c = { bg = '#272932', fg = '#DFE0EA' },
+          a = { bg = '#2b2d30', fg = '#f75464', gui = 'bold' },
+          b = { bg = '#2b2d30', fg = '#bcbec4' },
+          c = { bg = '#2b2d30', fg = '#6f737a' },
         },
         command = {
-          a = { bg = '#F9E154', fg = '#191B20', gui = 'bold' },
-          b = { bg = '#3A3D4A', fg = '#DFE0EA' },
-          c = { bg = '#272932', fg = '#DFE0EA' },
+          a = { bg = '#2b2d30', fg = '#cf8e6d', gui = 'bold' },
+          b = { bg = '#2b2d30', fg = '#bcbec4' },
+          c = { bg = '#2b2d30', fg = '#6f737a' },
         },
         inactive = {
-          a = { bg = '#272932', fg = '#515669', gui = 'bold' },
-          b = { bg = '#272932', fg = '#515669' },
-          c = { bg = '#191B20', fg = '#515669' },
+          a = { bg = '#2b2d30', fg = '#6f737a' },
+          b = { bg = '#2b2d30', fg = '#6f737a' },
+          c = { bg = '#2b2d30', fg = '#6f737a' },
         },
       }
 
-      local custom_theme_light = {
+      local ij_light = {
         normal = {
-          a = { bg = '#4d7bd6', fg = '#f4f4f4', gui = 'bold' },
-          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
-          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+          a = { bg = '#eef0f3', fg = '#0065cf', gui = 'bold' },
+          b = { bg = '#eef0f3', fg = '#080808' },
+          c = { bg = '#eef0f3', fg = '#8c8c8c' },
         },
         insert = {
-          a = { bg = '#52a065', fg = '#f4f4f4', gui = 'bold' },
-          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
-          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+          a = { bg = '#eef0f3', fg = '#067d17', gui = 'bold' },
+          b = { bg = '#eef0f3', fg = '#080808' },
+          c = { bg = '#eef0f3', fg = '#8c8c8c' },
         },
         visual = {
-          a = { bg = '#9575cd', fg = '#f4f4f4', gui = 'bold' },
-          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
-          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+          a = { bg = '#eef0f3', fg = '#871094', gui = 'bold' },
+          b = { bg = '#eef0f3', fg = '#080808' },
+          c = { bg = '#eef0f3', fg = '#8c8c8c' },
         },
         replace = {
-          a = { bg = '#e57373', fg = '#f4f4f4', gui = 'bold' },
-          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
-          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+          a = { bg = '#eef0f3', fg = '#cf3737', gui = 'bold' },
+          b = { bg = '#eef0f3', fg = '#080808' },
+          c = { bg = '#eef0f3', fg = '#8c8c8c' },
         },
         command = {
-          a = { bg = '#ffb74d', fg = '#2c2c2c', gui = 'bold' },
-          b = { bg = '#e8f2ff', fg = '#2c2c2c' },
-          c = { bg = '#f0f0f0', fg = '#2c2c2c' },
+          a = { bg = '#eef0f3', fg = '#cf6a21', gui = 'bold' },
+          b = { bg = '#eef0f3', fg = '#080808' },
+          c = { bg = '#eef0f3', fg = '#8c8c8c' },
         },
         inactive = {
-          a = { bg = '#f0f0f0', fg = '#7a7a7a', gui = 'bold' },
-          b = { bg = '#f0f0f0', fg = '#7a7a7a' },
-          c = { bg = '#f4f4f4', fg = '#7a7a7a' },
+          a = { bg = '#eef0f3', fg = '#8c8c8c' },
+          b = { bg = '#eef0f3', fg = '#8c8c8c' },
+          c = { bg = '#eef0f3', fg = '#8c8c8c' },
         },
       }
+
+      -- Thin separator matching IntelliJ border
+      local separator = { left = '', right = '' }
+
+      -- LSP client name (like IntelliJ shows SDK/language server)
+      local function lsp_name()
+        local clients = vim.lsp.get_clients { bufnr = 0 }
+        if #clients == 0 then
+          return ''
+        end
+        local names = {}
+        for _, client in ipairs(clients) do
+          table.insert(names, client.name)
+        end
+        return ' ' .. table.concat(names, ', ')
+      end
+
+      -- Indentation info (like IntelliJ "Spaces: 2" / "Tabs: 4")
+      local function indent_info()
+        if vim.bo.expandtab then
+          return 'Spaces: ' .. vim.bo.shiftwidth
+        else
+          return 'Tabs: ' .. vim.bo.tabstop
+        end
+      end
+
+      -- Line ending format
+      local function line_ending()
+        local format = vim.bo.fileformat
+        if format == 'unix' then return 'LF'
+        elseif format == 'dos' then return 'CRLF'
+        else return 'CR'
+        end
+      end
+
+      -- Breadcrumb: file > treesitter context (class > function)
+      local function breadcrumb()
+        local filepath = vim.fn.expand '%:~:.'
+        if filepath == '' then return '' end
+
+        local ok, ts_utils = pcall(require, 'nvim-treesitter.ts_utils')
+        if not ok then return filepath end
+
+        local node = ts_utils.get_node_at_cursor()
+        local parts = {}
+        while node do
+          local type = node:type()
+          if type == 'function_declaration' or type == 'function_definition'
+              or type == 'method_declaration' or type == 'method_definition'
+              or type == 'function_item' then
+            local name_node = node:field('name')[1]
+            if name_node then
+              table.insert(parts, 1, ' ' .. vim.treesitter.get_node_text(name_node, 0))
+            end
+          elseif type == 'class_declaration' or type == 'class_definition'
+              or type == 'struct_item' or type == 'impl_item' then
+            local name_node = node:field('name')[1]
+            if name_node then
+              table.insert(parts, 1, ' ' .. vim.treesitter.get_node_text(name_node, 0))
+            end
+          end
+          node = node:parent()
+        end
+
+        if #parts > 0 then
+          return filepath .. '  ' .. table.concat(parts, ' > ')
+        end
+        return filepath
+      end
 
       require('lualine').setup {
         options = {
           icons_enabled = true,
-          theme = vim.o.background == 'light' and custom_theme_light or custom_theme,
-          component_separators = { left = '', right = '' },
-          section_separators = { left = '', right = '' },
+          theme = vim.o.background == 'light' and ij_light or ij_dark,
+          component_separators = { left = '│', right = '│' },
+          section_separators = separator,
           disabled_filetypes = { statusline = {}, winbar = {} },
           always_divide_middle = true,
           globalstatus = false,
         },
         sections = {
-          lualine_a = { 'mode' },
+          lualine_a = { { 'mode', fmt = function(s) return s:sub(1, 1) end } },
           lualine_b = { 'branch', 'diff', 'diagnostics' },
-          lualine_c = { 'filename' },
-          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_c = { { breadcrumb } },
+          lualine_x = { lsp_name, 'filetype', indent_info, { 'encoding', fmt = string.upper }, line_ending },
           lualine_y = { 'progress' },
           lualine_z = { 'location' },
         },
         inactive_sections = {
           lualine_a = {},
           lualine_b = {},
-          lualine_c = { 'filename' },
+          lualine_c = { { 'filename', path = 1 } },
           lualine_x = { 'location' },
           lualine_y = {},
           lualine_z = {},
@@ -167,7 +238,7 @@ return {
         pattern = '*',
         callback = function()
           vim.defer_fn(function()
-            local theme = vim.o.background == 'light' and custom_theme_light or custom_theme
+            local theme = vim.o.background == 'light' and ij_light or ij_dark
             require('lualine').setup { options = { theme = theme } }
           end, 1)
         end,

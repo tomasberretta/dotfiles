@@ -71,6 +71,15 @@ cmd-alt-ctrl-shift-t = 'move-node-to-workspace Temp'
 alt-ctrl-shift-h = 'move-workspace-to-monitor prev'
 alt-ctrl-shift-l = 'move-workspace-to-monitor next'
 
+# Swap workspaces between monitors (meh - s)
+alt-ctrl-shift-s = '''exec-and-forget bash -c '\
+  focused=$(aerospace list-workspaces --focused); \
+  other=$(aerospace list-workspaces --monitor all --visible | grep -v "^${focused}$" | head -1); \
+  [ -z "$other" ] && exit 0; \
+  aerospace move-workspace-to-monitor --workspace "$focused" --wrap-around next; \
+  aerospace move-workspace-to-monitor --workspace "$other" --wrap-around next; \
+  ' '''
+
 # Reload config and resize mode
 alt-shift-c = 'reload-config'
 alt-r = 'mode resize'
@@ -80,8 +89,8 @@ inner.horizontal = [{ monitor."built-in" = 20 }, 25]
 inner.vertical = [{ monitor."built-in" = 20 }, 25]
 outer.left = [{ monitor."built-in" = 20 }, 25]
 outer.bottom = [{ monitor."built-in" = 20 }, 25]
-# outer.top = [{ monitor."built-in" = 0 }, 25] # 0 for built-in, 25 for others
-outer.top = [{ monitor."built-in" = 5 }, 15]    # 0 for built-in, 25 for others
+outer.top = [{ monitor."built-in" = 5 }, 35]         # 0 for built-in, 25 for others
+# outer.top = [{ monitor."built-in" = 5 }, 15]    # 0 for built-in, 25 for others
 outer.right = [{ monitor."built-in" = 20 }, 25]
 
 [mode.resize.binding]

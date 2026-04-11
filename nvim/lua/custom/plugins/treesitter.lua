@@ -14,28 +14,76 @@ return {
     main = 'nvim-treesitter.configs',
     opts = {
       ensure_installed = {
+        -- General
         'bash',
-        'c',
+        'comment',
         'diff',
-        'html',
-        'javascript',
-        'jsdoc',
-        'json',
-        'jsonc',
+        'regex',
+        'query',
+        'vim',
+        'vimdoc',
+        -- Scripting / Config
         'lua',
         'luadoc',
         'luap',
+        'fish',
+        -- Web
+        'html',
+        'css',
+        'scss',
+        'javascript',
+        'jsdoc',
+        'typescript',
+        'tsx',
+        'vue',
+        'svelte',
+        'graphql',
+        -- Data formats
+        'json',
+        'jsonc',
+        'json5',
+        'yaml',
+        'toml',
+        'xml',
+        'csv',
+        -- Systems
+        'c',
+        'cpp',
+        'rust',
+        'go',
+        'gomod',
+        'gosum',
+        'gowork',
+        -- JVM
+        'java',
+        'kotlin',
+        'scala',
+        -- Python
+        'python',
+        'requirements',
+        -- Other languages
+        'ruby',
+        'elixir',
+        'swift',
+        'zig',
+        -- DevOps / Infra
+        'dockerfile',
+        'terraform',
+        'hcl',
+        -- Docs
         'markdown',
         'markdown_inline',
-        'python',
-        'query',
-        'regex',
-        'toml',
-        'tsx',
-        'typescript',
-        'vim',
-        'vimdoc',
-        'yaml',
+        'rst',
+        -- SQL
+        'sql',
+        -- Protobuf
+        'proto',
+        -- Git
+        'git_config',
+        'git_rebase',
+        'gitattributes',
+        'gitcommit',
+        'gitignore',
       },
       auto_install = true,
       highlight = {
@@ -105,7 +153,7 @@ return {
       },
     },
   },
-  
+
   -- Treesitter context (shows function/class at top of screen)
   {
     'nvim-treesitter/nvim-treesitter-context',

@@ -69,9 +69,9 @@ vim.keymap.set('i', '<Home>', '<C-o>^', { desc = 'First non-blank' })
 -- CODE OPERATIONS (<leader>c)
 -- =============================================================================
 
-vim.keymap.set('n', '<leader>cd', 'yyp', { desc = '[C]ode: [D]uplicate line' })
-vim.keymap.set('v', '<leader>cd', 'y`>p', { desc = '[C]ode: [D]uplicate selection' })
-vim.keymap.set('n', '<leader>cD', 'yyP', { desc = '[C]ode: [D]uplicate line above' })
+vim.keymap.set('n', '<leader>cl', 'yyp', { desc = '[C]ode: Duplicate [L]ine' })
+vim.keymap.set('v', '<leader>cl', 'y`>p', { desc = '[C]ode: Duplicate [L]ine' })
+vim.keymap.set('n', '<leader>cL', 'yyP', { desc = '[C]ode: Duplicate [L]ine above' })
 vim.keymap.set('n', '<leader>cx', '"_dd', { desc = '[C]ode: Delete line (no register)' })
 vim.keymap.set('v', '<leader>cx', '"_d', { desc = '[C]ode: Delete (no register)' })
 vim.keymap.set('n', '<leader>cj', 'J', { desc = '[C]ode: [J]oin lines' })
@@ -82,6 +82,10 @@ vim.keymap.set('n', '<leader>cO', 'O<Esc>', { desc = '[C]ode: [O]pen line above'
 -- TOGGLE OPTIONS (<leader>x)
 -- =============================================================================
 
+vim.keymap.set('n', '<leader>xd', function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+  vim.notify(vim.diagnostic.is_enabled() and 'Diagnostics ON' or 'Diagnostics OFF')
+end, { desc = 'Toggle [D]iagnostics' })
 vim.keymap.set('n', '<leader>xw', '<cmd>set wrap!<cr>', { desc = 'Toggle [W]rap' })
 vim.keymap.set('n', '<leader>xs', function()
   vim.opt.spell = not vim.opt.spell:get()

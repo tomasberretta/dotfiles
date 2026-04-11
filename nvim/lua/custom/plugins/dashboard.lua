@@ -165,11 +165,11 @@ return {
         },
       }
 
-      vim.api.nvim_set_hl(0, 'DashboardHeader', { fg = '#7EB7E6' })
-      vim.api.nvim_set_hl(0, 'DashboardIcon', { fg = '#94DD8E' })
-      vim.api.nvim_set_hl(0, 'DashboardKey', { fg = '#F9E154', bold = true })
-      vim.api.nvim_set_hl(0, 'DashboardDesc', { fg = '#DFE0EA' })
-      vim.api.nvim_set_hl(0, 'DashboardFooter', { fg = '#515669', italic = true })
+      vim.api.nvim_set_hl(0, 'DashboardHeader', { fg = '#56a8f5' })
+      vim.api.nvim_set_hl(0, 'DashboardIcon', { fg = '#6aab73' })
+      vim.api.nvim_set_hl(0, 'DashboardKey', { fg = '#cf8e6d', bold = true })
+      vim.api.nvim_set_hl(0, 'DashboardDesc', { fg = '#bcbec4' })
+      vim.api.nvim_set_hl(0, 'DashboardFooter', { fg = '#6f737a', italic = true })
     end,
   },
 }

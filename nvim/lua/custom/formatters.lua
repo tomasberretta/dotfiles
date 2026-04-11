@@ -15,13 +15,26 @@ M.formatters_by_ft = {
   javascriptreact = { 'prettier' },
   typescriptreact = { 'prettier' },
   json = { 'prettier' },
+  jsonc = { 'prettier' },
   yaml = { 'prettier' },
   markdown = { 'prettier' },
   html = { 'prettier' },
   css = { 'prettier' },
   scss = { 'prettier' },
-  go = { 'gofmt' },
+  graphql = { 'prettier' },
+  vue = { 'prettier' },
+  svelte = { 'prettier' },
+  go = { 'goimports', 'gofumpt' },
   rust = { 'rustfmt' },
+  sh = { 'shfmt' },
+  bash = { 'shfmt' },
+  fish = { 'fish_indent' },
+  toml = { 'taplo' },
+  terraform = { 'terraform_fmt' },
+  tf = { 'terraform_fmt' },
+  dockerfile = { 'hadolint' },
+  sql = { 'sql_formatter' },
+  xml = { 'xmllint' },
 }
 
 M.formatters = {
@@ -44,31 +57,8 @@ M.formatters = {
       return 'isort'
     end,
   },
-  trim_whitespace = {
-    format = function(_, _, lines)
-      if not lines or #lines == 0 then
-        return lines
-      end
-      
-      local result = {}
-      local blank_count = 0
-      
-      for i, line in ipairs(lines) do
-        local trimmed = line:gsub('%s+$', '')
-        
-        if trimmed == '' then
-          blank_count = blank_count + 1
-        else
-          if blank_count > 0 and #result > 0 then
-            table.insert(result, '')
-          end
-          blank_count = 0
-          table.insert(result, trimmed)
-        end
-      end
-      
-      return result
-    end,
+  shfmt = {
+    prepend_args = { '-i', '2', '-ci' },
   },
 }
 
