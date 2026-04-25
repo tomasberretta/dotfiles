@@ -2,115 +2,112 @@
 # =============================================================================
 # UNIFIED THEME SWITCHER
 # =============================================================================
-# Single script to switch themes across all applications using centralized palette
+# Switch color palettes across ghostty, tmux, starship, nvim, and fish.
+#
 # Usage:
-#   switch-theme          - Toggle between dark and light
-#   switch-theme dark     - Switch to dark theme  
-#   switch-theme light    - Switch to light theme
+#   switch-theme                   Cycle to next palette
+#   switch-theme <name>            Switch to a specific palette (e.g. onyx)
+#   switch-theme list              List available palettes
+#   switch-theme dark | light      Back-compat: aliases for intellij-dark/light
+#
+# Add palettes by dropping a file in shared/palettes/<name>.sh that exports
+# the THEME_* variable set. The switcher picks them up automatically.
 
-# Get script directory
 DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+export DOTFILES_DIR
 
-# Source centralized color palette
+# shellcheck source=../shared/colors.sh
 source "$DOTFILES_DIR/shared/colors.sh"
 
 # =============================================================================
-# THEME GENERATORS
+# TEMPLATE RENDERING
 # =============================================================================
 
-# Generate ghostty config from template
-generate_ghostty_config() {
-    local theme=$1
-    local template="$DOTFILES_DIR/shared/templates/ghostty.template"
-    local output="$DOTFILES_DIR/ghostty/config"
-    
-    export_theme_colors "$theme"
-    
-    # Theme-specific variables
-    local theme_name
-    if [ "$theme" = "light" ]; then
-        theme_name="Light"
-    else
-        theme_name="Dark"
+# Render a template file by substituting every {TOKEN} the palette defines.
+# Uses a pipeline of seds so we don't care about the template's ordering.
+render_template() {
+    local template=$1
+    local output=$2
+    local stripped=${3:-no}   # "yes" to drop leading '#' from color values (ghostty)
+
+    local bg=$THEME_BG fg=$THEME_FG surface=$THEME_SURFACE highlight=$THEME_HIGHLIGHT
+    local gray=$THEME_GRAY black=$THEME_BLACK border=$THEME_BORDER
+    local blue=$THEME_BLUE green=$THEME_GREEN teal=$THEME_TEAL purple=$THEME_PURPLE
+    local pink=$THEME_PINK red=$THEME_RED yellow=$THEME_YELLOW orange=$THEME_ORANGE
+    local cyan=$THEME_CYAN
+
+    if [ "$stripped" = "yes" ]; then
+        bg=${bg#\#}; fg=${fg#\#}; surface=${surface#\#}; highlight=${highlight#\#}
+        gray=${gray#\#}; black=${black#\#}; border=${border#\#}
+        blue=${blue#\#}; green=${green#\#}; teal=${teal#\#}; purple=${purple#\#}
+        pink=${pink#\#}; red=${red#\#}; yellow=${yellow#\#}; orange=${orange#\#}
+        cyan=${cyan#\#}
     fi
-    
-    # Replace template variables with actual colors
-    sed "s/{THEME_NAME}/$theme_name/g; \
-         s/{BG}/${THEME_BG#\#}/g; \
-         s/{FG}/${THEME_FG#\#}/g; \
-         s/{SURFACE}/${THEME_SURFACE#\#}/g; \
-         s/{HIGHLIGHT}/${THEME_HIGHLIGHT#\#}/g; \
-         s/{GRAY}/${THEME_GRAY#\#}/g; \
-         s/{BLACK}/${THEME_BLACK#\#}/g; \
-         s/{BLUE}/${THEME_BLUE#\#}/g; \
-         s/{GREEN}/${THEME_GREEN#\#}/g; \
-         s/{PINK}/${THEME_PINK#\#}/g; \
-         s/{PURPLE}/${THEME_PURPLE#\#}/g; \
-         s/{RED}/${THEME_RED#\#}/g; \
-         s/{YELLOW}/${THEME_YELLOW#\#}/g; \
-         s/{ORANGE}/${THEME_ORANGE#\#}/g; \
-         s/{CYAN}/${THEME_CYAN#\#}/g" \
+
+    sed \
+        -e "s|{THEME_NAME}|${THEME_DISPLAY:-$THEME_NAME}|g" \
+        -e "s|{PALETTE_NAME}|${THEME_NAME}|g" \
+        -e "s|{VARIANT}|${THEME_VARIANT}|g" \
+        -e "s|{BG}|$bg|g" \
+        -e "s|{FG}|$fg|g" \
+        -e "s|{SURFACE}|$surface|g" \
+        -e "s|{HIGHLIGHT}|$highlight|g" \
+        -e "s|{GRAY}|$gray|g" \
+        -e "s|{BLACK}|$black|g" \
+        -e "s|{BORDER}|$border|g" \
+        -e "s|{BLUE}|$blue|g" \
+        -e "s|{GREEN}|$green|g" \
+        -e "s|{TEAL}|$teal|g" \
+        -e "s|{PURPLE}|$purple|g" \
+        -e "s|{PINK}|$pink|g" \
+        -e "s|{RED}|$red|g" \
+        -e "s|{YELLOW}|$yellow|g" \
+        -e "s|{ORANGE}|$orange|g" \
+        -e "s|{CYAN}|$cyan|g" \
         "$template" > "$output"
-    
-    # Copy to home config if it exists
+}
+
+# =============================================================================
+# PER-APP GENERATORS
+# =============================================================================
+
+# Variant-specific tmux accent slots. A palette can override these by exporting
+# THEME_TMUX_ACTIVE / THEME_TMUX_PATH / THEME_TMUX_CMD in its palette file.
+tmux_accents() {
+    TMUX_ACTIVE=${THEME_TMUX_ACTIVE:-blue}
+    TMUX_SESSION=${THEME_TMUX_SESSION:-orange}
+    TMUX_PATH=${THEME_TMUX_PATH:-green}
+    TMUX_CMD=${THEME_TMUX_CMD:-cyan}
+}
+
+generate_ghostty_config() {
+    local out="$DOTFILES_DIR/ghostty/config"
+    render_template "$DOTFILES_DIR/shared/templates/ghostty.template" "$out" yes
+
     if [ -d "$HOME/.config/ghostty" ]; then
-        cp "$output" "$HOME/.config/ghostty/config" 2>/dev/null || true
-        
-        # Reload ghostty using keyboard shortcut (Shift+Cmd+,)
+        cp "$out" "$HOME/.config/ghostty/config" 2>/dev/null || true
         if command -v osascript &>/dev/null; then
             osascript -e 'tell application "System Events" to tell process "Ghostty" to key code 43 using {shift down, command down}' 2>/dev/null || true
         fi
     fi
 }
 
-# Generate tmux config from template  
 generate_tmux_config() {
-    local theme=$1
-    local template="$DOTFILES_DIR/shared/templates/tmux.template"
-    local output="$DOTFILES_DIR/tmux/theme.conf"
-    
-    export_theme_colors "$theme"
-    
-    # Theme-specific accent colors and variable names
-    local theme_name active_color_var path_color_var cmd_color_var
-    if [ "$theme" = "light" ]; then
-        theme_name="Light"
-        active_color_var="blue"      # Blue for light theme
-        path_color_var="purple"      # Purple for path
-        cmd_color_var="orange"       # Orange for command
-    else
-        theme_name="Dark"
-        active_color_var="pink"      # Pink for dark theme (minimal.nvim style)
-        path_color_var="blue"        # Blue for path
-        cmd_color_var="red"          # Red for command
-    fi
-    
-    # Replace template variables
-    sed "s/{THEME_NAME}/$theme_name/g; \
-         s/{BG}/$THEME_BG/g; \
-         s/{FG}/$THEME_FG/g; \
-         s/{SURFACE}/$THEME_SURFACE/g; \
-         s/{HIGHLIGHT}/$THEME_HIGHLIGHT/g; \
-         s/{GRAY}/$THEME_GRAY/g; \
-         s/{BLACK}/$THEME_BLACK/g; \
-         s/{BLUE}/$THEME_BLUE/g; \
-         s/{GREEN}/$THEME_GREEN/g; \
-         s/{PINK}/$THEME_PINK/g; \
-         s/{PURPLE}/$THEME_PURPLE/g; \
-         s/{RED}/$THEME_RED/g; \
-         s/{YELLOW}/$THEME_YELLOW/g; \
-         s/{ORANGE}/$THEME_ORANGE/g; \
-         s/{CYAN}/$THEME_CYAN/g; \
-         s/{ACTIVE_COLOR_VAR}/$active_color_var/g; \
-         s/{PATH_COLOR_VAR}/$path_color_var/g; \
-         s/{CMD_COLOR_VAR}/$cmd_color_var/g" \
-        "$template" > "$output"
-    
-    # Copy to home config if it exists
+    local out="$DOTFILES_DIR/tmux/theme.conf"
+    tmux_accents
+    render_template "$DOTFILES_DIR/shared/templates/tmux.template" "$out"
+
+    # Fill in the tmux-specific accent tokens (kept outside render_template
+    # because they reference color *names*, not hex values).
+    sed -i '' \
+        -e "s|{ACTIVE_COLOR_VAR}|$TMUX_ACTIVE|g" \
+        -e "s|{SESSION_COLOR_VAR}|$TMUX_SESSION|g" \
+        -e "s|{PATH_COLOR_VAR}|$TMUX_PATH|g" \
+        -e "s|{CMD_COLOR_VAR}|$TMUX_CMD|g" \
+        "$out"
+
     if [ -d "$HOME/.config/tmux" ]; then
-        cp "$output" "$HOME/.config/tmux/theme.conf" 2>/dev/null || true
-        
-        # Reload tmux if running
+        cp "$out" "$HOME/.config/tmux/theme.conf" 2>/dev/null || true
         if command -v tmux &>/dev/null && tmux list-sessions &>/dev/null 2>&1; then
             tmux source-file ~/.config/tmux/tmux.conf 2>/dev/null || true
             tmux refresh-client -S 2>/dev/null || true
@@ -118,134 +115,111 @@ generate_tmux_config() {
     fi
 }
 
-# Generate starship config from template
 generate_starship_config() {
-    local theme=$1
-    local template="$DOTFILES_DIR/shared/templates/starship.template"
-    local output="$DOTFILES_DIR/starship/starship.toml"
-    
-    export_theme_colors "$theme"
-    
-    # Theme-specific variables
-    local palette_name
-    if [ "$theme" = "light" ]; then
-        palette_name="unified_light"
-    else
-        palette_name="unified_dark"
-    fi
-    
-    # Replace template variables
-    sed "s/{PALETTE_NAME}/$palette_name/g; \
-         s/{BG}/$THEME_BG/g; \
-         s/{FG}/$THEME_FG/g; \
-         s/{SURFACE}/$THEME_SURFACE/g; \
-         s/{HIGHLIGHT}/$THEME_HIGHLIGHT/g; \
-         s/{GRAY}/$THEME_GRAY/g; \
-         s/{BLACK}/$THEME_BLACK/g; \
-         s/{BLUE}/$THEME_BLUE/g; \
-         s/{GREEN}/$THEME_GREEN/g; \
-         s/{PINK}/$THEME_PINK/g; \
-         s/{PURPLE}/$THEME_PURPLE/g; \
-         s/{RED}/$THEME_RED/g; \
-         s/{YELLOW}/$THEME_YELLOW/g; \
-         s/{ORANGE}/$THEME_ORANGE/g; \
-         s/{CYAN}/$THEME_CYAN/g" \
-        "$template" > "$output"
-    
-    # Copy to home config if it exists
+    local out="$DOTFILES_DIR/starship/starship.toml"
+    render_template "$DOTFILES_DIR/shared/templates/starship.template" "$out"
+
     if [ -d "$HOME/.config/starship" ]; then
-        cp "$output" "$HOME/.config/starship/starship.toml" 2>/dev/null || true
-        
-        # Clear starship cache to force reload
+        cp "$out" "$HOME/.config/starship/starship.toml" 2>/dev/null || true
         if command -v starship >/dev/null 2>&1; then
             pkill -f starship 2>/dev/null || true
         fi
     fi
 }
 
-# Update neovim theme
-update_neovim_theme() {
-    local theme=$1
-    local nvim_theme_file="$DOTFILES_DIR/nvim/lua/custom/current-theme.lua"
-    
-    # Generate theme file that neovim loads on startup
-    if [ "$theme" = "light" ]; then
-        cat > "$nvim_theme_file" << 'NVIM_EOF'
--- Auto-generated theme configuration
-vim.o.background = "light"
-vim.cmd("colorscheme oxocarbon")
-NVIM_EOF
-    else
-        cat > "$nvim_theme_file" << 'NVIM_EOF'
--- Auto-generated theme configuration  
-vim.o.background = "dark"
-vim.cmd("colorscheme minimal")
-NVIM_EOF
+generate_fish_colors() {
+    local out="$DOTFILES_DIR/fish/colors.fish"
+    render_template "$DOTFILES_DIR/shared/templates/fish.template" "$out" yes
+
+    if [ -d "$HOME/.config/fish" ]; then
+        cp "$out" "$HOME/.config/fish/colors.fish" 2>/dev/null || true
     fi
-    
-    # Update all running Neovim instances
+}
+
+# Write a small lua snippet that nvim loads on startup to know which palette
+# is active. theme.lua itself holds the full palette definitions.
+update_neovim_theme() {
+    local nvim_theme_file="$DOTFILES_DIR/nvim/lua/custom/current-theme.lua"
+    cat > "$nvim_theme_file" <<LUA
+-- Auto-generated by scripts/switch-theme.sh. Do not edit by hand.
+return {
+  name = "${THEME_NAME}",
+  variant = "${THEME_VARIANT}",
+}
+LUA
+
+    # Also drop it into the live config dir if nvim is symlinked there.
+    if [ -d "$HOME/.config/nvim/lua/custom" ]; then
+        cp "$nvim_theme_file" "$HOME/.config/nvim/lua/custom/current-theme.lua" 2>/dev/null || true
+    fi
+
+    # Hot-reload any running nvim instances via their listen sockets.
     for server in $(nvim --serverlist 2>/dev/null || true); do
-        if [ "$theme" = "light" ]; then
-            nvim --server "$server" --remote-send ":set background=light<CR>:colorscheme oxocarbon<CR>" 2>/dev/null || true
-        else
-            nvim --server "$server" --remote-send ":set background=dark<CR>:colorscheme minimal<CR>" 2>/dev/null || true
-        fi
+        nvim --server "$server" --remote-send ":lua require('custom.theme').reload()<CR>" 2>/dev/null || true
     done
 }
 
 # =============================================================================
-# MAIN FUNCTION
+# MAIN
 # =============================================================================
 
-main() {
-    local target_theme=$1
-    
-    # Get current theme if no argument provided (toggle)
-    if [ -z "$target_theme" ]; then
-        current_theme=$(get_current_theme)
-        if [ "$current_theme" = "dark" ]; then
-            target_theme="light"
-        else
-            target_theme="dark" 
+cycle_next_palette() {
+    local current; current=$(get_current_palette)
+    local palettes; palettes=$(list_palettes)
+    local first=""
+    local take_next=0
+    while IFS= read -r p; do
+        [ -z "$p" ] && continue
+        [ -z "$first" ] && first="$p"
+        if [ $take_next -eq 1 ]; then
+            echo "$p"; return
         fi
-    fi
-    
-    # Validate theme
-    if [ "$target_theme" != "dark" ] && [ "$target_theme" != "light" ]; then
-        echo "❌ Error: Invalid theme '$target_theme'. Use 'dark' or 'light'."
-        exit 1
-    fi
-    
-    # Show what we're doing
-    if [ "$target_theme" = "light" ]; then
-        echo "☀️  Switching to light theme..."
-    else
-        echo "🌙 Switching to dark theme..."
-    fi
-    
-    # Generate all configs from centralized palette
-    echo "  🎨 Generating configs from centralized palette..."
-    
-    # Update all components
-    generate_ghostty_config "$target_theme"
-    generate_tmux_config "$target_theme" 
-    generate_starship_config "$target_theme"
-    update_neovim_theme "$target_theme"
-    
-    # Save theme state (do this last)
-    set_current_theme "$target_theme"
-    
-    echo ""
-    echo "✨ Theme switched to: $target_theme"
-    echo ""
-    echo "🔄 Updated configurations:"
-    echo "  ✓ Ghostty terminal (${target_theme} colors)"
-    echo "  ✓ Tmux status bar (${target_theme} colors)"  
-    echo "  ✓ Starship prompt (${target_theme} colors)"
-    echo "  ✓ Neovim editor (${target_theme} colors)"
-    echo ""
-    echo "💡 All apps now use the same centralized color palette!"
+        [ "$p" = "$current" ] && take_next=1
+    done <<< "$palettes"
+    # Wrap around to the first palette.
+    echo "$first"
 }
 
-# Execute main function
+print_help() {
+    echo "Usage: switch-theme [list|<palette>|dark|light]"
+    echo ""
+    echo "Available palettes:"
+    while IFS= read -r p; do
+        [ -z "$p" ] && continue
+        (load_palette "$p" >/dev/null 2>&1 && printf "  %-18s  %s\n" "$p" "${THEME_DISPLAY:-$p} (${THEME_VARIANT})")
+    done <<< "$(list_palettes)"
+}
+
+main() {
+    local target=${1:-}
+
+    case "$target" in
+        ""|next) target=$(cycle_next_palette) ;;
+        list|ls|-l|--list) print_help; return 0 ;;
+        -h|--help|help) print_help; return 0 ;;
+        dark)  target="intellij-dark" ;;
+        light) target="intellij-light" ;;
+    esac
+
+    if ! load_palette "$target"; then
+        return 1
+    fi
+
+    echo "🎨 Switching to palette: ${THEME_DISPLAY:-$target} (${THEME_VARIANT})"
+
+    generate_ghostty_config
+    generate_tmux_config
+    generate_starship_config
+    generate_fish_colors
+    update_neovim_theme
+
+    set_current_palette "$THEME_NAME"
+
+    echo ""
+    echo "✨ Applied ${THEME_NAME}:"
+    echo "  ✓ Ghostty, Tmux, Starship, Fish, Neovim"
+    echo ""
+    echo "💡 Run 'switch-theme list' to see all palettes."
+}
+
 main "$@"

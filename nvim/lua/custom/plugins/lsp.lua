@@ -14,10 +14,12 @@ return {
       { 'mason-org/mason.nvim', opts = {} },
       'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      { 'j-hui/fidget.nvim', opts = {} },
       'saghen/blink.cmp',
     },
     config = function()
+      -- Keep lsp.log from growing without bound (was 462 MB on 2026-04-17)
+      vim.lsp.log.set_level('ERROR')
+
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
         callback = function(event)
@@ -26,29 +28,22 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
           end
 
-          -- Code actions (<leader>c)
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'v' })
-          map('<leader>cR', vim.lsp.buf.rename, '[C]ode [R]ename')
+          -- Code actions / telescope-backed pickers under <leader>c
+          -- (ca, cR are covered by Neovim 0.11+ defaults gra/grn)
           map('<leader>cf', function()
             require('conform').format { async = true, lsp_format = 'fallback' }
           end, '[C]ode [F]ormat')
-
-          -- Code navigation
-          map('<leader>cd', require('telescope.builtin').lsp_definitions, '[C]ode [D]efinition')
-          map('<leader>cD', vim.lsp.buf.declaration, '[C]ode [D]eclaration')
-          map('<leader>ci', require('telescope.builtin').lsp_implementations, '[C]ode [I]mplementation')
-          map('<leader>ct', require('telescope.builtin').lsp_type_definitions, '[C]ode [T]ype')
           map('<leader>cr', require('telescope.builtin').lsp_references, '[C]ode [R]eferences')
           map('<leader>cs', require('telescope.builtin').lsp_document_symbols, '[C]ode [S]ymbols')
           map('<leader>cw', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[C]ode [W]orkspace symbols')
 
-          -- Quick navigation (no leader)
+          -- Quick navigation (no leader) — telescope UI where helpful
           map('gd', require('telescope.builtin').lsp_definitions, 'Goto definition')
           map('gD', vim.lsp.buf.declaration, 'Goto declaration')
-          map('gr', require('telescope.builtin').lsp_references, 'Goto references')
           map('gi', require('telescope.builtin').lsp_implementations, 'Goto implementation')
           map('gy', require('telescope.builtin').lsp_type_definitions, 'Goto type')
           map('K', vim.lsp.buf.hover, 'Hover docs')
+          -- `grr` (references, quickfix), `gra` (code action), `grn` (rename) are Neovim 0.11+ defaults
 
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
@@ -80,11 +75,8 @@ return {
             })
           end
 
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map('<leader>xh', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, 'Toggle inlay [H]ints')
-          end
+          -- Inlay hints toggle is provided globally via Snacks.toggle.inlay_hints
+          -- in plugins/snacks.lua (<leader>xh)
         end,
       })
 
@@ -253,6 +245,11 @@ return {
         notify_on_error = false,
         notify_no_formatters = false,
         format_on_save = function(bufnr)
+          if vim.b[bufnr].skip_format then
+            vim.b[bufnr].skip_format = false
+            return nil
+          end
+
           local disable_filetypes = { c = true, cpp = true }
           if disable_filetypes[vim.bo[bufnr].filetype] then
             return nil

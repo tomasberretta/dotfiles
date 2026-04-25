@@ -6,14 +6,14 @@
 --
 -- PREFIXES:
 --   f = Find       (files, grep, buffers, symbols)
---   c = Code       (LSP, refactor, format, actions)
---   g = Git        (lazygit, gitsigns)
+--   c = Code       (LSP, refactor, format, actions, rename file)
+--   g = Git        (lazygit, gitsigns, gitbrowse)
 --   j = Jujutsu    (lazyjj)
 --   r = Run        (test, debug, python venv)
 --   h = Harpoon    (file bookmarks)
---   x = Toggle     (theme, lint, hints, zen, spell)
+--   x = Toggle     (diagnostics, wrap, spell, zen, dim, hints, line nr, bg)
 --   u = Utils      (dev toolkit, notes, HTTP)
---   a = AI         (AI assistance)
+--   b = Buffer     (delete buffer, delete all)
 --
 -- QUICK ACCESS (no prefix):
 --   \             = Explorer (Yazi)
@@ -81,16 +81,10 @@ vim.keymap.set('n', '<leader>cO', 'O<Esc>', { desc = '[C]ode: [O]pen line above'
 -- =============================================================================
 -- TOGGLE OPTIONS (<leader>x)
 -- =============================================================================
-
-vim.keymap.set('n', '<leader>xd', function()
-  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-  vim.notify(vim.diagnostic.is_enabled() and 'Diagnostics ON' or 'Diagnostics OFF')
-end, { desc = 'Toggle [D]iagnostics' })
-vim.keymap.set('n', '<leader>xw', '<cmd>set wrap!<cr>', { desc = 'Toggle [W]rap' })
-vim.keymap.set('n', '<leader>xs', function()
-  vim.opt.spell = not vim.opt.spell:get()
-  vim.notify(vim.opt.spell:get() and 'Spell check ON' or 'Spell check OFF')
-end, { desc = 'Toggle [S]pell check' })
+-- Registered via Snacks.toggle in plugins/snacks.lua:
+--   <leader>xd diagnostics, <leader>xs spell, <leader>xw wrap,
+--   <leader>xb background, <leader>xz zen, <leader>xD dim,
+--   <leader>xh inlay hints, <leader>xL line numbers
 
 -- =============================================================================
 -- QUICK ACCESS (single keys after leader)

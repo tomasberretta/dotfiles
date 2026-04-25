@@ -1,26 +1,9 @@
 -- =============================================================================
 -- GIT INTEGRATION - <leader>g
 -- =============================================================================
--- Uses lazygit for main interface, gitsigns for inline features
+-- LazyGit (<leader>gg/gf/gl) and gitbrowse (<leader>go) live in plugins/snacks.lua
 
 return {
-  {
-    'kdheepak/lazygit.nvim',
-    cmd = {
-      'LazyGit',
-      'LazyGitConfig',
-      'LazyGitCurrentFile',
-      'LazyGitFilter',
-      'LazyGitFilterCurrentFile',
-    },
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    keys = {
-      { '<leader>gg', '<cmd>LazyGit<cr>', desc = '[G]it: Lazy[G]it' },
-      { '<leader>gf', '<cmd>LazyGitCurrentFile<cr>', desc = '[G]it: [F]ile history' },
-      { '<leader>gl', '<cmd>LazyGitFilter<cr>', desc = '[G]it: [L]og' },
-    },
-  },
-
   {
     'lewis6991/gitsigns.nvim',
     event = { 'BufReadPre', 'BufNewFile' },

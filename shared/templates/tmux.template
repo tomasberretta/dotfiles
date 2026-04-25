@@ -1,10 +1,11 @@
 # {THEME_NAME} theme - Generated from centralized palette
-# Background matches Ghostty/Neovim exactly: {BG}
+# Two-tone pill style: colored icon chip + neutral text section.
 
 # Theme colors from centralized palette
 thm_bg="{BG}"
 thm_fg="{FG}"
 thm_gray="{GRAY}"
+thm_border="{BORDER}"
 thm_blue="{BLUE}"
 thm_green="{GREEN}"
 thm_pink="{PINK}"
@@ -17,9 +18,14 @@ thm_black="{BLACK}"
 thm_surface="{SURFACE}"
 thm_highlight="{HIGHLIGHT}"
 
-# Rounded separators for modern look
+# Rounded pill caps (powerline glyphs)
 l_round=""
 r_round=""
+
+# Nerd Font icons (FontAwesome basic set — guaranteed in every Nerd Font variant)
+i_session=""
+i_folder=""
+i_term=""
 
 # Status bar configuration
 set -g status on
@@ -29,35 +35,37 @@ set -g status-justify left
 set -g status-left-length 100
 set -g status-right-length 100
 
-# Window status styling
-setw -g window-status-activity-style "fg=$thm_fg,bg=$thm_bg,none"
+# Window status base styling
+setw -g window-status-activity-style "fg=$thm_yellow,bg=$thm_bg,none"
 setw -g window-status-separator ""
 setw -g window-status-style "fg=$thm_gray,bg=$thm_bg,none"
 
-# Inactive window format - subtle gray
-setw -g window-status-format "#[fg=$thm_gray,bg=$thm_bg] #I:#W  "
+# Inactive window: no pill, dim text
+setw -g window-status-format "#[fg=$thm_gray,bg=$thm_bg] #I:#W "
 
-# Active window format - themed accent with rounded corners
-setw -g window-status-current-format "#[fg=$thm_{ACTIVE_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{ACTIVE_COLOR_VAR},bold] #I:#W #[fg=$thm_{ACTIVE_COLOR_VAR},bg=$thm_bg]${r_round} "
+# Active window: two-tone — colored index chip | border-bg name section
+setw -g window-status-current-format "#[fg=$thm_{ACTIVE_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{ACTIVE_COLOR_VAR},bold]#I#[fg=$thm_{ACTIVE_COLOR_VAR},bg=$thm_border]${r_round}#[fg=$thm_fg,bg=$thm_border,bold] #W #[fg=$thm_border,bg=$thm_bg]${r_round} "
 
-# Left status: prefix indicator, zoom indicator, and session name
-# Shows yellow indicator when prefix is pressed, red indicator when zoomed
-set -g status-left "#{?client_prefix,#[fg=$thm_yellow]#[bg=$thm_bg]${l_round}#[fg=$thm_bg]#[bg=$thm_yellow]#[bold] ⌘ #[fg=$thm_yellow]#[bg=$thm_bg]${r_round} ,}#{?window_zoomed_flag,#[fg=$thm_red]#[bg=$thm_bg]${l_round}#[fg=$thm_bg]#[bg=$thm_red]#[bold] ⊙ #[fg=$thm_red]#[bg=$thm_bg]${r_round} ,}#[fg=$thm_green,bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_green,bold] #S #[fg=$thm_green,bg=$thm_bg]${r_round} "
+# Left status: prefix indicator, zoom indicator, and session pill
+# Prefix (yellow) and zoom (red) stay single-tone — they're mode alerts
+set -g status-left "#{?client_prefix,#[fg=$thm_yellow]#[bg=$thm_bg]${l_round}#[fg=$thm_bg]#[bg=$thm_yellow]#[bold]⌘#[fg=$thm_yellow]#[bg=$thm_bg]${r_round} ,}#{?window_zoomed_flag,#[fg=$thm_red]#[bg=$thm_bg]${l_round}#[fg=$thm_bg]#[bg=$thm_red]#[bold]⊙#[fg=$thm_red]#[bg=$thm_bg]${r_round} ,}#[fg=$thm_{SESSION_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{SESSION_COLOR_VAR},bold]${i_session}#[fg=$thm_{SESSION_COLOR_VAR},bg=$thm_surface]${r_round}#[fg=$thm_fg,bg=$thm_surface,nobold] #S #[fg=$thm_surface,bg=$thm_bg]${r_round} "
 
-# Right status: current path and current command with themed colors
-set -g status-right "#[fg=$thm_{PATH_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{PATH_COLOR_VAR}] #{b:pane_current_path} #[fg=$thm_{PATH_COLOR_VAR},bg=$thm_bg]${r_round} #[fg=$thm_{CMD_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{CMD_COLOR_VAR}] #{pane_current_command} #[fg=$thm_{CMD_COLOR_VAR},bg=$thm_bg]${r_round} "
+# Right status: two-tone path and command pills
+set -g status-right "#[fg=$thm_{PATH_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{PATH_COLOR_VAR},bold]${i_folder}#[fg=$thm_{PATH_COLOR_VAR},bg=$thm_surface]${r_round}#[fg=$thm_fg,bg=$thm_surface,nobold] #{b:pane_current_path} #[fg=$thm_surface,bg=$thm_bg]${r_round} #[fg=$thm_{CMD_COLOR_VAR},bg=$thm_bg]${l_round}#[fg=$thm_bg,bg=$thm_{CMD_COLOR_VAR},bold]${i_term}#[fg=$thm_{CMD_COLOR_VAR},bg=$thm_surface]${r_round}#[fg=$thm_fg,bg=$thm_surface,nobold] #{pane_current_command} #[fg=$thm_surface,bg=$thm_bg]${r_round}"
 
 # Message styling - blue text on surface background
 set -g message-style "fg=$thm_blue,bg=$thm_surface,align=centre"
 set -g message-command-style "fg=$thm_blue,bg=$thm_surface,align=centre"
 
-# Pane borders - themed active color for active, gray for inactive
-set -g pane-border-style "fg=$thm_gray"
-set -g pane-active-border-style "fg=$thm_{ACTIVE_COLOR_VAR}"
+# Pane borders
+set -g pane-border-style "fg=$thm_border"
+set -g pane-active-border-style "fg=$thm_border"
+set -g pane-border-lines single
+set -g pane-border-indicators off
 
 # Copy mode styling
-set -g mode-style "fg=$thm_fg,bg=$thm_surface"
-setw -g mode-style "fg=$thm_fg,bg=$thm_surface"
+set -g mode-style "fg=$thm_fg,bg=$thm_border"
+setw -g mode-style "fg=$thm_fg,bg=$thm_border"
 
 # Clock styling
 set -g clock-mode-colour "$thm_blue"

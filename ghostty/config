@@ -1,39 +1,39 @@
-font-size = 16
+font-size = 13
 font-style = medium
 bold-is-bright = true
 font-family = "JetBrainsMono Nerd Font Mono"
 
-# IntelliJ New UI Dark theme
-background = 1e1f22
-foreground = bcbec4
+# Onyx theme - Generated from centralized palette
+background = 151311
+foreground = eed3ba
 
 # Cursor colors
-cursor-color = 56a8f5
-cursor-text = 1e1f22
+cursor-color = 9fbde0
+cursor-text = 151311
 
-# Selection colors
-selection-background = 214283
-selection-foreground = bcbec4
+# Selection colors  
+selection-background = 4b262f
+selection-foreground = eed3ba
 
 # Normal colors (ANSI 0-7)
-palette = 0=1e1f22
-palette = 1=f75464
-palette = 2=6aab73
-palette = 3=f2c55c
-palette = 4=56a8f5
-palette = 5=c77dbb
-palette = 6=2aacb8
-palette = 7=bcbec4
+palette = 0=0a0908
+palette = 1=e87462
+palette = 2=b8c47c
+palette = 3=f0c97d
+palette = 4=9fbde0
+palette = 5=c28a9a
+palette = 6=a8c8c2
+palette = 7=eed3ba
 
 # Bright colors (ANSI 8-15)
-palette = 8=6f737a
-palette = 9=f75464
-palette = 10=6aab73
-palette = 11=f2c55c
-palette = 12=56a8f5
-palette = 13=c77dbb
-palette = 14=2aacb8
-palette = 15=dfe1e5
+palette = 8=a08d7d
+palette = 9=e87462
+palette = 10=b8c47c
+palette = 11=f0c97d
+palette = 12=9fbde0
+palette = 13=c28a9a
+palette = 14=a8c8c2
+palette = 15=4b262f
 
 # Cursor settings
 cursor-style = block
@@ -58,7 +58,7 @@ resize-overlay-position = center
 
 # Experimental smoothness settings
 working-directory = inherit
-shell-integration = zsh
+shell-integration = fish
 osc-color-report-format = 8-bit
 
 # Window
@@ -80,8 +80,6 @@ shell-integration-features = true
 # macOS
 macos-option-as-alt = true
 macos-titlebar-style = hidden
-
-keybind = cmd+t=new_tab
 
 # macOS performance optimizations for smoothness
 macos-non-native-fullscreen = false

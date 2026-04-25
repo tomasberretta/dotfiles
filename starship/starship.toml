@@ -2,7 +2,7 @@
 
 add_newline = true
 
-# IntelliJ New UI Dark style powerline segments
+# Powerline chain — bg of each segment, separators use prev-fg → next-bg
 format = """
 [](teal)\
 $os\
@@ -45,18 +45,18 @@ $solidity\
 $dotnet\
 $cmake\
 $cobol\
-[](fg:highlight bg:gray)\
+[](fg:highlight bg:border)\
 $conda\
 $docker_context\
 $kubernetes\
 $terraform\
 $gcloud\
 $cmd_duration\
-[](fg:gray)\
+[](fg:border)\
 $line_break\
 $character"""
 
-palette = 'unified_dark'
+palette = 'onyx'
 
 # --- MODULES ---
 
@@ -243,7 +243,7 @@ format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 [dotnet]
 symbol = "󰪮 "
 style = "bg:highlight"
-format = '[[ $symbol ($version)(🎯 $tfm) ](fg:cyan bg:highlight)]($style)'
+format = '[[ $symbol ($version)( $tfm) ](fg:cyan bg:highlight)]($style)'
 
 [cmake]
 symbol = "󰔷 "
@@ -257,33 +257,33 @@ format = '[[ $symbol ($version) ](fg:cyan bg:highlight)]($style)'
 
 [conda]
 symbol = "󰢩 "
-style = "bg:gray"
-format = '[[ $symbol $environment ](fg:cyan bg:gray)]($style)'
+style = "bg:border"
+format = '[[ $symbol $environment ](fg:cyan bg:border)]($style)'
 
 [docker_context]
 symbol = "󰡨 "
-style = "bg:gray"
-format = '[[ $symbol $context ](fg:cyan bg:gray)]($style)'
+style = "bg:border"
+format = '[[ $symbol $context ](fg:cyan bg:border)]($style)'
 
 [kubernetes]
 disabled = false
-style = "bg:gray"
-format = '[[ $symbol$context( \($namespace\)) ](fg:cyan bg:gray)]($style)'
+style = "bg:border"
+format = '[[ $symbol $context( \($namespace\)) ](fg:cyan bg:border)]($style)'
 
 [terraform]
 symbol = "󱁢 "
-style = "bg:gray"
-format = '[[ $symbol $workspace ](fg:cyan bg:gray)]($style)'
+style = "bg:border"
+format = '[[ $symbol $workspace ](fg:cyan bg:border)]($style)'
 
 [gcloud]
 symbol = "󱇶 "
-style = "bg:gray"
-format = '[[ $symbol $account(@$domain)(\($region\)) ](fg:cyan bg:gray)]($style)'
+style = "bg:border"
+format = '[[ $symbol $account(@$domain)(\($region\)) ](fg:cyan bg:border)]($style)'
 
 [cmd_duration]
 min_time = 500
-style = "bg:gray"
-format = '[[ ⏱ $duration ](fg:text bg:gray)]($style)'
+style = "bg:border"
+format = '[[  $duration ](fg:text bg:border)]($style)'
 disabled = false
 
 [character]
@@ -293,18 +293,22 @@ error_symbol = '[❯](bold fg:red)'
 [line_break]
 disabled = false
 
-# --- CENTRALIZED PALETTE (IntelliJ New UI Dark) ---
-[palettes.unified_dark]
-background = "#1e1f22"
-highlight = "#2d2f34"
-text = "#bcbec4"
-purple = "#c77dbb"
-green = "#6aab73"
-blue = "#56a8f5"
-yellow = "#f2c55c"
-red = "#f75464"
-cyan = "#2aacb8"
-teal = "#2aacb8"
-orange = "#cf8e6d"
-surface = "#393b40"
-gray = "#2b2d30"
+# --- CENTRALIZED PALETTE ---
+# All semantic names reference the active palette. Segment backgrounds use
+# teal/blue/surface/highlight/border so they stay distinct across themes.
+[palettes.onyx]
+background = "#151311"
+text       = "#eed3ba"
+surface    = "#251e1b"
+highlight  = "#4b262f"
+border     = "#3a2e2a"
+gray       = "#a08d7d"
+teal       = "#c28a9a"
+blue       = "#9fbde0"
+cyan       = "#a8c8c2"
+green      = "#b8c47c"
+yellow     = "#f0c97d"
+orange     = "#eda078"
+red        = "#e87462"
+purple     = "#c28a9a"
+pink       = "#d48a9c"

@@ -1,7 +1,7 @@
 -- =============================================================================
 -- JUJUTSU (JJ) INTEGRATION - <leader>j
 -- =============================================================================
--- Uses toggleterm to run lazyjj
+-- Uses Snacks.terminal to run lazyjj
 
 return {
   {
@@ -12,28 +12,19 @@ return {
   {
     dir = vim.fn.stdpath 'config' .. '/lua/custom/plugins',
     name = 'jj-integration',
-    dependencies = { 'akinsho/toggleterm.nvim' },
+    dependencies = { 'folke/snacks.nvim' },
     config = function()
-      local Terminal = require('toggleterm.terminal').Terminal
-
-      local lazyjj = Terminal:new {
-        cmd = 'lazyjj',
-        dir = 'git_dir',
-        direction = 'float',
-        float_opts = {
-          border = 'curved',
-        },
-        on_open = function(term)
-          vim.cmd 'startinsert!'
-          vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
-        end,
-        on_close = function()
-          vim.cmd 'startinsert!'
-        end,
-      }
-
       local function toggle_lazyjj()
-        lazyjj:toggle()
+        Snacks.terminal.toggle('lazyjj', {
+          cwd = vim.fn.systemlist('jj root')[1] or vim.fn.getcwd(),
+          win = {
+            border = 'rounded',
+            position = 'float',
+            keys = {
+              q = 'close',
+            },
+          },
+        })
       end
 
       local function jj_cmd(cmd, opts)

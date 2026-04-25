@@ -25,6 +25,8 @@ return {
     'mg979/vim-visual-multi',
     event = 'VeryLazy',
     init = function()
+      -- Disable VM's `\\`-prefixed default bindings; they shadow `\` (Neo-tree) and cause a keypress delay.
+      vim.g.VM_default_mappings = 0
       vim.g.VM_maps = {
         ['Find Under'] = '<C-n>',
         ['Find Subword Under'] = '<C-n>',

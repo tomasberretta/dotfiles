@@ -229,32 +229,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 -- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = highlight_group,
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
-
--- Remove trailing whitespace and collapse multiple blank lines on save
-local whitespace_group = vim.api.nvim_create_augroup('TrimWhitespace', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePre', {
-  desc = 'Trim trailing whitespace and collapse blank lines',
-  group = whitespace_group,
-  callback = function()
-    local save_cursor = vim.fn.getpos('.')
-    vim.cmd([[%s/\s\+$//e]])
-    vim.cmd([[%s/\n\{3,}/\r\r/e]])
-    vim.fn.setpos('.', save_cursor)
-  end,
-})
+require('custom.autocmds')
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -333,27 +308,6 @@ require('lazy').setup({
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
-  { -- Better Around/Inside textobjects
-    'echasnovski/mini.ai',
-    opts = {
-      -- Examples:
-      --  - va)  - [V]isually select [A]round [)]paren
-      --  - yinq - [Y]ank [I]nner [N]ext [Q]uote
-      --  - ci'  - [C]hange [I]nside [']quote
-      n_lines = 500,
-    },
-  },
-  { -- Add/delete/replace surroundings (brackets, quotes, etc.)
-    'echasnovski/mini.surround',
-    opts = {
-      -- Examples:
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-    },
-  },
-
-
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -380,6 +334,7 @@ require('lazy').setup({
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
 }, {
+  rocks = { hererocks = false }, -- no plugin needs luarocks; silences checkhealth error
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
@@ -401,7 +356,16 @@ require('lazy').setup({
   },
 })
 
+-- Write without formatting
+vim.api.nvim_create_user_command('W', function()
+  vim.b.skip_format = true
+  vim.cmd('write')
+end, { desc = 'Write without formatting' })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 -- Load custom IDE-style keymaps
 require('custom.keymaps')
+
+-- :GenKeymaps command to regenerate KEYMAPS.md
+require('custom.keymap_docs')

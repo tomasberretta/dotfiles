@@ -17,6 +17,6 @@ return {
   { import = 'custom.plugins.git' },         -- Git integration
   { import = 'custom.plugins.debugging' },   -- Debug Adapter Protocol
   { import = 'custom.plugins.python' },      -- Python-specific tools
-  { import = 'custom.plugins.terminal' },    -- Terminal integration
   { import = 'custom.plugins.writing' },     -- Writing and markdown support
+  { import = 'custom.plugins.snacks' },      -- Snacks.nvim consolidated QoL
 }

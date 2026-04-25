@@ -64,7 +64,6 @@ return {
         -- Other languages
         'ruby',
         'elixir',
-        'swift',
         'zig',
         -- DevOps / Infra
         'dockerfile',
@@ -163,18 +162,11 @@ return {
       max_lines = 3,
       multiline_threshold = 20,
       trim_scope = 'outer',
-      patterns = {
-        default = {
-          'class',
-          'function',
-          'method',
-          'for',
-          'while',
-          'if',
-          'switch',
-          'case',
-        },
-      },
+      mode = 'cursor',
+      -- Don't attach to floating windows (e.g. LSP hover, which lacks a parser)
+      on_attach = function(buf)
+        return vim.bo[buf].buftype == ''
+      end,
     },
   },
 }
