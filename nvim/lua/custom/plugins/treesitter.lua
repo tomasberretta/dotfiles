@@ -163,9 +163,17 @@ return {
       multiline_threshold = 20,
       trim_scope = 'outer',
       mode = 'cursor',
-      -- Don't attach to floating windows (e.g. LSP hover, which lacks a parser)
+      -- Don't attach to floating windows (e.g. LSP hover, which lacks a parser).
+      -- Also skip markdown: on nvim 0.12 the markdown_inline injection trips a
+      -- nil-node crash in core treesitter when context walks parent langtrees.
       on_attach = function(buf)
-        return vim.bo[buf].buftype == ''
+        if vim.bo[buf].buftype ~= '' then
+          return false
+        end
+        if vim.bo[buf].filetype == 'markdown' then
+          return false
+        end
+        return true
       end,
     },
   },
